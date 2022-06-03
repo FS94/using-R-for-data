@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Exploratory Data Analysis (EDA) | Usefulness of R for managing data</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+set in the _output.yml file.
+The HTML output format for this example is bookdown::gitbook,</p>" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Exploratory Data Analysis (EDA) | Usefulness of R for managing data" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+set in the _output.yml file.
+The HTML output format for this example is bookdown::gitbook,</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Exploratory Data Analysis (EDA) | Usefulness of R for managing data" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+set in the _output.yml file.
+The HTML output format for this example is bookdown::gitbook,</p>" />
+  
+
+<meta name="author" content="Fábio A. Silva" />
+
+
+<meta name="date" content="2022-06-03" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="r---dealing-with-data.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="basic-r.html"><a href="basic-r.html"><i class="fa fa-check"></i><b>2</b> Basic R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="basic-r.html"><a href="basic-r.html#note"><i class="fa fa-check"></i><b>2.1</b> Note</a></li>
+<li class="chapter" data-level="2.2" data-path="basic-r.html"><a href="basic-r.html#what-is-r-and-rstudio"><i class="fa fa-check"></i><b>2.2</b> What is R and RStudio</a></li>
+<li class="chapter" data-level="2.3" data-path="basic-r.html"><a href="basic-r.html#why-r"><i class="fa fa-check"></i><b>2.3</b> Why R?</a></li>
+<li class="chapter" data-level="2.4" data-path="basic-r.html"><a href="basic-r.html#where-to-get-it-and-how-to-run-it"><i class="fa fa-check"></i><b>2.4</b> Where to get it and how to run it</a></li>
+<li class="chapter" data-level="2.5" data-path="basic-r.html"><a href="basic-r.html#environment"><i class="fa fa-check"></i><b>2.5</b> Environment</a></li>
+<li class="chapter" data-level="2.6" data-path="basic-r.html"><a href="basic-r.html#scripts-notebooks-and-rmarkdown"><i class="fa fa-check"></i><b>2.6</b> Scripts, Notebooks and RMarkdown</a></li>
+<li class="chapter" data-level="2.7" data-path="basic-r.html"><a href="basic-r.html#working-directories"><i class="fa fa-check"></i><b>2.7</b> Working directories</a></li>
+<li class="chapter" data-level="2.8" data-path="basic-r.html"><a href="basic-r.html#operators"><i class="fa fa-check"></i><b>2.8</b> Operators</a></li>
+<li class="chapter" data-level="2.9" data-path="basic-r.html"><a href="basic-r.html#classes-types-and-structures"><i class="fa fa-check"></i><b>2.9</b> Classes, Types and Structures</a></li>
+<li class="chapter" data-level="2.10" data-path="basic-r.html"><a href="basic-r.html#comments"><i class="fa fa-check"></i><b>2.10</b> Comments</a></li>
+<li class="chapter" data-level="2.11" data-path="basic-r.html"><a href="basic-r.html#objects"><i class="fa fa-check"></i><b>2.11</b> Objects</a></li>
+<li class="chapter" data-level="2.12" data-path="basic-r.html"><a href="basic-r.html#combinations"><i class="fa fa-check"></i><b>2.12</b> Combinations</a></li>
+<li class="chapter" data-level="2.13" data-path="basic-r.html"><a href="basic-r.html#subsetting"><i class="fa fa-check"></i><b>2.13</b> Subsetting</a></li>
+<li class="chapter" data-level="2.14" data-path="basic-r.html"><a href="basic-r.html#ifs-and-whiles"><i class="fa fa-check"></i><b>2.14</b> Ifs and Whiles</a></li>
+<li class="chapter" data-level="2.15" data-path="basic-r.html"><a href="basic-r.html#functions"><i class="fa fa-check"></i><b>2.15</b> Functions</a></li>
+<li class="chapter" data-level="2.16" data-path="basic-r.html"><a href="basic-r.html#packages"><i class="fa fa-check"></i><b>2.16</b> Packages</a></li>
+<li class="chapter" data-level="2.17" data-path="basic-r.html"><a href="basic-r.html#shortcuts"><i class="fa fa-check"></i><b>2.17</b> Shortcuts</a></li>
+<li class="chapter" data-level="2.18" data-path="basic-r.html"><a href="basic-r.html#chunk-settings"><i class="fa fa-check"></i><b>2.18</b> Chunk settings</a></li>
+<li class="chapter" data-level="2.19" data-path="basic-r.html"><a href="basic-r.html#code-completion"><i class="fa fa-check"></i><b>2.19</b> Code completion</a></li>
+<li class="chapter" data-level="2.20" data-path="basic-r.html"><a href="basic-r.html#other-useful-features"><i class="fa fa-check"></i><b>2.20</b> Other useful features</a></li>
+<li class="chapter" data-level="2.21" data-path="basic-r.html"><a href="basic-r.html#getting-help"><i class="fa fa-check"></i><b>2.21</b> Getting help</a></li>
+<li class="chapter" data-level="2.22" data-path="basic-r.html"><a href="basic-r.html#further-reading"><i class="fa fa-check"></i><b>2.22</b> Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html"><i class="fa fa-check"></i><b>3</b> R - Dealing with data</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#opening-files"><i class="fa fa-check"></i><b>3.1</b> Opening files</a></li>
+<li class="chapter" data-level="3.2" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#opening-multiple-files"><i class="fa fa-check"></i><b>3.2</b> Opening multiple files</a></li>
+<li class="chapter" data-level="3.3" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#merging"><i class="fa fa-check"></i><b>3.3</b> Merging</a></li>
+<li class="chapter" data-level="3.4" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#exporting"><i class="fa fa-check"></i><b>3.4</b> Exporting</a></li>
+<li class="chapter" data-level="3.5" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#special-cases-in-r"><i class="fa fa-check"></i><b>3.5</b> Special cases in R</a></li>
+<li class="chapter" data-level="3.6" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#manipulating-the-data-in-dataframes"><i class="fa fa-check"></i><b>3.6</b> Manipulating the data in dataframes</a>
+<ul>
+<li class="chapter" data-level="3.6.1" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#subsetting-a-dataframe"><i class="fa fa-check"></i><b>3.6.1</b> Subsetting a dataframe</a></li>
+<li class="chapter" data-level="3.6.2" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#columns"><i class="fa fa-check"></i><b>3.6.2</b> Columns</a></li>
+<li class="chapter" data-level="3.6.3" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#rows"><i class="fa fa-check"></i><b>3.6.3</b> Rows</a></li>
+<li class="chapter" data-level="3.6.4" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#tidyverse-pipes"><i class="fa fa-check"></i><b>3.6.4</b> Tidyverse &amp; Pipes</a></li>
+<li class="chapter" data-level="3.6.5" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#filtering"><i class="fa fa-check"></i><b>3.6.5</b> Filtering</a></li>
+<li class="chapter" data-level="3.6.6" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#arranging"><i class="fa fa-check"></i><b>3.6.6</b> Arranging</a></li>
+<li class="chapter" data-level="3.6.7" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#selecting"><i class="fa fa-check"></i><b>3.6.7</b> Selecting</a></li>
+<li class="chapter" data-level="3.6.8" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#mutating"><i class="fa fa-check"></i><b>3.6.8</b> Mutating</a></li>
+<li class="chapter" data-level="3.6.9" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#ifelse"><i class="fa fa-check"></i><b>3.6.9</b> Ifelse</a></li>
+<li class="chapter" data-level="3.6.10" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#grouping-and-summarizing"><i class="fa fa-check"></i><b>3.6.10</b> Grouping and Summarizing</a></li>
+<li class="chapter" data-level="3.6.11" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#changing-format-widelong"><i class="fa fa-check"></i><b>3.6.11</b> Changing Format (Wide/Long)</a></li>
+<li class="chapter" data-level="3.6.12" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#missing-values"><i class="fa fa-check"></i><b>3.6.12</b> Missing Values</a></li>
+<li class="chapter" data-level="3.6.13" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#counts"><i class="fa fa-check"></i><b>3.6.13</b> Counts</a></li>
+<li class="chapter" data-level="3.6.14" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#ungrouping"><i class="fa fa-check"></i><b>3.6.14</b> Ungrouping</a></li>
+<li class="chapter" data-level="3.6.15" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#stringscharacters"><i class="fa fa-check"></i><b>3.6.15</b> Strings/Characters</a></li>
+<li class="chapter" data-level="3.6.16" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#splits"><i class="fa fa-check"></i><b>3.6.16</b> Splits</a></li>
+<li class="chapter" data-level="3.6.17" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#mapping"><i class="fa fa-check"></i><b>3.6.17</b> Mapping</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#end"><i class="fa fa-check"></i><b>3.7</b> End</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html"><i class="fa fa-check"></i><b>4</b> Exploratory Data Analysis (EDA)</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#loading-data"><i class="fa fa-check"></i><b>4.1</b> Loading data</a></li>
+<li class="chapter" data-level="4.2" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#checking-data"><i class="fa fa-check"></i><b>4.2</b> Checking data</a></li>
+<li class="chapter" data-level="4.3" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#cleaning"><i class="fa fa-check"></i><b>4.3</b> Cleaning</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#cleaning-col.-names"><i class="fa fa-check"></i><b>4.3.1</b> Cleaning col. names</a></li>
+<li class="chapter" data-level="4.3.2" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#date"><i class="fa fa-check"></i><b>4.3.2</b> Date</a></li>
+<li class="chapter" data-level="4.3.3" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#cleaning-some-columns"><i class="fa fa-check"></i><b>4.3.3</b> Cleaning some columns</a></li>
+<li class="chapter" data-level="4.3.4" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#dealing-with-na-values"><i class="fa fa-check"></i><b>4.3.4</b> Dealing with NA values</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#summarising"><i class="fa fa-check"></i><b>4.4</b> Summarising</a></li>
+<li class="chapter" data-level="4.5" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#plots"><i class="fa fa-check"></i><b>4.5</b> Plots</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#formula"><i class="fa fa-check"></i><b>4.5.1</b> Formula</a></li>
+<li class="chapter" data-level="4.5.2" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#cols-and-bars"><i class="fa fa-check"></i><b>4.5.2</b> Cols and Bars</a></li>
+<li class="chapter" data-level="4.5.3" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#boxplots"><i class="fa fa-check"></i><b>4.5.3</b> Boxplots</a></li>
+<li class="chapter" data-level="4.5.4" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#density"><i class="fa fa-check"></i><b>4.5.4</b> Density</a></li>
+<li class="chapter" data-level="4.5.5" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#facets"><i class="fa fa-check"></i><b>4.5.5</b> Facets</a></li>
+<li class="chapter" data-level="4.5.6" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#coord-flip"><i class="fa fa-check"></i><b>4.5.6</b> Coord flip</a></li>
+<li class="chapter" data-level="4.5.7" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#correlation-plots"><i class="fa fa-check"></i><b>4.5.7</b> Correlation plots</a></li>
+<li class="chapter" data-level="4.5.8" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#multiplots"><i class="fa fa-check"></i><b>4.5.8</b> Multiplots</a></li>
+<li class="chapter" data-level="4.5.9" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#date-1"><i class="fa fa-check"></i><b>4.5.9</b> Date</a></li>
+<li class="chapter" data-level="4.5.10" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#ordering-factors"><i class="fa fa-check"></i><b>4.5.10</b> Ordering factors</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#end-1"><i class="fa fa-check"></i><b>4.6</b> End</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Usefulness of R for managing data</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="exploratory-data-analysis-eda" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Exploratory Data Analysis (EDA)<a href="exploratory-data-analysis-eda.html#exploratory-data-analysis-eda" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>In Exploratory Data Analysis (EDA for short) we will want to explore our data.
+We usually start by getting summaries and plots that broadly summarise how our data is structured.
+We then proceed to more specific exploration of what variables interest us.
+There is no right way of doing EDA, and everyone does EDA slightly different.
+What matters in the end is that this part of your data analysis gives you a good glimpse about your data and potential targets to further explore and analyze.
+And of course, this will be a good time to put your plotting skills to test, and with R, you can do pretty much anything… and, again, I truly mean anything.</p>
+<p>What is the data we will be working with?
+The data exemplified here comes from Dr. Kristen Gorman and the Palmer Station, Antarctica LTER, a member of the Long Term Ecological Research Network.
+It contains information about 344 penguins, across 3 different species of penguins, collected from 3 islands in the Palmer Archipelago, Antarctica.</p>
+<p><em>Horst AM, Hill AP, Gorman KB (2020). palmerpenguins: Palmer Archipelago (Antarctica) penguin data. R package version 0.1.0. <a href="https://allisonhorst.github.io/palmerpenguins/" class="uri">https://allisonhorst.github.io/palmerpenguins/</a></em></p>
+<p>Now lets look at the data We can either show the first rows (or last rows) to get a general view on what the columns are and what the values associated with each columns are, or we can View the entire dataframe.
+Additionally we can also use several commands to provide us some more general info about the dataframe itself.</p>
+<div id="loading-data" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Loading data<a href="exploratory-data-analysis-eda.html#loading-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="exploratory-data-analysis-eda.html#cb135-1" aria-hidden="true" tabindex="-1"></a>penguins_raw <span class="ot">&lt;-</span> palmerpenguins<span class="sc">::</span>penguins_raw</span>
+<span id="cb135-2"><a href="exploratory-data-analysis-eda.html#cb135-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(penguins_raw)</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 17
+##   studyName `Sample Number` Species          Region Island Stage `Individual ID`
+##   &lt;chr&gt;               &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;          
+## 1 PAL0708                 1 Adelie Penguin ~ Anvers Torge~ Adul~ N1A1           
+## 2 PAL0708                 2 Adelie Penguin ~ Anvers Torge~ Adul~ N1A2           
+## 3 PAL0708                 3 Adelie Penguin ~ Anvers Torge~ Adul~ N2A1           
+## 4 PAL0708                 4 Adelie Penguin ~ Anvers Torge~ Adul~ N2A2           
+## 5 PAL0708                 5 Adelie Penguin ~ Anvers Torge~ Adul~ N3A1           
+## 6 PAL0708                 6 Adelie Penguin ~ Anvers Torge~ Adul~ N3A2           
+## # ... with 10 more variables: `Clutch Completion` &lt;chr&gt;, `Date Egg` &lt;date&gt;,
+## #   `Culmen Length (mm)` &lt;dbl&gt;, `Culmen Depth (mm)` &lt;dbl&gt;,
+## #   `Flipper Length (mm)` &lt;dbl&gt;, `Body Mass (g)` &lt;dbl&gt;, Sex &lt;chr&gt;,
+## #   `Delta 15 N (o/oo)` &lt;dbl&gt;, `Delta 13 C (o/oo)` &lt;dbl&gt;, Comments &lt;chr&gt;</code></pre>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="exploratory-data-analysis-eda.html#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use tails() if you want to see the last rows</span></span></code></pre></div>
+<p>The <code>str()</code> command gives us some detail into the class of each column of the data frame, its length, its values, among others.</p>
+<p>P.s., <code>&lt;dbl&gt;</code> means a numerical value with decimal points.</p>
+</div>
+<div id="checking-data" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Checking data<a href="exploratory-data-analysis-eda.html#checking-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="exploratory-data-analysis-eda.html#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(penguins_raw)</span></code></pre></div>
+<pre><code>## tibble [344 x 17] (S3: tbl_df/tbl/data.frame)
+##  $ studyName          : chr [1:344] &quot;PAL0708&quot; &quot;PAL0708&quot; &quot;PAL0708&quot; &quot;PAL0708&quot; ...
+##  $ Sample Number      : num [1:344] 1 2 3 4 5 6 7 8 9 10 ...
+##  $ Species            : chr [1:344] &quot;Adelie Penguin (Pygoscelis adeliae)&quot; &quot;Adelie Penguin (Pygoscelis adeliae)&quot; &quot;Adelie Penguin (Pygoscelis adeliae)&quot; &quot;Adelie Penguin (Pygoscelis adeliae)&quot; ...
+##  $ Region             : chr [1:344] &quot;Anvers&quot; &quot;Anvers&quot; &quot;Anvers&quot; &quot;Anvers&quot; ...
+##  $ Island             : chr [1:344] &quot;Torgersen&quot; &quot;Torgersen&quot; &quot;Torgersen&quot; &quot;Torgersen&quot; ...
+##  $ Stage              : chr [1:344] &quot;Adult, 1 Egg Stage&quot; &quot;Adult, 1 Egg Stage&quot; &quot;Adult, 1 Egg Stage&quot; &quot;Adult, 1 Egg Stage&quot; ...
+##  $ Individual ID      : chr [1:344] &quot;N1A1&quot; &quot;N1A2&quot; &quot;N2A1&quot; &quot;N2A2&quot; ...
+##  $ Clutch Completion  : chr [1:344] &quot;Yes&quot; &quot;Yes&quot; &quot;Yes&quot; &quot;Yes&quot; ...
+##  $ Date Egg           : Date[1:344], format: &quot;2007-11-11&quot; &quot;2007-11-11&quot; ...
+##  $ Culmen Length (mm) : num [1:344] 39.1 39.5 40.3 NA 36.7 39.3 38.9 39.2 34.1 42 ...
+##  $ Culmen Depth (mm)  : num [1:344] 18.7 17.4 18 NA 19.3 20.6 17.8 19.6 18.1 20.2 ...
+##  $ Flipper Length (mm): num [1:344] 181 186 195 NA 193 190 181 195 193 190 ...
+##  $ Body Mass (g)      : num [1:344] 3750 3800 3250 NA 3450 ...
+##  $ Sex                : chr [1:344] &quot;MALE&quot; &quot;FEMALE&quot; &quot;FEMALE&quot; NA ...
+##  $ Delta 15 N (o/oo)  : num [1:344] NA 8.95 8.37 NA 8.77 ...
+##  $ Delta 13 C (o/oo)  : num [1:344] NA -24.7 -25.3 NA -25.3 ...
+##  $ Comments           : chr [1:344] &quot;Not enough blood for isotopes.&quot; NA NA &quot;Adult not sampled.&quot; ...
+##  - attr(*, &quot;spec&quot;)=
+##   .. cols(
+##   ..   studyName = col_character(),
+##   ..   `Sample Number` = col_double(),
+##   ..   Species = col_character(),
+##   ..   Region = col_character(),
+##   ..   Island = col_character(),
+##   ..   Stage = col_character(),
+##   ..   `Individual ID` = col_character(),
+##   ..   `Clutch Completion` = col_character(),
+##   ..   `Date Egg` = col_date(format = &quot;&quot;),
+##   ..   `Culmen Length (mm)` = col_double(),
+##   ..   `Culmen Depth (mm)` = col_double(),
+##   ..   `Flipper Length (mm)` = col_double(),
+##   ..   `Body Mass (g)` = col_double(),
+##   ..   Sex = col_character(),
+##   ..   `Delta 15 N (o/oo)` = col_double(),
+##   ..   `Delta 13 C (o/oo)` = col_double(),
+##   ..   Comments = col_character()
+##   .. )</code></pre>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="exploratory-data-analysis-eda.html#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="co"># You can also use glimpse() from the dplyr package</span></span>
+<span id="cb140-2"><a href="exploratory-data-analysis-eda.html#cb140-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Or you can use the skim() function from the skimr package</span></span></code></pre></div>
+<p>The <code>summary</code> command gives us a summary of each column, with, in case of numeric, the distribution parameters of those values, and in the case of categorical columns, the count of each value while also highlighting always the number of <code>NA</code> entries.</p>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="exploratory-data-analysis-eda.html#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(penguins_raw)</span></code></pre></div>
+<pre><code>##   studyName         Sample Number      Species             Region         
+##  Length:344         Min.   :  1.00   Length:344         Length:344        
+##  Class :character   1st Qu.: 29.00   Class :character   Class :character  
+##  Mode  :character   Median : 58.00   Mode  :character   Mode  :character  
+##                     Mean   : 63.15                                        
+##                     3rd Qu.: 95.25                                        
+##                     Max.   :152.00                                        
+##                                                                           
+##     Island             Stage           Individual ID      Clutch Completion 
+##  Length:344         Length:344         Length:344         Length:344        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##     Date Egg          Culmen Length (mm) Culmen Depth (mm) Flipper Length (mm)
+##  Min.   :2007-11-09   Min.   :32.10      Min.   :13.10     Min.   :172.0      
+##  1st Qu.:2007-11-28   1st Qu.:39.23      1st Qu.:15.60     1st Qu.:190.0      
+##  Median :2008-11-09   Median :44.45      Median :17.30     Median :197.0      
+##  Mean   :2008-11-27   Mean   :43.92      Mean   :17.15     Mean   :200.9      
+##  3rd Qu.:2009-11-16   3rd Qu.:48.50      3rd Qu.:18.70     3rd Qu.:213.0      
+##  Max.   :2009-12-01   Max.   :59.60      Max.   :21.50     Max.   :231.0      
+##                       NA&#39;s   :2          NA&#39;s   :2         NA&#39;s   :2          
+##  Body Mass (g)      Sex            Delta 15 N (o/oo) Delta 13 C (o/oo)
+##  Min.   :2700   Length:344         Min.   : 7.632    Min.   :-27.02   
+##  1st Qu.:3550   Class :character   1st Qu.: 8.300    1st Qu.:-26.32   
+##  Median :4050   Mode  :character   Median : 8.652    Median :-25.83   
+##  Mean   :4202                      Mean   : 8.733    Mean   :-25.69   
+##  3rd Qu.:4750                      3rd Qu.: 9.172    3rd Qu.:-25.06   
+##  Max.   :6300                      Max.   :10.025    Max.   :-23.79   
+##  NA&#39;s   :2                         NA&#39;s   :14        NA&#39;s   :13       
+##    Comments        
+##  Length:344        
+##  Class :character  
+##  Mode  :character  
+##                    
+##                    
+##                    
+## </code></pre>
+<p>At this phase you should start assessing your data and will probably need to modify the dataframe a bit.
+Most of the tools you need were already introduced in Chapter 2, but you will learn some new ones here along the way.
+First though, lets get familiarized with the data by reading its description.</p>
+<p>So a brief intro to this data.
+This data measures structural size of adult male and female Adélie penguins (Pygoscelis adeliae) nesting along the Palmer Archipelago near Palmer Station.
+It has 17 columns, namely:</p>
+<p><strong>studyName</strong>: Sampling expedition from which data were collected, generated, etc.</p>
+<p><strong>Sample Number</strong>: an integer denoting the continuous numbering sequence for each sample</p>
+<p><strong>Species</strong>: a character string denoting the penguin species</p>
+<p><strong>Region</strong>: a character string denoting the region of Palmer LTER sampling grid</p>
+<p><strong>Island</strong>: a character string denoting the island near Palmer Station where samples were collected</p>
+<p><strong>Stage</strong>: a character string denoting reproductive stage at sampling</p>
+<p><strong>Individual ID</strong>: a character string denoting the unique ID for each individual in dataset</p>
+<p><strong>Clutch Completion</strong>: a character string denoting if the study nest observed with a full clutch, i.e., 2 eggs</p>
+<p><strong>Date Egg</strong>: a date denoting the date study nest observed with 1 egg (sampled)</p>
+<p><strong>Culmen Length</strong>: a number denoting the length of the dorsal ridge of a bird’s bill (millimeters)</p>
+<p><strong>Culmen Depth</strong>: a number denoting the depth of the dorsal ridge of a bird’s bill (millimeters)</p>
+<p><strong>Flipper Length</strong>: an integer denoting the length penguin flipper (millimeters)</p>
+<p><strong>Body Mass</strong>: an integer denoting the penguin body mass (grams)</p>
+<p><strong>Sex</strong>: a character string denoting the sex of an animal</p>
+<p><strong>Delta 15 N</strong>: a number denoting the measure of the ratio of stable isotopes 15N:14N</p>
+<p><strong>Delta 13 C</strong>: a number denoting the measure of the ratio of stable isotopes 13C:12C</p>
+<p><strong>Comments</strong>: a character string with text providing additional relevant information for data</p>
+<p>There is also a subsetted (cleaner) version with just the species, island, size (flipper length, body mass, bill dimensions) and sex variables.
+We will, however, work with the raw version and transform it ourselves making it cleaner and easier to explore and gather some initial insights about the data.</p>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="exploratory-data-analysis-eda.html#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(penguins_raw)</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 17
+##   studyName `Sample Number` Species          Region Island Stage `Individual ID`
+##   &lt;chr&gt;               &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;          
+## 1 PAL0708                 1 Adelie Penguin ~ Anvers Torge~ Adul~ N1A1           
+## 2 PAL0708                 2 Adelie Penguin ~ Anvers Torge~ Adul~ N1A2           
+## 3 PAL0708                 3 Adelie Penguin ~ Anvers Torge~ Adul~ N2A1           
+## 4 PAL0708                 4 Adelie Penguin ~ Anvers Torge~ Adul~ N2A2           
+## 5 PAL0708                 5 Adelie Penguin ~ Anvers Torge~ Adul~ N3A1           
+## 6 PAL0708                 6 Adelie Penguin ~ Anvers Torge~ Adul~ N3A2           
+## # ... with 10 more variables: `Clutch Completion` &lt;chr&gt;, `Date Egg` &lt;date&gt;,
+## #   `Culmen Length (mm)` &lt;dbl&gt;, `Culmen Depth (mm)` &lt;dbl&gt;,
+## #   `Flipper Length (mm)` &lt;dbl&gt;, `Body Mass (g)` &lt;dbl&gt;, Sex &lt;chr&gt;,
+## #   `Delta 15 N (o/oo)` &lt;dbl&gt;, `Delta 13 C (o/oo)` &lt;dbl&gt;, Comments &lt;chr&gt;</code></pre>
+</div>
+<div id="cleaning" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Cleaning<a href="exploratory-data-analysis-eda.html#cleaning" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="cleaning-col.-names" class="section level3 hasAnchor" number="4.3.1">
+<h3><span class="header-section-number">4.3.1</span> Cleaning col. names<a href="exploratory-data-analysis-eda.html#cleaning-col.-names" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>So first off, we might want to clean the data.
+One thing we often do is rename variables (in this case columns).
+We can do so simply with the use of the <code>rename()</code> function from <code>dplyr</code>.<br />
+<code>rename()</code>: changes the names of individual variables using new_name = old_name syntax.<br />
+<code>rename_with()</code>: renames columns using a function.</p>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="exploratory-data-analysis-eda.html#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lets say I want to rename &quot;Individual ID&quot; to &quot;ID&quot;.</span></span>
+<span id="cb145-2"><a href="exploratory-data-analysis-eda.html#cb145-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="ot">&lt;-</span> penguins_raw <span class="sc">%&gt;%</span> </span>
+<span id="cb145-3"><a href="exploratory-data-analysis-eda.html#cb145-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">&#39;ID&#39;</span> <span class="ot">=</span> <span class="st">&#39;Individual ID&#39;</span>)</span></code></pre></div>
+<p>Now we might want to make every column, except ID, lower case, substitute spaces with “_” and remove “()”.</p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="exploratory-data-analysis-eda.html#cb146-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="ot">&lt;-</span> penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb146-2"><a href="exploratory-data-analysis-eda.html#cb146-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_with</span>(tolower) <span class="sc">%&gt;%</span>  <span class="co"># lower-case every column</span></span>
+<span id="cb146-3"><a href="exploratory-data-analysis-eda.html#cb146-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_with</span>(toupper, <span class="fu">starts_with</span>(<span class="st">&#39;ID&#39;</span>)) <span class="sc">%&gt;%</span> <span class="co"># up-case column starting with &quot;ID&quot;</span></span>
+<span id="cb146-4"><a href="exploratory-data-analysis-eda.html#cb146-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_with</span>(<span class="sc">~</span><span class="fu">gsub</span>(<span class="st">&quot; &quot;</span>, <span class="st">&quot;_&quot;</span>, .x))  <span class="sc">%&gt;%</span> <span class="co"># subs every space (&quot; &quot;) with no space (&quot;_&quot;)</span></span>
+<span id="cb146-5"><a href="exploratory-data-analysis-eda.html#cb146-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_with</span>(<span class="sc">~</span><span class="fu">gsub</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">(&quot;</span>, <span class="st">&quot;&quot;</span>, .x)) <span class="sc">%&gt;%</span>  <span class="co">#removes every &quot;(&quot;</span></span>
+<span id="cb146-6"><a href="exploratory-data-analysis-eda.html#cb146-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_with</span>(<span class="sc">~</span><span class="fu">gsub</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">)&quot;</span>, <span class="st">&quot;&quot;</span>, .x))  <span class="sc">%&gt;%</span> <span class="co"># removes every &quot;)&quot;</span></span>
+<span id="cb146-7"><a href="exploratory-data-analysis-eda.html#cb146-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_with</span>(<span class="sc">~</span><span class="fu">gsub</span>(<span class="st">&quot;/&quot;</span> ,<span class="st">&quot;&quot;</span>, .x))  <span class="co"># removes /</span></span></code></pre></div>
+<p>We could also skip a few things and be less specific, but instead use only the following function from the “janitor” package</p>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="exploratory-data-analysis-eda.html#cb147-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb147-2"><a href="exploratory-data-analysis-eda.html#cb147-2" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 344 x 17
+##    studyname sample_number species    region island stage id    clutch_completi~
+##    &lt;chr&gt;             &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;           
+##  1 PAL0708               1 Adelie Pe~ Anvers Torge~ Adul~ N1A1  Yes             
+##  2 PAL0708               2 Adelie Pe~ Anvers Torge~ Adul~ N1A2  Yes             
+##  3 PAL0708               3 Adelie Pe~ Anvers Torge~ Adul~ N2A1  Yes             
+##  4 PAL0708               4 Adelie Pe~ Anvers Torge~ Adul~ N2A2  Yes             
+##  5 PAL0708               5 Adelie Pe~ Anvers Torge~ Adul~ N3A1  Yes             
+##  6 PAL0708               6 Adelie Pe~ Anvers Torge~ Adul~ N3A2  Yes             
+##  7 PAL0708               7 Adelie Pe~ Anvers Torge~ Adul~ N4A1  No              
+##  8 PAL0708               8 Adelie Pe~ Anvers Torge~ Adul~ N4A2  No              
+##  9 PAL0708               9 Adelie Pe~ Anvers Torge~ Adul~ N5A1  Yes             
+## 10 PAL0708              10 Adelie Pe~ Anvers Torge~ Adul~ N5A2  Yes             
+## # ... with 334 more rows, and 9 more variables: date_egg &lt;date&gt;,
+## #   culmen_length_mm &lt;dbl&gt;, culmen_depth_mm &lt;dbl&gt;, flipper_length_mm &lt;dbl&gt;,
+## #   body_mass_g &lt;dbl&gt;, sex &lt;chr&gt;, delta_15_n_ooo &lt;dbl&gt;, delta_13_c_ooo &lt;dbl&gt;,
+## #   comments &lt;chr&gt;</code></pre>
+</div>
+<div id="date" class="section level3 hasAnchor" number="4.3.2">
+<h3><span class="header-section-number">4.3.2</span> Date<a href="exploratory-data-analysis-eda.html#date" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>One interesting and somewhat difficult (sometimes) parameter to adjust is turning a column that is often a character to a <code>date</code> format.
+In this case is simple, but I give you some examples below for you to work your way through other types of transformations.</p>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="exploratory-data-analysis-eda.html#cb149-1" aria-hidden="true" tabindex="-1"></a>penguins<span class="sc">$</span>date_egg <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(penguins<span class="sc">$</span>date_egg)</span></code></pre></div>
+<p>Now here are other examples, aside from this data.</p>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="exploratory-data-analysis-eda.html#cb150-1" aria-hidden="true" tabindex="-1"></a>characters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;1jan1960&quot;</span>, <span class="st">&quot;2jan1960&quot;</span>, <span class="st">&quot;31mar1960&quot;</span>, <span class="st">&quot;30jul1960&quot;</span>)</span>
+<span id="cb150-2"><a href="exploratory-data-analysis-eda.html#cb150-2" aria-hidden="true" tabindex="-1"></a>dates <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(characters, <span class="st">&quot;%d%b%Y&quot;</span>)</span>
+<span id="cb150-3"><a href="exploratory-data-analysis-eda.html#cb150-3" aria-hidden="true" tabindex="-1"></a>dates</span></code></pre></div>
+<pre><code>## [1] &quot;1960-01-01&quot; &quot;1960-01-02&quot; &quot;1960-03-31&quot; &quot;1960-07-30&quot;</code></pre>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="exploratory-data-analysis-eda.html#cb152-1" aria-hidden="true" tabindex="-1"></a>characters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;02/27/92&quot;</span>, <span class="st">&quot;02/27/92&quot;</span>, <span class="st">&quot;01/14/92&quot;</span>, <span class="st">&quot;02/28/92&quot;</span>, <span class="st">&quot;02/01/92&quot;</span>)</span>
+<span id="cb152-2"><a href="exploratory-data-analysis-eda.html#cb152-2" aria-hidden="true" tabindex="-1"></a>dates <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(characters, <span class="st">&quot;%m/%d/%y&quot;</span>)</span>
+<span id="cb152-3"><a href="exploratory-data-analysis-eda.html#cb152-3" aria-hidden="true" tabindex="-1"></a>dates</span></code></pre></div>
+<pre><code>## [1] &quot;1992-02-27&quot; &quot;1992-02-27&quot; &quot;1992-01-14&quot; &quot;1992-02-28&quot; &quot;1992-02-01&quot;</code></pre>
+<p>Check also these link for better examples.
+<a href="https://www.r-bloggers.com/2013/08/date-formats-in-r/" class="uri">https://www.r-bloggers.com/2013/08/date-formats-in-r/</a></p>
+</div>
+<div id="cleaning-some-columns" class="section level3 hasAnchor" number="4.3.3">
+<h3><span class="header-section-number">4.3.3</span> Cleaning some columns<a href="exploratory-data-analysis-eda.html#cleaning-some-columns" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In particular, I want to remove the species latin name from the “species” column as well as the parenthesis.
+Now this may seem simple, but messing with characters is one of those things that having an internet connection is key, since base commands, in my opinion, are not at all clear or simple.
+The command below simple means replace the <code>species</code> column with a new one (with the same name), but in this one replace all the text that is between the parenthesis (including the parenthesis themselves) <code>" *\\(.*?\\) *"</code> and replace by nothing <code>""</code>.</p>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="exploratory-data-analysis-eda.html#cb154-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="ot">&lt;-</span> penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb154-2"><a href="exploratory-data-analysis-eda.html#cb154-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">species =</span> <span class="fu">gsub</span>(<span class="st">&quot; *</span><span class="sc">\\</span><span class="st">(.*?</span><span class="sc">\\</span><span class="st">) *&quot;</span>, <span class="st">&quot;&quot;</span>, species))</span></code></pre></div>
+<p>Another thing that jumps to sight is the “stage” column, which appears to be telling the same thing always.
+Lets check.</p>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="exploratory-data-analysis-eda.html#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(penguins<span class="sc">$</span>stage)</span></code></pre></div>
+<pre><code>## [1] &quot;Adult, 1 Egg Stage&quot;</code></pre>
+<p>Since its all the same, I can choose to remove it.</p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="exploratory-data-analysis-eda.html#cb157-1" aria-hidden="true" tabindex="-1"></a>penguins<span class="sc">$</span>stage <span class="ot">&lt;-</span> <span class="cn">NULL</span></span></code></pre></div>
+</div>
+<div id="dealing-with-na-values" class="section level3 hasAnchor" number="4.3.4">
+<h3><span class="header-section-number">4.3.4</span> Dealing with NA values<a href="exploratory-data-analysis-eda.html#dealing-with-na-values" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Now lets deal with NA values.
+First lets quickly identify which columns have NA values, and how many of them each one has.
+We could just look at the <code>summary(penguins)</code>, or we could do this with other base R commands, like so:</p>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="exploratory-data-analysis-eda.html#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(penguins, <span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(x)))</span></code></pre></div>
+<pre><code>##         studyname     sample_number           species            region 
+##                 0                 0                 0                 0 
+##            island                ID clutch_completion          date_egg 
+##                 0                 0                 0                 0 
+##  culmen_length_mm   culmen_depth_mm flipper_length_mm       body_mass_g 
+##                 2                 2                 2                 2 
+##               sex    delta_15_n_ooo    delta_13_c_ooo          comments 
+##                11                14                13               290</code></pre>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="exploratory-data-analysis-eda.html#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(<span class="fu">is.na</span>(penguins), <span class="dv">2</span>, sum)</span></code></pre></div>
+<pre><code>##         studyname     sample_number           species            region 
+##                 0                 0                 0                 0 
+##            island                ID clutch_completion          date_egg 
+##                 0                 0                 0                 0 
+##  culmen_length_mm   culmen_depth_mm flipper_length_mm       body_mass_g 
+##                 2                 2                 2                 2 
+##               sex    delta_15_n_ooo    delta_13_c_ooo          comments 
+##                11                14                13               290</code></pre>
+<p>Note: Go to <a href="https://www.guru99.com/r-apply-sapply-tapply.html" class="uri">https://www.guru99.com/r-apply-sapply-tapply.html</a> to better understand “apply” and other functions.</p>
+<p>Or we can do something more elegant and use some packages that show us, with graphics, where our NAs are.
+Here are a few examples that I took from a quick google search:</p>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="exploratory-data-analysis-eda.html#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternative 1</span></span>
+<span id="cb162-2"><a href="exploratory-data-analysis-eda.html#cb162-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(naniar)</span></code></pre></div>
+<pre><code>## Warning: package &#39;naniar&#39; was built under R version 4.1.3</code></pre>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="exploratory-data-analysis-eda.html#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(UpSetR)</span></code></pre></div>
+<pre><code>## Warning: package &#39;UpSetR&#39; was built under R version 4.1.3</code></pre>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="exploratory-data-analysis-eda.html#cb166-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb166-2"><a href="exploratory-data-analysis-eda.html#cb166-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_shadow_upset</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb166-3"><a href="exploratory-data-analysis-eda.html#cb166-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">upset</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-78-1.png" width="672" /></p>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="exploratory-data-analysis-eda.html#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternative n2</span></span>
+<span id="cb167-2"><a href="exploratory-data-analysis-eda.html#cb167-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(visdat)</span></code></pre></div>
+<pre><code>## Warning: package &#39;visdat&#39; was built under R version 4.1.3</code></pre>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="exploratory-data-analysis-eda.html#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vis_miss</span>(penguins)</span></code></pre></div>
+<pre><code>## Warning: `gather_()` was deprecated in tidyr 1.2.0.
+## Please use `gather()` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</code></pre>
+<p><img src="_main_files/figure-html/unnamed-chunk-78-2.png" width="672" /></p>
+<p>Now, we need to decide what to do with these NA values.
+We can see below that two penguins have data missing from their base features (e.g., culmen_lenght and body_mass).
+Also, a few of them don’t have information regarding sex.
+Since these are critical features, I’m gonna go ahead and eliminate these entries.
+We can do so by several ways, but below you have two examples on how to eliminate NA values.</p>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="exploratory-data-analysis-eda.html#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 1</span></span>
+<span id="cb171-2"><a href="exploratory-data-analysis-eda.html#cb171-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="ot">&lt;-</span> penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb171-3"><a href="exploratory-data-analysis-eda.html#cb171-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(culmen_length_mm),  <span class="co"># show only rows that are not NA in the culmen_length_mm column</span></span>
+<span id="cb171-4"><a href="exploratory-data-analysis-eda.html#cb171-4" aria-hidden="true" tabindex="-1"></a>         <span class="sc">!</span><span class="fu">is.na</span>(sex)) <span class="co"># show only rows that are not NA in the sex column</span></span>
+<span id="cb171-5"><a href="exploratory-data-analysis-eda.html#cb171-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb171-6"><a href="exploratory-data-analysis-eda.html#cb171-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 2</span></span>
+<span id="cb171-7"><a href="exploratory-data-analysis-eda.html#cb171-7" aria-hidden="true" tabindex="-1"></a>penguins <span class="ot">&lt;-</span> penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb171-8"><a href="exploratory-data-analysis-eda.html#cb171-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(culmen_length_mm, sex)</span></code></pre></div>
+<p>Now for some final touches, I will transform the body mass column’s units from grams to kilograms.</p>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="exploratory-data-analysis-eda.html#cb172-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Converting body_mass from grams to kg</span></span>
+<span id="cb172-2"><a href="exploratory-data-analysis-eda.html#cb172-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="ot">&lt;-</span> penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb172-3"><a href="exploratory-data-analysis-eda.html#cb172-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">body_mass =</span> body_mass_g<span class="sc">/</span><span class="dv">1000</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb172-4"><a href="exploratory-data-analysis-eda.html#cb172-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">body_mass_g =</span> <span class="cn">NULL</span>)  <span class="co"># removing old column</span></span></code></pre></div>
+<p>To finish this data cleaning, its important to point out that we could have just done everything in one go, as exemplified below.
+Although as you can see, when dealing with too many things, its usually best to separate adjustments per chunks.</p>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="exploratory-data-analysis-eda.html#cb173-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="ot">&lt;-</span> penguins_raw <span class="sc">%&gt;%</span></span>
+<span id="cb173-2"><a href="exploratory-data-analysis-eda.html#cb173-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">&#39;ID&#39;</span> <span class="ot">=</span> <span class="st">&#39;Individual ID&#39;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb173-3"><a href="exploratory-data-analysis-eda.html#cb173-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_with</span>(tolower) <span class="sc">%&gt;%</span>  <span class="co"># lower-case every column</span></span>
+<span id="cb173-4"><a href="exploratory-data-analysis-eda.html#cb173-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_with</span>(toupper, <span class="fu">starts_with</span>(<span class="st">&#39;ID&#39;</span>)) <span class="sc">%&gt;%</span> <span class="co"># up-case column starting with &quot;ID&quot;</span></span>
+<span id="cb173-5"><a href="exploratory-data-analysis-eda.html#cb173-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_with</span>(<span class="sc">~</span><span class="fu">gsub</span>(<span class="st">&quot; &quot;</span>, <span class="st">&quot;_&quot;</span>, .x))  <span class="sc">%&gt;%</span> <span class="co"># subs every space (&quot; &quot;) with no space (&quot;_&quot;)</span></span>
+<span id="cb173-6"><a href="exploratory-data-analysis-eda.html#cb173-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_with</span>(<span class="sc">~</span><span class="fu">gsub</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">(&quot;</span>, <span class="st">&quot;&quot;</span>, .x)) <span class="sc">%&gt;%</span>  <span class="co">#removes every &quot;(&quot;</span></span>
+<span id="cb173-7"><a href="exploratory-data-analysis-eda.html#cb173-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_with</span>(<span class="sc">~</span><span class="fu">gsub</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">)&quot;</span>, <span class="st">&quot;&quot;</span>, .x))  <span class="sc">%&gt;%</span> <span class="co"># removes every &quot;)&quot;</span></span>
+<span id="cb173-8"><a href="exploratory-data-analysis-eda.html#cb173-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_with</span>(<span class="sc">~</span><span class="fu">gsub</span>(<span class="st">&quot;/&quot;</span> ,<span class="st">&quot;&quot;</span>, .x)) <span class="sc">%&gt;%</span> <span class="co"># removes /</span></span>
+<span id="cb173-9"><a href="exploratory-data-analysis-eda.html#cb173-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date_egg =</span> <span class="fu">as.Date</span>(date_egg)) <span class="sc">%&gt;%</span>  <span class="co"># turns the column to data format</span></span>
+<span id="cb173-10"><a href="exploratory-data-analysis-eda.html#cb173-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">species =</span> <span class="fu">gsub</span>(<span class="st">&quot; *</span><span class="sc">\\</span><span class="st">(.*?</span><span class="sc">\\</span><span class="st">) *&quot;</span>, <span class="st">&quot;&quot;</span>, species)) <span class="sc">%&gt;%</span> <span class="co"># removes text between parenthesis in species</span></span>
+<span id="cb173-11"><a href="exploratory-data-analysis-eda.html#cb173-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">stage =</span> <span class="cn">NULL</span>) <span class="sc">%&gt;%</span>  <span class="co"># removes stage column</span></span>
+<span id="cb173-12"><a href="exploratory-data-analysis-eda.html#cb173-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(culmen_length_mm), <span class="sc">!</span><span class="fu">is.na</span>(sex)) <span class="sc">%&gt;%</span>   <span class="co"># removes NA rows from these 2 columns</span></span>
+<span id="cb173-13"><a href="exploratory-data-analysis-eda.html#cb173-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">body_mass =</span> body_mass_g<span class="sc">/</span><span class="dv">1000</span>) <span class="sc">%&gt;%</span>   <span class="co"># transforms body_mass_g column to kilograms</span></span>
+<span id="cb173-14"><a href="exploratory-data-analysis-eda.html#cb173-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">body_mass_g =</span> <span class="cn">NULL</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="summarising" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> Summarising<a href="exploratory-data-analysis-eda.html#summarising" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Before we start drawing graphs left and right, its important to also explore the data with data summaries (in text format).
+As mentioned, from my perspective, EDA isn’t an exact science, in a sense that there is no appropriate set of measures to explore.
+Knowing what to do comes from both a) knowing your data, b) what your objectives are and c) experience.
+Below I’m going to try to cover some aspects of EDA (first in text than with plots) that I would do when analysing this data.
+Lets start…</p>
+<p>So, how many observations per specie are there in the data?</p>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="exploratory-data-analysis-eda.html#cb174-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb174-2"><a href="exploratory-data-analysis-eda.html#cb174-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(species)</span></code></pre></div>
+<pre><code>## # A tibble: 3 x 2
+##   species               n
+##   &lt;chr&gt;             &lt;int&gt;
+## 1 Adelie Penguin      146
+## 2 Chinstrap penguin    68
+## 3 Gentoo penguin      119</code></pre>
+<p>Alternatively, we can use the functions <code>tabyl()</code> and <code>adorn_totals()</code> from the janitor package and create a more elaborate summary with percentages and totals.</p>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="exploratory-data-analysis-eda.html#cb176-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb176-2"><a href="exploratory-data-analysis-eda.html#cb176-2" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">tabyl</span>(species) <span class="sc">%&gt;%</span> </span>
+<span id="cb176-3"><a href="exploratory-data-analysis-eda.html#cb176-3" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">adorn_totals</span>()</span></code></pre></div>
+<pre><code>##            species   n   percent
+##     Adelie Penguin 146 0.4384384
+##  Chinstrap penguin  68 0.2042042
+##     Gentoo penguin 119 0.3573574
+##              Total 333 1.0000000</code></pre>
+<p>Alright, now lets say we want to know how they are distributed across islands</p>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="exploratory-data-analysis-eda.html#cb178-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb178-2"><a href="exploratory-data-analysis-eda.html#cb178-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(island) <span class="sc">%&gt;%</span> </span>
+<span id="cb178-3"><a href="exploratory-data-analysis-eda.html#cb178-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(species)</span></code></pre></div>
+<pre><code>## # A tibble: 5 x 3
+## # Groups:   island [3]
+##   island    species               n
+##   &lt;chr&gt;     &lt;chr&gt;             &lt;int&gt;
+## 1 Biscoe    Adelie Penguin       44
+## 2 Biscoe    Gentoo penguin      119
+## 3 Dream     Adelie Penguin       55
+## 4 Dream     Chinstrap penguin    68
+## 5 Torgersen Adelie Penguin       47</code></pre>
+<p>What seem to be the main problems presented in the observation column?</p>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="exploratory-data-analysis-eda.html#cb180-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span></span>
+<span id="cb180-2"><a href="exploratory-data-analysis-eda.html#cb180-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(comments)) <span class="sc">%&gt;%</span> </span>
+<span id="cb180-3"><a href="exploratory-data-analysis-eda.html#cb180-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(comments)</span></code></pre></div>
+<pre><code>## # A tibble: 4 x 2
+##   comments                                                                 n
+##   &lt;chr&gt;                                                                &lt;int&gt;
+## 1 Nest never observed with full clutch.                                   34
+## 2 Nest never observed with full clutch. Not enough blood for isotopes.     1
+## 3 No delta15N data received from lab.                                      1
+## 4 Not enough blood for isotopes.                                           7</code></pre>
+<p>Since we spotted that some comments only appear very often we could quickly do some data cleaning again.
+Namely we might wanna combine certain levels of a factor or characters that are less represented (compared to other levels) together, instead of representing each. In this case we would combine less represented types of comments into a single label (e.g., “OtherProblems”).
+For that we could use <code>fct_lump()</code>.
+This function “lumps” (joins) together factors or characters with little representation.
+We just need to say which column we want to use this on, and we can define other parameters of interest.
+These are:</p>
+<ul>
+<li><p><strong>n</strong>: (specifying which of the most common to preserve, default being 1).
+If I say <code>n = 2</code> only the two most common comments will be preserved, with the rest being labeled as “OtherProblems”.</p></li>
+<li><p><strong>p</strong>: Alternative to “n” in which we can specify to preserve only the levels/characters which have at least a proportion of x.
+Again, if we said p = 0.2, only the comments which are represented in 20% of the data would be kept.</p></li>
+<li><p><strong>other_level</strong>: Here you set the name attributed to the lumped factors.
+In this case we say “OtherProblems”.</p></li>
+</ul>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="exploratory-data-analysis-eda.html#cb182-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb182-2"><a href="exploratory-data-analysis-eda.html#cb182-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">comments2 =</span> <span class="fu">fct_lump</span>(<span class="at">f=</span>comments, <span class="at">n =</span> <span class="dv">1</span>, <span class="at">other_level =</span> <span class="st">&#39;OtherProblems&#39;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb182-3"><a href="exploratory-data-analysis-eda.html#cb182-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">View</span>()</span></code></pre></div>
+<p>Anyway, back to exploring the data…
+Now lets ask the mean for each specie <code>across</code> all columns in the dataframe, <code>where</code> the values are numeric.
+We can do this, by simply grouping the data by species, that using the command below.</p>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="exploratory-data-analysis-eda.html#cb183-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb183-2"><a href="exploratory-data-analysis-eda.html#cb183-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">%&gt;%</span> </span>
+<span id="cb183-3"><a href="exploratory-data-analysis-eda.html#cb183-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb183-4"><a href="exploratory-data-analysis-eda.html#cb183-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">View</span>()</span></code></pre></div>
+</div>
+<div id="plots" class="section level2 hasAnchor" number="4.5">
+<h2><span class="header-section-number">4.5</span> Plots<a href="exploratory-data-analysis-eda.html#plots" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="formula" class="section level3 hasAnchor" number="4.5.1">
+<h3><span class="header-section-number">4.5.1</span> Formula<a href="exploratory-data-analysis-eda.html#formula" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><a href="https://r-graph-gallery.com/" class="uri">https://r-graph-gallery.com/</a> R has a natural plot language, but its quite “primitive” and complicated.
+It is adequate if you want really quick plots with minimal customization.
+Otherwise I would recommend using <code>ggplot2</code>.</p>
+<p><code>ggplot2</code> uses a distinct grammar for expression plots.
+It may seem complicated at first, but its actually quite simple.
+So every plot must start with a simple command:</p>
+<p><code>ggplot2("dataframe", aes("data"))</code></p>
+<p>In the first parameter you just tell the command which dataframe to use.
+Assuming your dataframe is labeled as “df” you can just the following:</p>
+<p><code>ggplot(df, aes("data"))</code></p>
+<p>or</p>
+<p><code>df %&gt;% ggplot(aes("data"))</code></p>
+<p>The next thing we need to do is specify which variables and measures we want to add to the plot.
+This is done inside the <code>aes()</code> command.
+You can add the obvious x and y info, and you can also add group related info, which can be coded as “color”, “fill” or “shape”.
+Here’s a few generic examples:</p>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="exploratory-data-analysis-eda.html#cb184-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> weight, <span class="at">y =</span> height))</span>
+<span id="cb184-2"><a href="exploratory-data-analysis-eda.html#cb184-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb184-3"><a href="exploratory-data-analysis-eda.html#cb184-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> education_level, <span class="at">y =</span> average_grade))</span>
+<span id="cb184-4"><a href="exploratory-data-analysis-eda.html#cb184-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb184-5"><a href="exploratory-data-analysis-eda.html#cb184-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> country, <span class="at">y =</span> height, <span class="at">color =</span> sex))</span>
+<span id="cb184-6"><a href="exploratory-data-analysis-eda.html#cb184-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb184-7"><a href="exploratory-data-analysis-eda.html#cb184-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> country, <span class="at">y =</span> average_reading_time,</span>
+<span id="cb184-8"><a href="exploratory-data-analysis-eda.html#cb184-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> sex, <span class="at">shape =</span> genre))</span></code></pre></div>
+<p>After this is specified, you just need to add layers of what you want.
+By adding, I mean inserting a <code>+</code> and specifying the layers you want.
+Do you want points?
+Bars?
+Lines?
+Circles?
+Whatever you want, you’ll add each as a layer with <code>geom_something()</code>, with the something corresponding to what you want.
+<code>ggplot2</code> has plenty of geoms, and I’ll be showing you a few below.
+If you want to see what the rest can do, visit: <a href="https://ggplot2.tidyverse.org/reference/" class="uri">https://ggplot2.tidyverse.org/reference/</a></p>
+<p>So your general plot code for a simple bar plot should look something like:</p>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="exploratory-data-analysis-eda.html#cb185-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dataframe, <span class="fu">aes</span>(<span class="at">x =</span> variable, <span class="at">y =</span> variable2)) <span class="sc">+</span></span>
+<span id="cb185-2"><a href="exploratory-data-analysis-eda.html#cb185-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div>
+<p>Lastly, you might want to specify other little details, such as the labels, the theme, the color scheme, etc.
+You can specify hundreds of things.
+I’m just gonna leave you the commands I use the most and I think will be most useful to you.</p>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="exploratory-data-analysis-eda.html#cb186-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Specifying the labels</span></span>
+<span id="cb186-2"><a href="exploratory-data-analysis-eda.html#cb186-2" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&#39;x-axis label&#39;</span>, <span class="at">y =</span> <span class="st">&#39;y-axis label&#39;</span>, <span class="at">title =</span> <span class="st">&#39;title text&#39;</span>, <span class="at">color =</span> <span class="st">&#39;color label text&#39;</span>)</span>
+<span id="cb186-3"><a href="exploratory-data-analysis-eda.html#cb186-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-4"><a href="exploratory-data-analysis-eda.html#cb186-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Specifying the lower and upper bounds of the axis</span></span>
+<span id="cb186-5"><a href="exploratory-data-analysis-eda.html#cb186-5" aria-hidden="true" tabindex="-1"></a><span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="st">&#39;lower_y_limit&#39;</span>, <span class="st">&#39;upper_y_limit&#39;</span>),</span>
+<span id="cb186-6"><a href="exploratory-data-analysis-eda.html#cb186-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">xlim =</span> <span class="fu">c</span>(<span class="st">&#39;lower_x_limit&#39;</span>, <span class="st">&#39;upper_y_limit&#39;</span>))</span>
+<span id="cb186-7"><a href="exploratory-data-analysis-eda.html#cb186-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-8"><a href="exploratory-data-analysis-eda.html#cb186-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Splitting the graphs creating several based on a grouping variable</span></span>
+<span id="cb186-9"><a href="exploratory-data-analysis-eda.html#cb186-9" aria-hidden="true" tabindex="-1"></a><span class="fu">facet_wrap</span>(<span class="sc">~</span><span class="st">&#39;grouping_variable&#39;</span>)</span>
+<span id="cb186-10"><a href="exploratory-data-analysis-eda.html#cb186-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-11"><a href="exploratory-data-analysis-eda.html#cb186-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Themes (just some examples)</span></span>
+<span id="cb186-12"><a href="exploratory-data-analysis-eda.html#cb186-12" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_classic</span>()</span>
+<span id="cb186-13"><a href="exploratory-data-analysis-eda.html#cb186-13" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_light</span>()</span>
+<span id="cb186-14"><a href="exploratory-data-analysis-eda.html#cb186-14" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_gray</span>()</span></code></pre></div>
+<p>If you want to save your plots you can do so either by clicking in the “Export” button on your Plots separator or you can use the function <code>ggsave()</code>.</p>
+<p>Well this should give you a general idea on how plots work.
+For more info, visit: <a href="http://r-statistics.co/Complete-Ggplot2-Tutorial-Part1-With-R-Code.html" class="uri">http://r-statistics.co/Complete-Ggplot2-Tutorial-Part1-With-R-Code.html</a></p>
+<p>On to some examples with our data.</p>
+<p>Note: I purposely leave some additional parameters inside each plot building code, not to confuse you, but to introduce you more ways to tweak your plot.
+I encourage you to mess with them.</p>
+</div>
+<div id="cols-and-bars" class="section level3 hasAnchor" number="4.5.2">
+<h3><span class="header-section-number">4.5.2</span> Cols and Bars<a href="exploratory-data-analysis-eda.html#cols-and-bars" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The bar plot is one of the most common ones.
+R has two types of “bar” plots.</p>
+<ul>
+<li><p><code>geom_bar</code>: Creates proportional count of entries (same as <code>count</code> but in a plot).
+Only requires one variable.</p></li>
+<li><p><code>geom_col</code>: Creates a more typical bar plot, where the height represents values/statistics of the data,</p></li>
+</ul>
+<p>Here’s an example usage of <code>geom_bar</code></p>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="exploratory-data-analysis-eda.html#cb187-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count</span></span>
+<span id="cb187-2"><a href="exploratory-data-analysis-eda.html#cb187-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb187-3"><a href="exploratory-data-analysis-eda.html#cb187-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(species)</span></code></pre></div>
+<pre><code>## # A tibble: 3 x 2
+##   species               n
+##   &lt;chr&gt;             &lt;int&gt;
+## 1 Adelie Penguin      146
+## 2 Chinstrap penguin    68
+## 3 Gentoo penguin      119</code></pre>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="exploratory-data-analysis-eda.html#cb189-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Geom bar (count as a plot)</span></span>
+<span id="cb189-2"><a href="exploratory-data-analysis-eda.html#cb189-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb189-3"><a href="exploratory-data-analysis-eda.html#cb189-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(species)) <span class="sc">+</span></span>
+<span id="cb189-4"><a href="exploratory-data-analysis-eda.html#cb189-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">&#39;darkgreen&#39;</span>, <span class="at">color =</span> <span class="st">&#39;black&#39;</span>, <span class="at">size =</span> <span class="dv">2</span>, <span class="at">width =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb189-5"><a href="exploratory-data-analysis-eda.html#cb189-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-91-1.png" width="672" /></p>
+<p>Now regarding <code>geom_col</code> and the more typical use of showing means.
+You have two ways of doing it, either:</p>
+<ol style="list-style-type: decimal">
+<li><p>you compute the means and build the plot with <code>geom_col()</code></p></li>
+<li><p>you use the <code>stat_summary()</code> function to compute the mean inside the ggplot and specify that you want the “col” geom (or “bar” geom).</p></li>
+</ol>
+<p>I usually just use <code>stat_summary()</code>, instead of pre-computing the means, because its faster and this allows me to add another function with <code>stat_summary()</code> that can also compute things like error bars.</p>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="exploratory-data-analysis-eda.html#cb190-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. </span></span>
+<span id="cb190-2"><a href="exploratory-data-analysis-eda.html#cb190-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb190-3"><a href="exploratory-data-analysis-eda.html#cb190-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species, sex) <span class="sc">%&gt;%</span> </span>
+<span id="cb190-4"><a href="exploratory-data-analysis-eda.html#cb190-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">body_mass =</span> <span class="fu">mean</span>(body_mass)) <span class="sc">%&gt;%</span> </span>
+<span id="cb190-5"><a href="exploratory-data-analysis-eda.html#cb190-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(species, body_mass, <span class="at">fill =</span> sex)) <span class="sc">+</span></span>
+<span id="cb190-6"><a href="exploratory-data-analysis-eda.html#cb190-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(.<span class="dv">9</span>), <span class="at">color =</span> <span class="st">&#39;black&#39;</span>) <span class="sc">+</span></span>
+<span id="cb190-7"><a href="exploratory-data-analysis-eda.html#cb190-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">6</span>)) <span class="sc">+</span> </span>
+<span id="cb190-8"><a href="exploratory-data-analysis-eda.html#cb190-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> </span>
+<span id="cb190-9"><a href="exploratory-data-analysis-eda.html#cb190-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&#39;Plot with Means: Method 1&#39;</span>)</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;species&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<p><img src="_main_files/figure-html/unnamed-chunk-92-1.png" width="672" /></p>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="exploratory-data-analysis-eda.html#cb192-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2.</span></span>
+<span id="cb192-2"><a href="exploratory-data-analysis-eda.html#cb192-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb192-3"><a href="exploratory-data-analysis-eda.html#cb192-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(species, body_mass, <span class="at">fill =</span> sex)) <span class="sc">+</span></span>
+<span id="cb192-4"><a href="exploratory-data-analysis-eda.html#cb192-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">&#39;col&#39;</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(.<span class="dv">9</span>), </span>
+<span id="cb192-5"><a href="exploratory-data-analysis-eda.html#cb192-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">&#39;black&#39;</span>) <span class="sc">+</span></span>
+<span id="cb192-6"><a href="exploratory-data-analysis-eda.html#cb192-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">6</span>)) <span class="sc">+</span></span>
+<span id="cb192-7"><a href="exploratory-data-analysis-eda.html#cb192-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb192-8"><a href="exploratory-data-analysis-eda.html#cb192-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&#39;Plot with Means: Method 2&#39;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-92-2.png" width="672" /></p>
+</div>
+<div id="boxplots" class="section level3 hasAnchor" number="4.5.3">
+<h3><span class="header-section-number">4.5.3</span> Boxplots<a href="exploratory-data-analysis-eda.html#boxplots" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Boxplots are a really cool way of showing you how your data is distributed across each category.
+Its particularly important when you have skewed data, or are just simply more interested in the median (as opposed to the mean).
+Below I introduce you the standard box plot, while also showing you other layers that can both appear on their own or can complement the boxplot geom, namely <code>geom_jitter()</code> and <code>geom_violin()</code>.</p>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="exploratory-data-analysis-eda.html#cb193-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span></span>
+<span id="cb193-2"><a href="exploratory-data-analysis-eda.html#cb193-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(delta_15_n_ooo)) <span class="sc">%&gt;%</span>  <span class="co"># remove NAs in the column to prevent warnings</span></span>
+<span id="cb193-3"><a href="exploratory-data-analysis-eda.html#cb193-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> species, <span class="at">y =</span> delta_15_n_ooo, <span class="at">fill =</span> species)) <span class="sc">+</span> </span>
+<span id="cb193-4"><a href="exploratory-data-analysis-eda.html#cb193-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb193-5"><a href="exploratory-data-analysis-eda.html#cb193-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> .<span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb193-6"><a href="exploratory-data-analysis-eda.html#cb193-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">alpha =</span> .<span class="dv">25</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span>  <span class="co"># the alpha parameter models transparency (ranges from 0 to 1)</span></span>
+<span id="cb193-7"><a href="exploratory-data-analysis-eda.html#cb193-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-93-1.png" width="672" /></p>
+</div>
+<div id="density" class="section level3 hasAnchor" number="4.5.4">
+<h3><span class="header-section-number">4.5.4</span> Density<a href="exploratory-data-analysis-eda.html#density" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Density plots are great and provide a simple way for you to measure distribution of a variable’s values.
+You just need to point out the variable name, in this case we will look at “body_mass”, and we will additionally want the distributions separated by “species”.</p>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="exploratory-data-analysis-eda.html#cb194-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb194-2"><a href="exploratory-data-analysis-eda.html#cb194-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> body_mass, <span class="at">fill =</span> species)) <span class="sc">+</span> </span>
+<span id="cb194-3"><a href="exploratory-data-analysis-eda.html#cb194-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb194-4"><a href="exploratory-data-analysis-eda.html#cb194-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb194-5"><a href="exploratory-data-analysis-eda.html#cb194-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&#39;Body mass (g)&#39;</span>, <span class="at">y =</span> <span class="st">&#39;Density&#39;</span>,</span>
+<span id="cb194-6"><a href="exploratory-data-analysis-eda.html#cb194-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">&#39;Species&#39;</span>, </span>
+<span id="cb194-7"><a href="exploratory-data-analysis-eda.html#cb194-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&#39;Body mass distributions across Species&#39;</span>) <span class="sc">+</span></span>
+<span id="cb194-8"><a href="exploratory-data-analysis-eda.html#cb194-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Dark2&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-94-1.png" width="672" /></p>
+</div>
+<div id="facets" class="section level3 hasAnchor" number="4.5.5">
+<h3><span class="header-section-number">4.5.5</span> Facets<a href="exploratory-data-analysis-eda.html#facets" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><code>facet_wrap</code> is quite useful if you want to compare two plots across 2 (or more) variables.
+It divides the data across the variable you name and creates two distinct plots.
+You just need to specify the variable, which in this case in done so with <code>~name_of_the_variable</code>.
+Importantly, if you want the scales (y-limits and x-limits) to be adjusted for each variable’s info, you need to specify this using <code>scales = 'free'</code> if every scale (x and y) can vary between facets, or <code>scales = 'free_x'</code> and <code>scales = 'free_y'</code>, if you just want the x or y scales to vary freely, respetively.
+In this case since we want to compare them directly, I think its best if they are fixed (the default behavior of the function), so you get a better picture as to how different they really are.</p>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="exploratory-data-analysis-eda.html#cb195-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb195-2"><a href="exploratory-data-analysis-eda.html#cb195-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> body_mass, <span class="at">fill =</span> species)) <span class="sc">+</span> </span>
+<span id="cb195-3"><a href="exploratory-data-analysis-eda.html#cb195-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb195-4"><a href="exploratory-data-analysis-eda.html#cb195-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb195-5"><a href="exploratory-data-analysis-eda.html#cb195-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&#39;Body mass (g)&#39;</span>, <span class="at">y =</span> <span class="st">&#39;Density&#39;</span>,</span>
+<span id="cb195-6"><a href="exploratory-data-analysis-eda.html#cb195-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">&#39;Species&#39;</span>, </span>
+<span id="cb195-7"><a href="exploratory-data-analysis-eda.html#cb195-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&#39;Body mass distributions across Species&#39;</span>) <span class="sc">+</span></span>
+<span id="cb195-8"><a href="exploratory-data-analysis-eda.html#cb195-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Dark2&quot;</span>) <span class="sc">+</span></span>
+<span id="cb195-9"><a href="exploratory-data-analysis-eda.html#cb195-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>sex, <span class="at">scales =</span> <span class="st">&#39;fixed&#39;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-95-1.png" width="672" /></p>
+</div>
+<div id="coord-flip" class="section level3 hasAnchor" number="4.5.6">
+<h3><span class="header-section-number">4.5.6</span> Coord flip<a href="exploratory-data-analysis-eda.html#coord-flip" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>For some plots, it might also be interesting (either more aesthetically pleasing or just a necessity given space limitations) to “flip the coordinates”.
+You can do so, by using the command <code>coord_flip()</code>.
+Here’s an example.</p>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="exploratory-data-analysis-eda.html#cb196-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> island, <span class="at">fill =</span> species)) <span class="sc">+</span></span>
+<span id="cb196-2"><a href="exploratory-data-analysis-eda.html#cb196-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb196-3"><a href="exploratory-data-analysis-eda.html#cb196-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;darkorange&quot;</span>,<span class="st">&quot;purple&quot;</span>,<span class="st">&quot;cyan4&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb196-4"><a href="exploratory-data-analysis-eda.html#cb196-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb196-5"><a href="exploratory-data-analysis-eda.html#cb196-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>species, <span class="at">ncol =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb196-6"><a href="exploratory-data-analysis-eda.html#cb196-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-96-1.png" width="672" /></p>
+</div>
+<div id="correlation-plots" class="section level3 hasAnchor" number="4.5.7">
+<h3><span class="header-section-number">4.5.7</span> Correlation plots<a href="exploratory-data-analysis-eda.html#correlation-plots" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Another particularly useful feature that is usually (initially) explored with plots is correlations.
+So lets say we want to get a general idea about correlations between a set of variables in the dataframe.
+Here’s a way to do it:</p>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="exploratory-data-analysis-eda.html#cb197-1" aria-hidden="true" tabindex="-1"></a>correlations <span class="ot">&lt;-</span> penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb197-2"><a href="exploratory-data-analysis-eda.html#cb197-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">&#39;culmen_length_mm&#39;</span>, <span class="st">&#39;culmen_depth_mm&#39;</span>, <span class="st">&#39;flipper_length_mm&#39;</span>, <span class="st">&#39;body_mass&#39;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb197-3"><a href="exploratory-data-analysis-eda.html#cb197-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor</span>()</span>
+<span id="cb197-4"><a href="exploratory-data-analysis-eda.html#cb197-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb197-5"><a href="exploratory-data-analysis-eda.html#cb197-5" aria-hidden="true" tabindex="-1"></a>corrplot<span class="sc">::</span><span class="fu">corrplot</span>(correlations, <span class="at">method =</span> <span class="st">&#39;number&#39;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-97-1.png" width="672" /></p>
+<p>We can additionally separate this correlations by specie.
+For that we can use the function <code>ggpairs()</code> from the <code>GGally</code> package.</p>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="exploratory-data-analysis-eda.html#cb198-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb198-2"><a href="exploratory-data-analysis-eda.html#cb198-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">&#39;species&#39;</span>,<span class="st">&#39;culmen_length_mm&#39;</span>, <span class="st">&#39;culmen_depth_mm&#39;</span>, <span class="st">&#39;flipper_length_mm&#39;</span>, <span class="st">&#39;body_mass&#39;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb198-3"><a href="exploratory-data-analysis-eda.html#cb198-3" aria-hidden="true" tabindex="-1"></a>  GGally<span class="sc">::</span><span class="fu">ggpairs</span>(<span class="fu">aes</span>(<span class="at">color =</span> species), <span class="at">axisLabels =</span> <span class="st">&#39;none&#39;</span>)</span></code></pre></div>
+<pre><code>## Registered S3 method overwritten by &#39;GGally&#39;:
+##   method from   
+##   +.gg   ggplot2</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="_main_files/figure-html/unnamed-chunk-98-1.png" width="672" /></p>
+<p>When you want to assess something more specific you can use a point plot.
+Point plots allow us to see how two numeric variables correlate with each other.
+In this example we explore how bill length and flipper length might be correlated, within each species.</p>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="exploratory-data-analysis-eda.html#cb201-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb201-2"><a href="exploratory-data-analysis-eda.html#cb201-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> flipper_length_mm, <span class="at">y =</span> culmen_length_mm, <span class="at">color =</span> species, <span class="at">shape =</span> species)) <span class="sc">+</span> </span>
+<span id="cb201-3"><a href="exploratory-data-analysis-eda.html#cb201-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">group =</span> species), <span class="at">size =</span> <span class="fl">1.7</span>) <span class="sc">+</span></span>
+<span id="cb201-4"><a href="exploratory-data-analysis-eda.html#cb201-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">group =</span> species), <span class="at">method =</span> <span class="st">&#39;lm&#39;</span>, <span class="at">alpha =</span> .<span class="dv">2</span>, <span class="at">formula =</span> <span class="st">&#39;y ~ x&#39;</span>) <span class="sc">+</span> <span class="co"># adding a line based on linear regression</span></span>
+<span id="cb201-5"><a href="exploratory-data-analysis-eda.html#cb201-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb201-6"><a href="exploratory-data-analysis-eda.html#cb201-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&#39;Flipper Length (mm)&#39;</span>, <span class="at">y =</span> <span class="st">&#39;Bill Length (mm)&#39;</span>,</span>
+<span id="cb201-7"><a href="exploratory-data-analysis-eda.html#cb201-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">&#39;Species&#39;</span>, <span class="at">shape =</span> <span class="st">&#39;Species&#39;</span>,</span>
+<span id="cb201-8"><a href="exploratory-data-analysis-eda.html#cb201-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&#39;Correlation between Flipper Length and Bill Length&#39;</span>) <span class="sc">+</span></span>
+<span id="cb201-9"><a href="exploratory-data-analysis-eda.html#cb201-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Dark2&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-99-1.png" width="672" /></p>
+</div>
+<div id="multiplots" class="section level3 hasAnchor" number="4.5.8">
+<h3><span class="header-section-number">4.5.8</span> Multiplots<a href="exploratory-data-analysis-eda.html#multiplots" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Another cool thing we might want to do is add multiple plots to a final image.
+We can do this using the function <code>multiplot</code> from the packages <code>Rmisc</code>.
+Lets say we want to measure the mean of the deltas (“both delta_15_n_ooo” and “delta_13_c_ooo”), by species and sex.
+And we want to see them, side by side.
+To do so, we must create each plot separately, and assign it to a object.
+Afterwards, we just need to call these objects inside the <code>multiplot</code> function.
+Here’s how to do it:</p>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="exploratory-data-analysis-eda.html#cb202-1" aria-hidden="true" tabindex="-1"></a>d15_plot <span class="ot">&lt;-</span> penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb202-2"><a href="exploratory-data-analysis-eda.html#cb202-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(delta_15_n_ooo)) <span class="sc">%&gt;%</span> </span>
+<span id="cb202-3"><a href="exploratory-data-analysis-eda.html#cb202-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species, sex) <span class="sc">%&gt;%</span> </span>
+<span id="cb202-4"><a href="exploratory-data-analysis-eda.html#cb202-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">delta_15 =</span> <span class="fu">mean</span>(delta_15_n_ooo)) <span class="sc">%&gt;%</span> </span>
+<span id="cb202-5"><a href="exploratory-data-analysis-eda.html#cb202-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(species, delta_15, <span class="at">color =</span> sex)) <span class="sc">+</span></span>
+<span id="cb202-6"><a href="exploratory-data-analysis-eda.html#cb202-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb202-7"><a href="exploratory-data-analysis-eda.html#cb202-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group =</span> sex), <span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;species&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="exploratory-data-analysis-eda.html#cb204-1" aria-hidden="true" tabindex="-1"></a>d13_plot <span class="ot">&lt;-</span> penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb204-2"><a href="exploratory-data-analysis-eda.html#cb204-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(delta_13_c_ooo)) <span class="sc">%&gt;%</span> </span>
+<span id="cb204-3"><a href="exploratory-data-analysis-eda.html#cb204-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species, sex) <span class="sc">%&gt;%</span> </span>
+<span id="cb204-4"><a href="exploratory-data-analysis-eda.html#cb204-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">delta_13 =</span> <span class="fu">mean</span>(delta_13_c_ooo)) <span class="sc">%&gt;%</span> </span>
+<span id="cb204-5"><a href="exploratory-data-analysis-eda.html#cb204-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(species, delta_13, <span class="at">color =</span> sex)) <span class="sc">+</span></span>
+<span id="cb204-6"><a href="exploratory-data-analysis-eda.html#cb204-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb204-7"><a href="exploratory-data-analysis-eda.html#cb204-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group =</span> sex), <span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;species&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="exploratory-data-analysis-eda.html#cb206-1" aria-hidden="true" tabindex="-1"></a>Rmisc<span class="sc">::</span><span class="fu">multiplot</span>(d15_plot, d13_plot)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-100-1.png" width="672" /></p>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="exploratory-data-analysis-eda.html#cb207-1" aria-hidden="true" tabindex="-1"></a><span class="co"># or</span></span>
+<span id="cb207-2"><a href="exploratory-data-analysis-eda.html#cb207-2" aria-hidden="true" tabindex="-1"></a>Rmisc<span class="sc">::</span><span class="fu">multiplot</span>(d15_plot, d13_plot, <span class="at">cols =</span> <span class="dv">2</span>)  <span class="co"># the cols parameter establishes the number of columns in the plot matrix</span></span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-100-2.png" width="672" /></p>
+</div>
+<div id="date-1" class="section level3 hasAnchor" number="4.5.9">
+<h3><span class="header-section-number">4.5.9</span> Date<a href="exploratory-data-analysis-eda.html#date-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Plotting date is quite easy, and its quite useful when dealing with time-series analysis.
+In this data, as you will see, data is not that relevant.
+Below, I first build a general plot showing how many collections there were per date.
+Since I found a pattern, showing that these collection took place between November and December in three separate years, I then build three blocks of data for each year, and split the plot to better show the number of data entries per date.</p>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="exploratory-data-analysis-eda.html#cb208-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Original plot</span></span>
+<span id="cb208-2"><a href="exploratory-data-analysis-eda.html#cb208-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb208-3"><a href="exploratory-data-analysis-eda.html#cb208-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(date_egg)) <span class="sc">+</span></span>
+<span id="cb208-4"><a href="exploratory-data-analysis-eda.html#cb208-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-101-1.png" width="672" /></p>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="exploratory-data-analysis-eda.html#cb209-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Transformed plot</span></span>
+<span id="cb209-2"><a href="exploratory-data-analysis-eda.html#cb209-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb209-3"><a href="exploratory-data-analysis-eda.html#cb209-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">DateBlock =</span> <span class="fu">case_when</span>(  <span class="co"># creating a new column that identifies which year that data bellongs to</span></span>
+<span id="cb209-4"><a href="exploratory-data-analysis-eda.html#cb209-4" aria-hidden="true" tabindex="-1"></a>    date_egg <span class="sc">&lt;</span> <span class="st">&#39;2008-01-01&#39;</span> <span class="sc">~</span> <span class="st">&#39;2007&#39;</span>,</span>
+<span id="cb209-5"><a href="exploratory-data-analysis-eda.html#cb209-5" aria-hidden="true" tabindex="-1"></a>    date_egg <span class="sc">&gt;</span> <span class="st">&#39;2008-01-01&#39;</span> <span class="sc">&amp;</span> date_egg <span class="sc">&lt;</span> <span class="st">&#39;2009-01-01&#39;</span> <span class="sc">~</span> <span class="st">&#39;2008&#39;</span>,</span>
+<span id="cb209-6"><a href="exploratory-data-analysis-eda.html#cb209-6" aria-hidden="true" tabindex="-1"></a>    date_egg <span class="sc">&gt;</span> <span class="st">&#39;2009-01-01&#39;</span>  <span class="sc">~</span> <span class="st">&#39;2009&#39;</span></span>
+<span id="cb209-7"><a href="exploratory-data-analysis-eda.html#cb209-7" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span> </span>
+<span id="cb209-8"><a href="exploratory-data-analysis-eda.html#cb209-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(date_egg)) <span class="sc">+</span></span>
+<span id="cb209-9"><a href="exploratory-data-analysis-eda.html#cb209-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">&#39;lightblue&#39;</span>, <span class="at">color =</span> <span class="st">&#39;black&#39;</span>) <span class="sc">+</span> </span>
+<span id="cb209-10"><a href="exploratory-data-analysis-eda.html#cb209-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>DateBlock, <span class="at">scales =</span> <span class="st">&#39;free_x&#39;</span>) <span class="sc">+</span></span>
+<span id="cb209-11"><a href="exploratory-data-analysis-eda.html#cb209-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-101-2.png" width="672" /></p>
+</div>
+<div id="ordering-factors" class="section level3 hasAnchor" number="4.5.10">
+<h3><span class="header-section-number">4.5.10</span> Ordering factors<a href="exploratory-data-analysis-eda.html#ordering-factors" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Another useful function, is the function <code>fct_reorder()</code> which comes from the package <code>forcats</code>.
+This function is particularly (although not exclusively) useful for plots.
+As default, R organizes the levels in a factor by alphabetical order.
+This function allows us to alter the order by which levels in a factor are presented, according to certain conditions we can define ourselves.
+For instance if we plot the mean “delta_15_ooo” per species of penguin, we get the x-axis with (alphabettically defined) Adelie, Chinstrap and Gentoo penguins.
+But lets say instead, we want to reorder the x-axis in a descending order according to mean delta_15 of each species.</p>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="exploratory-data-analysis-eda.html#cb210-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Original plot</span></span>
+<span id="cb210-2"><a href="exploratory-data-analysis-eda.html#cb210-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb210-3"><a href="exploratory-data-analysis-eda.html#cb210-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">species =</span> <span class="fu">as.factor</span>(species)) <span class="sc">%&gt;%</span>  <span class="co"># Turning species to factor</span></span>
+<span id="cb210-4"><a href="exploratory-data-analysis-eda.html#cb210-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">%&gt;%</span> </span>
+<span id="cb210-5"><a href="exploratory-data-analysis-eda.html#cb210-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">delta_15 =</span> <span class="fu">mean</span>(delta_15_n_ooo, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb210-6"><a href="exploratory-data-analysis-eda.html#cb210-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(species, delta_15)) <span class="sc">+</span></span>
+<span id="cb210-7"><a href="exploratory-data-analysis-eda.html#cb210-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">&#39;bar&#39;</span>, <span class="at">width=</span>.<span class="dv">75</span>, <span class="at">fill =</span> <span class="st">&#39;tomato1&#39;</span>, <span class="at">color =</span> <span class="st">&#39;black&#39;</span>) <span class="sc">+</span>  <span class="co"># plotting the mean</span></span>
+<span id="cb210-8"><a href="exploratory-data-analysis-eda.html#cb210-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">10</span>, <span class="at">vjust =</span> <span class="fl">0.6</span>)) <span class="sc">+</span><span class="co"># just to show the x-axis text better</span></span>
+<span id="cb210-9"><a href="exploratory-data-analysis-eda.html#cb210-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-102-1.png" width="672" /></p>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="exploratory-data-analysis-eda.html#cb211-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reordered plot</span></span>
+<span id="cb211-2"><a href="exploratory-data-analysis-eda.html#cb211-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb211-3"><a href="exploratory-data-analysis-eda.html#cb211-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">%&gt;%</span> </span>
+<span id="cb211-4"><a href="exploratory-data-analysis-eda.html#cb211-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">delta_15 =</span> <span class="fu">mean</span>(delta_15_n_ooo, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb211-5"><a href="exploratory-data-analysis-eda.html#cb211-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">species =</span> <span class="fu">fct_reorder</span>(species, delta_15, <span class="at">.desc =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span>  <span class="co"># organized the levels of species based on delta_15 (descending)</span></span>
+<span id="cb211-6"><a href="exploratory-data-analysis-eda.html#cb211-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(species, delta_15)) <span class="sc">+</span></span>
+<span id="cb211-7"><a href="exploratory-data-analysis-eda.html#cb211-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">&#39;bar&#39;</span>, <span class="at">width=</span>.<span class="dv">75</span>, <span class="at">fill =</span> <span class="st">&#39;tomato1&#39;</span>, <span class="at">color =</span> <span class="st">&#39;black&#39;</span>) <span class="sc">+</span>  <span class="co"># plotting the mean</span></span>
+<span id="cb211-8"><a href="exploratory-data-analysis-eda.html#cb211-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">10</span>, <span class="at">vjust =</span> <span class="fl">0.6</span>)) <span class="sc">+</span> <span class="co"># just to show the x-axis text better</span></span>
+<span id="cb211-9"><a href="exploratory-data-analysis-eda.html#cb211-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-102-2.png" width="672" /></p>
+</div>
+</div>
+<div id="end-1" class="section level2 hasAnchor" number="4.6">
+<h2><span class="header-section-number">4.6</span> End<a href="exploratory-data-analysis-eda.html#end-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="r---dealing-with-data.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/03-Chapter3.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

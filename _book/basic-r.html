@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Basic R | Usefulness of R for managing data</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+set in the _output.yml file.
+The HTML output format for this example is bookdown::gitbook,</p>" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Basic R | Usefulness of R for managing data" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+set in the _output.yml file.
+The HTML output format for this example is bookdown::gitbook,</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Basic R | Usefulness of R for managing data" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+set in the _output.yml file.
+The HTML output format for this example is bookdown::gitbook,</p>" />
+  
+
+<meta name="author" content="Fábio A. Silva" />
+
+
+<meta name="date" content="2022-06-03" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="r---dealing-with-data.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="basic-r.html"><a href="basic-r.html"><i class="fa fa-check"></i><b>2</b> Basic R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="basic-r.html"><a href="basic-r.html#note"><i class="fa fa-check"></i><b>2.1</b> Note</a></li>
+<li class="chapter" data-level="2.2" data-path="basic-r.html"><a href="basic-r.html#what-is-r-and-rstudio"><i class="fa fa-check"></i><b>2.2</b> What is R and RStudio</a></li>
+<li class="chapter" data-level="2.3" data-path="basic-r.html"><a href="basic-r.html#why-r"><i class="fa fa-check"></i><b>2.3</b> Why R?</a></li>
+<li class="chapter" data-level="2.4" data-path="basic-r.html"><a href="basic-r.html#where-to-get-it-and-how-to-run-it"><i class="fa fa-check"></i><b>2.4</b> Where to get it and how to run it</a></li>
+<li class="chapter" data-level="2.5" data-path="basic-r.html"><a href="basic-r.html#environment"><i class="fa fa-check"></i><b>2.5</b> Environment</a></li>
+<li class="chapter" data-level="2.6" data-path="basic-r.html"><a href="basic-r.html#scripts-notebooks-and-rmarkdown"><i class="fa fa-check"></i><b>2.6</b> Scripts, Notebooks and RMarkdown</a></li>
+<li class="chapter" data-level="2.7" data-path="basic-r.html"><a href="basic-r.html#working-directories"><i class="fa fa-check"></i><b>2.7</b> Working directories</a></li>
+<li class="chapter" data-level="2.8" data-path="basic-r.html"><a href="basic-r.html#operators"><i class="fa fa-check"></i><b>2.8</b> Operators</a></li>
+<li class="chapter" data-level="2.9" data-path="basic-r.html"><a href="basic-r.html#classes-types-and-structures"><i class="fa fa-check"></i><b>2.9</b> Classes, Types and Structures</a></li>
+<li class="chapter" data-level="2.10" data-path="basic-r.html"><a href="basic-r.html#comments"><i class="fa fa-check"></i><b>2.10</b> Comments</a></li>
+<li class="chapter" data-level="2.11" data-path="basic-r.html"><a href="basic-r.html#objects"><i class="fa fa-check"></i><b>2.11</b> Objects</a></li>
+<li class="chapter" data-level="2.12" data-path="basic-r.html"><a href="basic-r.html#combinations"><i class="fa fa-check"></i><b>2.12</b> Combinations</a></li>
+<li class="chapter" data-level="2.13" data-path="basic-r.html"><a href="basic-r.html#subsetting"><i class="fa fa-check"></i><b>2.13</b> Subsetting</a></li>
+<li class="chapter" data-level="2.14" data-path="basic-r.html"><a href="basic-r.html#ifs-and-whiles"><i class="fa fa-check"></i><b>2.14</b> Ifs and Whiles</a></li>
+<li class="chapter" data-level="2.15" data-path="basic-r.html"><a href="basic-r.html#functions"><i class="fa fa-check"></i><b>2.15</b> Functions</a></li>
+<li class="chapter" data-level="2.16" data-path="basic-r.html"><a href="basic-r.html#packages"><i class="fa fa-check"></i><b>2.16</b> Packages</a></li>
+<li class="chapter" data-level="2.17" data-path="basic-r.html"><a href="basic-r.html#shortcuts"><i class="fa fa-check"></i><b>2.17</b> Shortcuts</a></li>
+<li class="chapter" data-level="2.18" data-path="basic-r.html"><a href="basic-r.html#chunk-settings"><i class="fa fa-check"></i><b>2.18</b> Chunk settings</a></li>
+<li class="chapter" data-level="2.19" data-path="basic-r.html"><a href="basic-r.html#code-completion"><i class="fa fa-check"></i><b>2.19</b> Code completion</a></li>
+<li class="chapter" data-level="2.20" data-path="basic-r.html"><a href="basic-r.html#other-useful-features"><i class="fa fa-check"></i><b>2.20</b> Other useful features</a></li>
+<li class="chapter" data-level="2.21" data-path="basic-r.html"><a href="basic-r.html#getting-help"><i class="fa fa-check"></i><b>2.21</b> Getting help</a></li>
+<li class="chapter" data-level="2.22" data-path="basic-r.html"><a href="basic-r.html#further-reading"><i class="fa fa-check"></i><b>2.22</b> Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html"><i class="fa fa-check"></i><b>3</b> R - Dealing with data</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#opening-files"><i class="fa fa-check"></i><b>3.1</b> Opening files</a></li>
+<li class="chapter" data-level="3.2" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#opening-multiple-files"><i class="fa fa-check"></i><b>3.2</b> Opening multiple files</a></li>
+<li class="chapter" data-level="3.3" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#merging"><i class="fa fa-check"></i><b>3.3</b> Merging</a></li>
+<li class="chapter" data-level="3.4" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#exporting"><i class="fa fa-check"></i><b>3.4</b> Exporting</a></li>
+<li class="chapter" data-level="3.5" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#special-cases-in-r"><i class="fa fa-check"></i><b>3.5</b> Special cases in R</a></li>
+<li class="chapter" data-level="3.6" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#manipulating-the-data-in-dataframes"><i class="fa fa-check"></i><b>3.6</b> Manipulating the data in dataframes</a>
+<ul>
+<li class="chapter" data-level="3.6.1" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#subsetting-a-dataframe"><i class="fa fa-check"></i><b>3.6.1</b> Subsetting a dataframe</a></li>
+<li class="chapter" data-level="3.6.2" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#columns"><i class="fa fa-check"></i><b>3.6.2</b> Columns</a></li>
+<li class="chapter" data-level="3.6.3" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#rows"><i class="fa fa-check"></i><b>3.6.3</b> Rows</a></li>
+<li class="chapter" data-level="3.6.4" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#tidyverse-pipes"><i class="fa fa-check"></i><b>3.6.4</b> Tidyverse &amp; Pipes</a></li>
+<li class="chapter" data-level="3.6.5" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#filtering"><i class="fa fa-check"></i><b>3.6.5</b> Filtering</a></li>
+<li class="chapter" data-level="3.6.6" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#arranging"><i class="fa fa-check"></i><b>3.6.6</b> Arranging</a></li>
+<li class="chapter" data-level="3.6.7" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#selecting"><i class="fa fa-check"></i><b>3.6.7</b> Selecting</a></li>
+<li class="chapter" data-level="3.6.8" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#mutating"><i class="fa fa-check"></i><b>3.6.8</b> Mutating</a></li>
+<li class="chapter" data-level="3.6.9" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#ifelse"><i class="fa fa-check"></i><b>3.6.9</b> Ifelse</a></li>
+<li class="chapter" data-level="3.6.10" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#grouping-and-summarizing"><i class="fa fa-check"></i><b>3.6.10</b> Grouping and Summarizing</a></li>
+<li class="chapter" data-level="3.6.11" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#changing-format-widelong"><i class="fa fa-check"></i><b>3.6.11</b> Changing Format (Wide/Long)</a></li>
+<li class="chapter" data-level="3.6.12" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#missing-values"><i class="fa fa-check"></i><b>3.6.12</b> Missing Values</a></li>
+<li class="chapter" data-level="3.6.13" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#counts"><i class="fa fa-check"></i><b>3.6.13</b> Counts</a></li>
+<li class="chapter" data-level="3.6.14" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#ungrouping"><i class="fa fa-check"></i><b>3.6.14</b> Ungrouping</a></li>
+<li class="chapter" data-level="3.6.15" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#stringscharacters"><i class="fa fa-check"></i><b>3.6.15</b> Strings/Characters</a></li>
+<li class="chapter" data-level="3.6.16" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#splits"><i class="fa fa-check"></i><b>3.6.16</b> Splits</a></li>
+<li class="chapter" data-level="3.6.17" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#mapping"><i class="fa fa-check"></i><b>3.6.17</b> Mapping</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="r---dealing-with-data.html"><a href="r---dealing-with-data.html#end"><i class="fa fa-check"></i><b>3.7</b> End</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html"><i class="fa fa-check"></i><b>4</b> Exploratory Data Analysis (EDA)</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#loading-data"><i class="fa fa-check"></i><b>4.1</b> Loading data</a></li>
+<li class="chapter" data-level="4.2" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#checking-data"><i class="fa fa-check"></i><b>4.2</b> Checking data</a></li>
+<li class="chapter" data-level="4.3" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#cleaning"><i class="fa fa-check"></i><b>4.3</b> Cleaning</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#cleaning-col.-names"><i class="fa fa-check"></i><b>4.3.1</b> Cleaning col. names</a></li>
+<li class="chapter" data-level="4.3.2" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#date"><i class="fa fa-check"></i><b>4.3.2</b> Date</a></li>
+<li class="chapter" data-level="4.3.3" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#cleaning-some-columns"><i class="fa fa-check"></i><b>4.3.3</b> Cleaning some columns</a></li>
+<li class="chapter" data-level="4.3.4" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#dealing-with-na-values"><i class="fa fa-check"></i><b>4.3.4</b> Dealing with NA values</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#summarising"><i class="fa fa-check"></i><b>4.4</b> Summarising</a></li>
+<li class="chapter" data-level="4.5" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#plots"><i class="fa fa-check"></i><b>4.5</b> Plots</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#formula"><i class="fa fa-check"></i><b>4.5.1</b> Formula</a></li>
+<li class="chapter" data-level="4.5.2" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#cols-and-bars"><i class="fa fa-check"></i><b>4.5.2</b> Cols and Bars</a></li>
+<li class="chapter" data-level="4.5.3" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#boxplots"><i class="fa fa-check"></i><b>4.5.3</b> Boxplots</a></li>
+<li class="chapter" data-level="4.5.4" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#density"><i class="fa fa-check"></i><b>4.5.4</b> Density</a></li>
+<li class="chapter" data-level="4.5.5" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#facets"><i class="fa fa-check"></i><b>4.5.5</b> Facets</a></li>
+<li class="chapter" data-level="4.5.6" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#coord-flip"><i class="fa fa-check"></i><b>4.5.6</b> Coord flip</a></li>
+<li class="chapter" data-level="4.5.7" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#correlation-plots"><i class="fa fa-check"></i><b>4.5.7</b> Correlation plots</a></li>
+<li class="chapter" data-level="4.5.8" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#multiplots"><i class="fa fa-check"></i><b>4.5.8</b> Multiplots</a></li>
+<li class="chapter" data-level="4.5.9" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#date-1"><i class="fa fa-check"></i><b>4.5.9</b> Date</a></li>
+<li class="chapter" data-level="4.5.10" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#ordering-factors"><i class="fa fa-check"></i><b>4.5.10</b> Ordering factors</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="exploratory-data-analysis-eda.html"><a href="exploratory-data-analysis-eda.html#end-1"><i class="fa fa-check"></i><b>4.6</b> End</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Usefulness of R for managing data</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="basic-r" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Basic R<a href="basic-r.html#basic-r" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="note" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Note<a href="basic-r.html#note" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>This portion of the guide is intended to present you the basics of R to get you up and running.<br />
+However, this is not meant to give you all the guidance and know-how, as well as answer all your questions.
+There are plenty of internet tutorials already that answer more specific and basic questions.<br />
+I’ll provide a few links at the end that complement what I’ll show you here.</p>
+</div>
+<div id="what-is-r-and-rstudio" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> What is R and RStudio<a href="basic-r.html#what-is-r-and-rstudio" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>From their own website, simply put “R is a language and environment for statistical computing and graphics.”.<br />
+So R is a programming language, just like Python, Matlab or even the syntax you find in SPSS.
+This language is particularly driven towards mathematical operations and thus proves quite useful when it comes to data management and analysis.
+Importantly, its an expansive (things keep getting added all the time) and open-source (the code is freely available).</p>
+<p>As for RStudio, it is an interface for this programming language.
+Simply put, it makes working with R easier and everyone (in general) uses this interface to code in R.
+When you install R it already installs a very basic editor that lets you do some stuff, but RStudio is way more convening for everything other than simple calculations.
+You can see the basic R editor as Textpad (or Notepad application) and RStudio as Word.</p>
+</div>
+<div id="why-r" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Why R?<a href="basic-r.html#why-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Here follows a list of things R is can do (and excels, pun intended, at):</p>
+<ul>
+<li><p>Read (nearly) all types of data.</p></li>
+<li><p>Manipulate data in every way possible.</p></li>
+<li><p>Create any type of graphic data visualization.</p></li>
+<li><p>Perform any type of statistical analysis.</p></li>
+<li><p>Perform any type of machine learning applications.</p></li>
+<li><p>Web scraping.</p></li>
+<li><p>Creating reports.</p></li>
+<li><p>Creating web apps.</p></li>
+<li><p>Many more…</p></li>
+</ul>
+</div>
+<div id="where-to-get-it-and-how-to-run-it" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Where to get it and how to run it<a href="basic-r.html#where-to-get-it-and-how-to-run-it" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>You can download R from <a href="https://cran.r-project.org/" class="uri">https://cran.r-project.org/</a> and RStudio from <a href="https://www.rstudio.com/" class="uri">https://www.rstudio.com/</a>.</p>
+</div>
+<div id="environment" class="section level2 hasAnchor" number="2.5">
+<h2><span class="header-section-number">2.5</span> Environment<a href="basic-r.html#environment" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>This is your basic environment.
+You have 4 (actually 5 with the upper bar area) divisions.</p>
+<p>The top pane (1), gives you access to plenty of options regarding RStudio, letting you open files, save, search, etc..</p>
+<p>The pane number 2 is your main area of work.
+This is your script.
+The script is the area where you will write your code.
+This code (all or whatever lines you select) will then be executed in the console.</p>
+<p>The console (4) is where your code is executed.
+You can write single lines directly into it.
+This is where your information about your errors will show up.</p>
+<p>Your right area of the screen contains 2 distinct areas, that can show different things.
+Area number 3 usually contains your environment.
+In here you will see every variable that you have attributed (they will be stored here).
+You can access them by clicking on them.
+It also contains other sub menus, but I will not go into detail here.</p>
+<p>The bottom area (5) contains the files that are in the directory where you area working, will show your plots, will contain your packages (for easy access), the help menu and the viewer (interactive plots pane).</p>
+<p>Note, all of your environment is customizable, changing both what panels appear and where, and the overall appearance of Rstudio (you change to dark mode if you think you’re cool enough, for instance).</p>
+<div class="figure">
+<img src="images/rstudio_ide.png" alt="" />
+<p class="caption">R IDE.</p>
+</div>
+</div>
+<div id="scripts-notebooks-and-rmarkdown" class="section level2 hasAnchor" number="2.6">
+<h2><span class="header-section-number">2.6</span> Scripts, Notebooks and RMarkdown<a href="basic-r.html#scripts-notebooks-and-rmarkdown" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In creating a new R script you can choose one of three different R documents, <strong>R Script</strong>, <strong>R Notebook</strong> and <strong>R Markdown</strong>.
+Well you can actually choose more, but these are perhaps (particularly regarding the focus of this book) the most important ones.<br />
+<strong>R script</strong> is a simple sheet where you write code and add comments by using #.
+R scripts are best used when are writing scripts for automacy (automating tasks) and don’t necessarily need to view any output along the way, but only at the end (when everything is computed and done).
+Otherwise, I would almost always recommend either one of the other two formats.</p>
+<p>The other two formats are pretty much the same.
+They only differ in terms of their preview function.
+These types of special scripts are built with a markdown language, such that the script panel can now be seen as a text document and you can, within that “text document,” insert code chunks and run these code chunk as needed.
+Importantly, and perhaps one of the best features, is that the output of each chunk is, by default, shown just below that code chunk.
+This makes these scripts extremely useful when doing data analysis of any kind, given that, provided that they are not too messy, they have the potential to make great reports of your data analysis (showing results and graphs along the way).
+So if you are new o this, I would recommend using <strong>R Notebook</strong> otherwise just default to <strong>R Markdown</strong>.</p>
+</div>
+<div id="working-directories" class="section level2 hasAnchor" number="2.7">
+<h2><span class="header-section-number">2.7</span> Working directories<a href="basic-r.html#working-directories" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Whenever you create a new R-type file (e.g., R-script, Rmarkdown, etc.) and you save it somewhere (e.g., “C:/Users/fabio/OneDrive/My Things/Stats/Teaching/R_Book”) it sets your working directory to that folder.
+You can change verify this by using the command <code>getwd()</code>.</p>
+<p>You can also alter this working directory by executing <code>setwd('what working directory I want")</code>.</p>
+<p>Importantly, when saving your working directory it should in a string format and separated by “/” and not “\”.
+For instance <code>setwd("C:/Users/MyName/Work/Project1")</code>.</p>
+</div>
+<div id="operators" class="section level2 hasAnchor" number="2.8">
+<h2><span class="header-section-number">2.8</span> Operators<a href="basic-r.html#operators" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>R has <strong>arithmetic operators</strong> and <strong>logical operators</strong>.<br />
+The first ones, <strong>arithmetic operators</strong> are the following (there are more but, I believe, less important):</p>
+<p><code>+</code>: adds<br />
+<code>-</code>: subtracts<br />
+<code>*</code>: multiplies<br />
+<code>/</code>: divides<br />
+<code>^</code> or <code>**</code>: exponentiates</p>
+<p>Then there are <strong>logical operators</strong>:</p>
+<p><code>&lt;</code>: lesser than<br />
+<code>&lt;=</code>: lesser or equal than<br />
+<code>&gt;</code>: bigger than<br />
+<code>&gt;=</code>: bigger or equal than<br />
+<code>==</code>: equals<br />
+<code>!=</code>: not equal to<br />
+<code>!x</code>: not x<br />
+<code>x | y</code>: x OR y<br />
+<code>x &amp; y</code>: x AND y</p>
+</div>
+<div id="classes-types-and-structures" class="section level2 hasAnchor" number="2.9">
+<h2><span class="header-section-number">2.9</span> Classes, Types and Structures<a href="basic-r.html#classes-types-and-structures" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The data you imported can be in a wide range of classes (types).
+There are 3 basic types of classes, built-in (different functions can use more), you need to be aware (although there are more).
+These are:</p>
+<ul>
+<li><em>character</em>: Strings (words), such as <code>"hello"</code> or <code>"hi123"</code>.<br />
+</li>
+<li><em>numeric</em>: Any type of number, such as <code>2</code>or <code>30.4</code>.<br />
+</li>
+<li><em>logical</em>: The true or false values. <code>TRUE</code> or <code>FALSE</code>.</li>
+<li><em>date</em>: In a date format. Can be converted from different types (e.g., <code>2007-11-11</code>, <code>2jan1960</code>)</li>
+</ul>
+<p>You can ask R about what type of object it is by using the <code>class(object)</code> command or the <code>typeof(object)</code></p>
+<p>R also has different data structures.
+The ones worth talking about here are:</p>
+<ul>
+<li><p><em>atomic vector</em>: Basically every R data structure.
+A vector could be a character or an numeric object, for instance.</p></li>
+<li><p><em>lists</em>: a list of objects.
+Can be created by using <code>list()</code>.
+You can retrieve the value by using <code>[[]]</code>.</p></li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="basic-r.html#cb1-1" aria-hidden="true" tabindex="-1"></a>my_list <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">&#39;Potatoes&#39;</span>, <span class="cn">TRUE</span>, <span class="dv">15</span>, <span class="fu">c</span>(<span class="st">&#39;Strawberry&#39;</span>, <span class="dv">1000</span>))</span>
+<span id="cb1-2"><a href="basic-r.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># or</span></span>
+<span id="cb1-3"><a href="basic-r.html#cb1-3" aria-hidden="true" tabindex="-1"></a>my_list <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">ingredients =</span> <span class="fu">c</span>(<span class="st">&#39;Strawberry&#39;</span>, <span class="st">&#39;Milk&#39;</span>, <span class="st">&#39;Coffee&#39;</span>), <span class="at">type =</span> <span class="st">&#39;Milkshake&#39;</span>, <span class="at">rating =</span> <span class="dv">10</span>)</span></code></pre></div>
+<ul>
+<li><em>matrix</em>: are like tables.</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="basic-r.html#cb2-1" aria-hidden="true" tabindex="-1"></a>my_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb2-2"><a href="basic-r.html#cb2-2" aria-hidden="true" tabindex="-1"></a>my_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">&quot;X&quot;</span>,<span class="st">&quot;Y&quot;</span>,<span class="st">&quot;Z&quot;</span>), <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>)))</span></code></pre></div>
+<ul>
+<li><em>data frame</em>: fancy matrices (more common)</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="basic-r.html#cb3-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> iris</span></code></pre></div>
+<ul>
+<li><em>factor</em>: more of a type of class than anything. This object is a factor with levels.</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="basic-r.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(d<span class="sc">$</span>Species)</span></code></pre></div>
+<pre><code>## [1] &quot;factor&quot;</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="basic-r.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(d<span class="sc">$</span>Species)</span></code></pre></div>
+<pre><code>## [1] &quot;setosa&quot;     &quot;versicolor&quot; &quot;virginica&quot;</code></pre>
+<ul>
+<li><em>tibble</em>: a special data frame from tidyverse</li>
+</ul>
+<p>For additional info, visit: <a href="https://swcarpentry.github.io/r-novice-inflammation/13-supp-data-structures/" class="uri">https://swcarpentry.github.io/r-novice-inflammation/13-supp-data-structures/</a></p>
+</div>
+<div id="comments" class="section level2 hasAnchor" number="2.10">
+<h2><span class="header-section-number">2.10</span> Comments<a href="basic-r.html#comments" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Commenting your code is good practice.
+You can comment anything, but perhaps its most practical use is to leave instructions as to what the code, or section of code, is doing.</p>
+<p>Commenting is also great for when you don’t want a certain part of your code to run.</p>
+<p>Below you see a function, kinda of a confusing one, where comments in each line help me (and other readers) understand what the function is doing.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="basic-r.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># My list</span></span>
+<span id="cb8-2"><a href="basic-r.html#cb8-2" aria-hidden="true" tabindex="-1"></a>my_list <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;Water0&#39;</span>,<span class="st">&#39;Fire10&#39;</span>,<span class="st">&#39;Ear899th&#39;</span>, <span class="st">&#39;1Wind0&#39;</span>)</span>
+<span id="cb8-3"><a href="basic-r.html#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="basic-r.html#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a function to remove numbers from my characters</span></span>
+<span id="cb8-5"><a href="basic-r.html#cb8-5" aria-hidden="true" tabindex="-1"></a>rem_num <span class="ot">&lt;-</span> <span class="cf">function</span>(list_of_words){</span>
+<span id="cb8-6"><a href="basic-r.html#cb8-6" aria-hidden="true" tabindex="-1"></a>  final_word_list <span class="ot">&lt;-</span> <span class="fu">c</span>()  <span class="co"># creates empty list</span></span>
+<span id="cb8-7"><a href="basic-r.html#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (word <span class="cf">in</span> list_of_words){  <span class="co"># creating loop</span></span>
+<span id="cb8-8"><a href="basic-r.html#cb8-8" aria-hidden="true" tabindex="-1"></a>    numberless <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&#39;[[:digit:]]+&#39;</span>, <span class="st">&#39;&#39;</span>, word)  <span class="co"># removing numbers</span></span>
+<span id="cb8-9"><a href="basic-r.html#cb8-9" aria-hidden="true" tabindex="-1"></a>    final_word_list <span class="ot">&lt;-</span> <span class="fu">c</span>(final_word_list, numberless)  <span class="co"># adding to a final list</span></span>
+<span id="cb8-10"><a href="basic-r.html#cb8-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-11"><a href="basic-r.html#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(final_word_list) <span class="co"># show list at the end</span></span>
+<span id="cb8-12"><a href="basic-r.html#cb8-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-13"><a href="basic-r.html#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="basic-r.html#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Executing function</span></span>
+<span id="cb8-15"><a href="basic-r.html#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="fu">rem_num</span>(<span class="at">list_of_words =</span> my_list)</span></code></pre></div>
+<pre><code>## [1] &quot;Water&quot; &quot;Fire&quot;  &quot;Earth&quot; &quot;Wind&quot;</code></pre>
+</div>
+<div id="objects" class="section level2 hasAnchor" number="2.11">
+<h2><span class="header-section-number">2.11</span> Objects<a href="basic-r.html#objects" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In R you can create objects.
+This can be any type of classes we discussed above.
+Your object can be a letter, a number, a word, a mix of letters and numbers, a dataframe, a vectors, a list, multiple lists, multiple data frames, you name it.
+If your object contains multiple things, it becomes a list.
+Objects, when created, appear in your Environment panel (top right).
+To create an object you must give it a name and then you use <code>&lt;-</code> followed by whatever you want to make an object.<br />
+For instance:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="basic-r.html#cb10-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb10-2"><a href="basic-r.html#cb10-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="st">&#39;Hi&#39;</span></span>
+<span id="cb10-3"><a href="basic-r.html#cb10-3" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="st">&#39;Hi&#39;</span>, <span class="fl">3.5</span>)</span>
+<span id="cb10-4"><a href="basic-r.html#cb10-4" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="st">&#39;Name&#39;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&#39;Ana&#39;</span>,<span class="st">&#39;João&#39;</span>,<span class="st">&#39;Pedro&#39;</span>), <span class="st">&#39;Age&#39;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">40</span>, <span class="dv">19</span>))</span></code></pre></div>
+</div>
+<div id="combinations" class="section level2 hasAnchor" number="2.12">
+<h2><span class="header-section-number">2.12</span> Combinations<a href="basic-r.html#combinations" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In R, as you’ve seen above, you can use combinations and attribute these combinations to a variable.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="basic-r.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a combination with multiple items.</span></span>
+<span id="cb11-2"><a href="basic-r.html#cb11-2" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="st">&#39;Hi&#39;</span>, <span class="fl">3.5</span>)</span>
+<span id="cb11-3"><a href="basic-r.html#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="basic-r.html#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Asking the mean of that set of items.</span></span>
+<span id="cb11-5"><a href="basic-r.html#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>))</span></code></pre></div>
+<pre><code>## [1] 3.5</code></pre>
+</div>
+<div id="subsetting" class="section level2 hasAnchor" number="2.13">
+<h2><span class="header-section-number">2.13</span> Subsetting<a href="basic-r.html#subsetting" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>When you have complex objects (not just a single entry object) you can use subset to select only a specific part of said object.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="basic-r.html#cb13-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;apples&#39;</span>,<span class="st">&#39;bananas&#39;</span>,<span class="st">&#39;carrots&#39;</span>,<span class="st">&#39;oranges&#39;</span>,<span class="st">&#39;strawberry&#39;</span>)</span>
+<span id="cb13-2"><a href="basic-r.html#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="basic-r.html#cb13-3" aria-hidden="true" tabindex="-1"></a>a[<span class="dv">1</span>]   <span class="co"># selects first entry</span></span></code></pre></div>
+<pre><code>## [1] &quot;apples&quot;</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="basic-r.html#cb15-1" aria-hidden="true" tabindex="-1"></a>a[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)]  <span class="co"># selects entries 2 and 3</span></span></code></pre></div>
+<pre><code>## [1] &quot;bananas&quot; &quot;carrots&quot;</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="basic-r.html#cb17-1" aria-hidden="true" tabindex="-1"></a>a[<span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>]  <span class="co"># selects entry 3 to entry 5</span></span></code></pre></div>
+<pre><code>## [1] &quot;carrots&quot;    &quot;oranges&quot;    &quot;strawberry&quot;</code></pre>
+</div>
+<div id="ifs-and-whiles" class="section level2 hasAnchor" number="2.14">
+<h2><span class="header-section-number">2.14</span> Ifs and Whiles<a href="basic-r.html#ifs-and-whiles" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><code>if()</code>, as well as <code>while()</code>, functions are really basic functions in programming languages, that allow you to iterate certain actions (i.e., perform an action multiple times).
+They are written, and mean, the following:</p>
+<p><strong>If function</strong></p>
+<p>if (condition){</p>
+<p>perform_this # if true</p>
+<p>} else {</p>
+<p>perform_that # if false</p>
+<p>}</p>
+<p><strong>While function</strong></p>
+<p>while (condition){</p>
+<p>perform_this</p>
+<p>}</p>
+<p>Here are just a few basic examples for you to get an idea.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="basic-r.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First example</span></span>
+<span id="cb19-2"><a href="basic-r.html#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="dv">3</span> <span class="sc">&gt;</span> <span class="dv">2</span>){</span>
+<span id="cb19-3"><a href="basic-r.html#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&#39;True&#39;</span>)</span>
+<span id="cb19-4"><a href="basic-r.html#cb19-4" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb19-5"><a href="basic-r.html#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&#39;False&#39;</span>)</span>
+<span id="cb19-6"><a href="basic-r.html#cb19-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## [1] &quot;True&quot;</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="basic-r.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Second example</span></span>
+<span id="cb21-2"><a href="basic-r.html#cb21-2" aria-hidden="true" tabindex="-1"></a>my_list <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&#39;orange&#39;</span>, <span class="st">&#39;banana&#39;</span>, <span class="st">&#39;apple&#39;</span>)</span>
+<span id="cb21-3"><a href="basic-r.html#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="basic-r.html#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (my_list[<span class="dv">2</span>] <span class="sc">==</span> <span class="st">&#39;apple&#39;</span>){</span>
+<span id="cb21-5"><a href="basic-r.html#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&#39;The second item in the list is apple!&#39;</span>)</span>
+<span id="cb21-6"><a href="basic-r.html#cb21-6" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span> (my_list[<span class="dv">2</span>] <span class="sc">==</span> <span class="st">&#39;orange&#39;</span>){</span>
+<span id="cb21-7"><a href="basic-r.html#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&#39;The second item in the list is orange!&#39;</span>)</span>
+<span id="cb21-8"><a href="basic-r.html#cb21-8" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb21-9"><a href="basic-r.html#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&#39;The second item in the list must be banana!&#39;</span>)</span>
+<span id="cb21-10"><a href="basic-r.html#cb21-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## [1] &quot;The second item in the list must be banana!&quot;</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="basic-r.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Third example</span></span>
+<span id="cb23-2"><a href="basic-r.html#cb23-2" aria-hidden="true" tabindex="-1"></a>my_number <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb23-3"><a href="basic-r.html#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="basic-r.html#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span>(my_number <span class="sc">&lt;</span> <span class="dv">5</span>){</span>
+<span id="cb23-5"><a href="basic-r.html#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&#39;My current number is lower than 5&#39;</span>)</span>
+<span id="cb23-6"><a href="basic-r.html#cb23-6" aria-hidden="true" tabindex="-1"></a>  my_number <span class="ot">&lt;-</span> my_number <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb23-7"><a href="basic-r.html#cb23-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## [1] &quot;My current number is lower than 5&quot;
+## [1] &quot;My current number is lower than 5&quot;
+## [1] &quot;My current number is lower than 5&quot;
+## [1] &quot;My current number is lower than 5&quot;
+## [1] &quot;My current number is lower than 5&quot;</code></pre>
+</div>
+<div id="functions" class="section level2 hasAnchor" number="2.15">
+<h2><span class="header-section-number">2.15</span> Functions<a href="basic-r.html#functions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A function is a set of statements (commands) organized in a way to perform a task.
+R, for instance, already has a large number of in-built functions (for instance, <code>mean(c(5, 10, 15))</code> is a function).
+The cool thing, however, is that, as with other programming languages, we can build our own function.
+The function takes a set of arguments and performs actions over that argument and output something (if we want).<br />
+Its general structure is as follows:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="basic-r.html#cb25-1" aria-hidden="true" tabindex="-1"></a>function_name <span class="ot">&lt;-</span> <span class="cf">function</span>(arg_1, arg_2, ...){</span>
+<span id="cb25-2"><a href="basic-r.html#cb25-2" aria-hidden="true" tabindex="-1"></a>   actions and commands</span>
+<span id="cb25-3"><a href="basic-r.html#cb25-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Here are a few examples.
+Lets say we want to create a function that tells us the square root of our input.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="basic-r.html#cb26-1" aria-hidden="true" tabindex="-1"></a>square_function <span class="ot">&lt;-</span> <span class="cf">function</span>(number_to_be_squared){</span>
+<span id="cb26-2"><a href="basic-r.html#cb26-2" aria-hidden="true" tabindex="-1"></a>  final_number <span class="ot">&lt;-</span> (number_to_be_squared)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb26-3"><a href="basic-r.html#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(final_number)</span>
+<span id="cb26-4"><a href="basic-r.html#cb26-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb26-5"><a href="basic-r.html#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="basic-r.html#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Now lets call the function</span></span>
+<span id="cb26-7"><a href="basic-r.html#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="fu">square_function</span>(<span class="at">number_to_be_squared =</span> <span class="dv">9</span>)</span></code></pre></div>
+<pre><code>## [1] 81</code></pre>
+<p>Functions can also be called without arguments.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="basic-r.html#cb28-1" aria-hidden="true" tabindex="-1"></a>arg_less <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb28-2"><a href="basic-r.html#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&#39;Just print this&#39;</span>)</span>
+<span id="cb28-3"><a href="basic-r.html#cb28-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb28-4"><a href="basic-r.html#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="basic-r.html#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu">arg_less</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;Just print this&quot;</code></pre>
+<p>They can also have multiple inputs</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="basic-r.html#cb30-1" aria-hidden="true" tabindex="-1"></a>mult_fun <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b, c){</span>
+<span id="cb30-2"><a href="basic-r.html#cb30-2" aria-hidden="true" tabindex="-1"></a>  output <span class="ot">&lt;-</span> a <span class="sc">+</span> b<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="fu">sqrt</span>(c)</span>
+<span id="cb30-3"><a href="basic-r.html#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(output)</span>
+<span id="cb30-4"><a href="basic-r.html#cb30-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb30-5"><a href="basic-r.html#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="basic-r.html#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mult_fun</span>(<span class="at">a =</span> <span class="dv">1</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">c =</span> <span class="dv">5</span>)</span></code></pre></div>
+<pre><code>## [1] 7.236068</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="basic-r.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Or simply</span></span>
+<span id="cb32-2"><a href="basic-r.html#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co"># mult_fun(1, 2, 5)</span></span></code></pre></div>
+</div>
+<div id="packages" class="section level2 hasAnchor" number="2.16">
+<h2><span class="header-section-number">2.16</span> Packages<a href="basic-r.html#packages" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>There are over 9000 packages.
+There are packages for nearly everything you want to do.
+These packages add new functions to R.</p>
+<p>You have <em>base packages</em> (already installed, but not loaded) and <em>contributed packages</em> (need to be installed and loaded).</p>
+<p>You can install the latter by using the following command <code>install.packages('package_name')</code> and call (load) packages with <code>library(package_name)</code>.<br />
+Most packages come from CRAN (Comprehensive R Archive Network, which is basically R’s house), thus all you need to write is that.</p>
+<p>However, if some packages come from github for instance you need to install the packages “devtools” (<code>install.packages('devtools')</code>) then load it (<code>library(devtools)</code>) and finally use <code>install_github("profile_name/repository")</code> to install the package.
+Usually if you google these packages they will have instructions on how to install them.</p>
+<p>You can also load and detach (remove package from your toolset for the time being) packages that you have already installed by going to the packages panel (bottom right) and searching and then selecting the package you want to load.</p>
+<p>In specific situations, particularly if you just want to use one function of a package, instead of loading the package you can simply write <code>package_name::function_name()</code>.
+R will just use that function from that package for that line in specific, but not load the package.</p>
+</div>
+<div id="shortcuts" class="section level2 hasAnchor" number="2.17">
+<h2><span class="header-section-number">2.17</span> Shortcuts<a href="basic-r.html#shortcuts" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Here follows a list of useful shortcuts.
+Note that these are the ones I can’t live without.
+There are plenty more, you just have to google them.</p>
+<ul>
+<li>Insert the pipe operator %&gt;% with Command + Shift + M on a Mac, or Ctrl + Shift + M on Linux and Windows.<br />
+</li>
+<li>Run the current line of code with Command + Enter on a Mac or Control + Enter on Linux and Windows.<br />
+</li>
+<li>Run all lines of code with Command + A + Enter on a Mac or Control + A + Enter on Linux and Windows.<br />
+</li>
+<li>Comment or un-comment lines with Command + Shift + C on a Mac or Control + Shift + C on Linux and Windows.</li>
+</ul>
+</div>
+<div id="chunk-settings" class="section level2 hasAnchor" number="2.18">
+<h2><span class="header-section-number">2.18</span> Chunk settings<a href="basic-r.html#chunk-settings" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>When using R Notebooks or R Markdown, you’ll work with code chunks, as explained already.
+One important thing to know is that these chunks are adjustable, and these adjustments are both easy to make and can come in handy when compiling your code.
+These adjustments are made on the top part of the chunk that is between <code>{}</code>.
+So for instance, in a normal chunk you have the top portion as “{r}”.
+The first parameter tells you which language you are coding in, which in this case is R.
+If you are wondering, yes you can change the setting to code in other languages depending if you have them installed and configured with RStudio (e.g., “<code>{python}</code>”).
+Besides the language, you can change plenty of parameters.
+They have to be separated only by commas.
+Below are some brief examples of the ones I most commonly use (all of which, except “fig.width” and “fig.height” are defaulted to TRUE if you don’t set them):</p>
+<ol style="list-style-type: decimal">
+<li><code>include = FALSE</code> : Runs the code, but does not include the code and the results in the finished file.</li>
+<li><code>echo = FALSE</code> : Runs the code, but does not include the code in the finished file (but it includes the results).</li>
+<li><code>message = FALSE</code> : Prevents messages generated by the code from appearing.</li>
+<li><code>warning = FALSE</code> : Prevents warnings generated by the code from appearing.</li>
+<li><code>fig.width = "width_in_pix"</code> and <code>fig.height = "height_in_pix"</code> : Set the width and height of the picture/plot.</li>
+</ol>
+<p>For more details go to: <a href="https://rmarkdown.rstudio.com/lesson-3.html" class="uri">https://rmarkdown.rstudio.com/lesson-3.html</a></p>
+</div>
+<div id="code-completion" class="section level2 hasAnchor" number="2.19">
+<h2><span class="header-section-number">2.19</span> Code completion<a href="basic-r.html#code-completion" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>When you begin to type, R will pop up suggestions as to what you want to write.
+These can be names of functions, variables or data frames for example.
+You can press TAB to select and let R auto-fill or just click on it with your mouse.</p>
+</div>
+<div id="other-useful-features" class="section level2 hasAnchor" number="2.20">
+<h2><span class="header-section-number">2.20</span> Other useful features<a href="basic-r.html#other-useful-features" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Pressing CTRL + F will open up the find/replace menu at the top of your script screen.
+This can be immensely useful for you to find, and specially, replace lots of things within a portion (the portion you have selected) or the whole code (if you have no code selected).</p>
+</div>
+<div id="getting-help" class="section level2 hasAnchor" number="2.21">
+<h2><span class="header-section-number">2.21</span> Getting help<a href="basic-r.html#getting-help" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>To get help you have several options, which depend a lot on which type of help you need.<br />
+If you want to know what arguments a functions requires, you can write its name and, and having your writing bar inside the “()” press TAB.</p>
+<p>If you need generic help about a function - what arguments go where, or, for instance, what does “na.rm” mean in that function - you can use the command <code>?function_name()</code> in which “function_name” is the name of your function.
+This will pop up a help menu regarding that function that will appear on your help panel (bottom right).
+You can also click “F1” while your cursor is over the function name.
+Depending on the function and its respective documentation this help can either be good or poor.</p>
+<p>If you need further help, or need help in problems that are not just concerned about a single function, you will want an internet connection.
+Having google searching skills will help lots with your R programming.<br />
+A few notes and advices:<br />
+- Search your problem using English language.<br />
+- Search your problem in a generic way using proper searching language (don’t write sentences, write the most relevant words of the problem).<br />
+- If its an error just post the error message on google.</p>
+<p>Don’t be afraid or let down if you need to use google to help you with stuff you learned but just don’t remember.
+Its normal, trust me.</p>
+</div>
+<div id="further-reading" class="section level2 hasAnchor" number="2.22">
+<h2><span class="header-section-number">2.22</span> Further reading<a href="basic-r.html#further-reading" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Need a more in-depth fundamentals of R?
+See the links below:<br />
+<a href="https://www.evamariakiss.de/tutorial/r/" class="uri">https://www.evamariakiss.de/tutorial/r/</a></p>
+<p><a href="https://www.youtube.com/watch?v=_V8eKsto3Ug&amp;ab_channel=freeCodeCamp.org" class="uri">https://www.youtube.com/watch?v=_V8eKsto3Ug&amp;ab_channel=freeCodeCamp.org</a></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="r---dealing-with-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-Chapter1.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

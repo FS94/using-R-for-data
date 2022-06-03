@@ -1,0 +1,33 @@
+---
+title: "Usefulness of R for managing data"
+author: "Fábio A. Silva"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography:
+- book.bib
+- packages.bib
+description: |
+  This is a minimal example of using the bookdown package to write a book.
+  set in the _output.yml file.
+  The HTML output format for this example is bookdown::gitbook,
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+---
+
+# Introduction
+
+This is a guide on R and its role in basic data manipulation.
+It requires no prior experience/knowledge in R.
+
+Currently, it is divided into 3 chapters.
+
+-   **Chapter 1** will introduce you to R and provide you the basic programming tools, alongside other useful tips, to help you navigate R.
+
+-   **Chapter 2** will introduce you to data management tools.
+
+-   **Chapter 3** will introduce you to a more practical example of data exploration, emphasizing plot building.
+
+In the future I plan to further elaborate on this guide, but for now I think its good enough for most people to get a picture on what R is, why you should use it, as well as, of course, how to use it.
+
+I hope you learn something and find this guide useful.
