@@ -361,12 +361,6 @@ mult_fun(a = 1, b = 2, c = 5)
 
 ## Packages
 
-```{r}
-install.packages("apaTables")
-library(apaTables)
-```
-
-
 There are over 9000 packages.
 There are packages for nearly everything you want to do.
 These packages add new functions to R.
