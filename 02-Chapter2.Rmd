@@ -66,7 +66,7 @@ There's several ways of doing this such as `head(df)` or some others I'm not rec
 Lets see bellow.
 
 ```{r, eval = FALSE}
-head(mydata)  
+head(mydata)
 
 # you can add a "," and say the number of rows you want to preview
 head(mydata, 10) 
@@ -129,8 +129,7 @@ import_data <- function(file_name){
 }
 
 # Running function
-import_data(file_name = list_of_files) 
-
+import_data(file_name = list_of_files)
 ```
 
 ## Merging
@@ -217,7 +216,7 @@ Be sure thought, that this data has the same structure (e.g., number of columns,
 
 We can also do the same thing as above, but instead create a ".csv" file.
 
-`write.csv(x = df, file = 'namewewant.txt')`
+`write.csv(x = df, file = 'namewewant.csv')`
 
 As an example, lets export the dataframe we created in the chunks above.
 Note that if we don't specify the path along with the name of the file to be created, R will save the file to the current working directory.

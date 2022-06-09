@@ -1,6 +1,6 @@
 ---
-editor_options: 
-  markdown: 
+editor_options:
+  markdown:
     wrap: sentence
 ---
 
@@ -134,9 +134,14 @@ There are 3 basic types of classes, built-in (different functions can use more),
 These are:
 
 -   *character*: Strings (words), such as `"hello"` or `"hi123"`.\
+
 -   *numeric*: Any type of number, such as `2`or `30.4`.\
--   *logical*: The true or false values. `TRUE` or `FALSE`.
--   *date*: In a date format. Can be converted from different types (e.g., `2007-11-11`, `2jan1960`)
+
+-   *logical*: The true or false values.
+    `TRUE` or `FALSE`.
+
+-   *date*: In a date format.
+    Can be converted from different types (e.g., `2007-11-11`, `2jan1960`)
 
 You can ask R about what type of object it is by using the `class(object)` command or the `typeof(object)`
 
@@ -154,7 +159,6 @@ The ones worth talking about here are:
 my_list <- list('Potatoes', TRUE, 15, c('Strawberry', 1000))
 # or
 my_list <- list(ingredients = c('Strawberry', 'Milk', 'Coffee'), type = 'Milkshake', rating = 10)
-
 ```
 
 -   *matrix*: are like tables.
@@ -221,7 +225,8 @@ For instance:
 ```{r}
 a <- 1
 b <- 'Hi'
-c <- c(1, 'Hi', 3.5)
+y <- c(1, 'Hi', 3.5)
+y <- c(5, 6)
 d <- data.frame('Name' = c('Ana','João','Pedro'), 'Age' = c(25, 40, 19))
 ```
 
@@ -356,6 +361,12 @@ mult_fun(a = 1, b = 2, c = 5)
 
 ## Packages
 
+```{r}
+install.packages("apaTables")
+library(apaTables)
+```
+
+
 There are over 9000 packages.
 There are packages for nearly everything you want to do.
 These packages add new functions to R.
@@ -379,10 +390,12 @@ Here follows a list of useful shortcuts.
 Note that these are the ones I can't live without.
 There are plenty more, you just have to google them.
 
--   Insert the pipe operator %\>% with Command + Shift + M on a Mac, or Ctrl + Shift + M on Linux and Windows.\
--   Run the current line of code with Command + Enter on a Mac or Control + Enter on Linux and Windows.\
--   Run all lines of code with Command + A + Enter on a Mac or Control + A + Enter on Linux and Windows.\
--   Comment or un-comment lines with Command + Shift + C on a Mac or Control + Shift + C on Linux and Windows.
+-   **Insert the pipe operator (%\>%)**: Command + Shift + M on a Mac, or Ctrl + Shift + M on Linux and Windows.\
+-   **Run the current line of code**: Command + Enter on a Mac or Control + Enter on Linux and Windows.\
+-   **Run all lines of code**: Command + A + Enter on a Mac or Control + A + Enter on Linux and Windows.\
+-   **Comment or un-comment lines**: Command + Shift + C on a Mac or Control + Shift + C on Linux and Windows.\
+-   **Insert a new code chunk**: Command + Option + I on a Mac or Control + Alt + I on a Linx and Windows.\
+
 
 ## Chunk settings
 
@@ -410,10 +423,12 @@ When you begin to type, R will pop up suggestions as to what you want to write.
 These can be names of functions, variables or data frames for example.
 You can press TAB to select and let R auto-fill or just click on it with your mouse.
 
+
 ## Other useful features
 
 Pressing CTRL + F will open up the find/replace menu at the top of your script screen.
 This can be immensely useful for you to find, and specially, replace lots of things within a portion (the portion you have selected) or the whole code (if you have no code selected).
+
 
 ## Getting help
 
@@ -430,7 +445,7 @@ Having google searching skills will help lots with your R programming.\
 A few notes and advices:\
 - Search your problem using English language.\
 - Search your problem in a generic way using proper searching language (don't write sentences, write the most relevant words of the problem).\
-- If its an error just post the error message on google.
+- If its an error just post the error message on google.\
 
 Don't be afraid or let down if you need to use google to help you with stuff you learned but just don't remember.
 Its normal, trust me.
