@@ -8,7 +8,7 @@
   <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
 set in the _output.yml file.
 The HTML output format for this example is bookdown::gitbook,</p>" />
-  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 4 Exploratory Data Analysis (EDA) | Usefulness of R for managing data" />
   <meta property="og:type" content="book" />
@@ -29,7 +29,7 @@ The HTML output format for this example is bookdown::gitbook,</p>" />
 <meta name="author" content="Fábio A. Silva" />
 
 
-<meta name="date" content="2022-06-09" />
+<meta name="date" content="2022-06-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -510,7 +510,7 @@ Here are a few examples that I took from a quick google search:</p>
 <div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="exploratory-data-analysis-eda.html#cb166-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
 <span id="cb166-2"><a href="exploratory-data-analysis-eda.html#cb166-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_shadow_upset</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb166-3"><a href="exploratory-data-analysis-eda.html#cb166-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">upset</span>()</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-78-1.png" width="672" /></p>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-78-1.png" width="672" /></p>
 <div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="exploratory-data-analysis-eda.html#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternative n2</span></span>
 <span id="cb167-2"><a href="exploratory-data-analysis-eda.html#cb167-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(visdat)</span></code></pre></div>
 <pre><code>## Warning: package &#39;visdat&#39; was built under R version 4.1.3</code></pre>
@@ -519,7 +519,7 @@ Here are a few examples that I took from a quick google search:</p>
 ## Please use `gather()` instead.
 ## This warning is displayed once every 8 hours.
 ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</code></pre>
-<p><img src="_main_files/figure-html/unnamed-chunk-78-2.png" width="672" /></p>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-78-2.png" width="672" /></p>
 <p>Now, we need to decide what to do with these NA values.
 We can see below that two penguins have data missing from their base features (e.g., culmen_lenght and body_mass).
 Also, a few of them don’t have information regarding sex.
@@ -718,7 +718,7 @@ Only requires one variable.</p></li>
 <span id="cb189-3"><a href="exploratory-data-analysis-eda.html#cb189-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(species)) <span class="sc">+</span></span>
 <span id="cb189-4"><a href="exploratory-data-analysis-eda.html#cb189-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">&#39;darkgreen&#39;</span>, <span class="at">color =</span> <span class="st">&#39;black&#39;</span>, <span class="at">size =</span> <span class="dv">2</span>, <span class="at">width =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
 <span id="cb189-5"><a href="exploratory-data-analysis-eda.html#cb189-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-91-1.png" width="672" /></p>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-91-1.png" width="672" /></p>
 <p>Now regarding <code>geom_col</code> and the more typical use of showing means.
 You have two ways of doing it, either:</p>
 <ol style="list-style-type: decimal">
@@ -737,7 +737,7 @@ You have two ways of doing it, either:</p>
 <span id="cb190-9"><a href="exploratory-data-analysis-eda.html#cb190-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&#39;Plot with Means: Method 1&#39;</span>)</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;species&#39;. You can override using the
 ## `.groups` argument.</code></pre>
-<p><img src="_main_files/figure-html/unnamed-chunk-92-1.png" width="672" /></p>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-92-1.png" width="672" /></p>
 <div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="exploratory-data-analysis-eda.html#cb192-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2.</span></span>
 <span id="cb192-2"><a href="exploratory-data-analysis-eda.html#cb192-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
 <span id="cb192-3"><a href="exploratory-data-analysis-eda.html#cb192-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(species, body_mass, <span class="at">fill =</span> sex)) <span class="sc">+</span></span>
@@ -746,7 +746,7 @@ You have two ways of doing it, either:</p>
 <span id="cb192-6"><a href="exploratory-data-analysis-eda.html#cb192-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">6</span>)) <span class="sc">+</span></span>
 <span id="cb192-7"><a href="exploratory-data-analysis-eda.html#cb192-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
 <span id="cb192-8"><a href="exploratory-data-analysis-eda.html#cb192-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&#39;Plot with Means: Method 2&#39;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-92-2.png" width="672" /></p>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-92-2.png" width="672" /></p>
 </div>
 <div id="boxplots" class="section level3 hasAnchor" number="4.5.3">
 <h3><span class="header-section-number">4.5.3</span> Boxplots<a href="exploratory-data-analysis-eda.html#boxplots" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -760,7 +760,7 @@ Below I introduce you the standard box plot, while also showing you other layers
 <span id="cb193-5"><a href="exploratory-data-analysis-eda.html#cb193-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> .<span class="dv">1</span>) <span class="sc">+</span></span>
 <span id="cb193-6"><a href="exploratory-data-analysis-eda.html#cb193-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">alpha =</span> .<span class="dv">25</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span>  <span class="co"># the alpha parameter models transparency (ranges from 0 to 1)</span></span>
 <span id="cb193-7"><a href="exploratory-data-analysis-eda.html#cb193-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-93-1.png" width="672" /></p>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-93-1.png" width="672" /></p>
 </div>
 <div id="density" class="section level3 hasAnchor" number="4.5.4">
 <h3><span class="header-section-number">4.5.4</span> Density<a href="exploratory-data-analysis-eda.html#density" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -774,7 +774,7 @@ You just need to point out the variable name, in this case we will look at “bo
 <span id="cb194-6"><a href="exploratory-data-analysis-eda.html#cb194-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">&#39;Species&#39;</span>, </span>
 <span id="cb194-7"><a href="exploratory-data-analysis-eda.html#cb194-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&#39;Body mass distributions across Species&#39;</span>) <span class="sc">+</span></span>
 <span id="cb194-8"><a href="exploratory-data-analysis-eda.html#cb194-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Dark2&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-94-1.png" width="672" /></p>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-94-1.png" width="672" /></p>
 </div>
 <div id="facets" class="section level3 hasAnchor" number="4.5.5">
 <h3><span class="header-section-number">4.5.5</span> Facets<a href="exploratory-data-analysis-eda.html#facets" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -792,7 +792,7 @@ In this case since we want to compare them directly, I think its best if they ar
 <span id="cb195-7"><a href="exploratory-data-analysis-eda.html#cb195-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&#39;Body mass distributions across Species&#39;</span>) <span class="sc">+</span></span>
 <span id="cb195-8"><a href="exploratory-data-analysis-eda.html#cb195-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Dark2&quot;</span>) <span class="sc">+</span></span>
 <span id="cb195-9"><a href="exploratory-data-analysis-eda.html#cb195-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>sex, <span class="at">scales =</span> <span class="st">&#39;fixed&#39;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-95-1.png" width="672" /></p>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-95-1.png" width="672" /></p>
 </div>
 <div id="coord-flip" class="section level3 hasAnchor" number="4.5.6">
 <h3><span class="header-section-number">4.5.6</span> Coord flip<a href="exploratory-data-analysis-eda.html#coord-flip" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -805,7 +805,7 @@ Here’s an example.</p>
 <span id="cb196-4"><a href="exploratory-data-analysis-eda.html#cb196-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
 <span id="cb196-5"><a href="exploratory-data-analysis-eda.html#cb196-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>species, <span class="at">ncol =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
 <span id="cb196-6"><a href="exploratory-data-analysis-eda.html#cb196-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-96-1.png" width="672" /></p>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-96-1.png" width="672" /></p>
 </div>
 <div id="correlation-plots" class="section level3 hasAnchor" number="4.5.7">
 <h3><span class="header-section-number">4.5.7</span> Correlation plots<a href="exploratory-data-analysis-eda.html#correlation-plots" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -817,7 +817,7 @@ Here’s a way to do it:</p>
 <span id="cb197-3"><a href="exploratory-data-analysis-eda.html#cb197-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor</span>()</span>
 <span id="cb197-4"><a href="exploratory-data-analysis-eda.html#cb197-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb197-5"><a href="exploratory-data-analysis-eda.html#cb197-5" aria-hidden="true" tabindex="-1"></a>corrplot<span class="sc">::</span><span class="fu">corrplot</span>(correlations, <span class="at">method =</span> <span class="st">&#39;number&#39;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-97-1.png" width="672" /></p>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-97-1.png" width="672" /></p>
 <p>We can additionally separate this correlations by specie.
 For that we can use the function <code>ggpairs()</code> from the <code>GGally</code> package.</p>
 <div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="exploratory-data-analysis-eda.html#cb198-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
@@ -830,7 +830,7 @@ For that we can use the function <code>ggpairs()</code> from the <code>GGally</c
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="_main_files/figure-html/unnamed-chunk-98-1.png" width="672" /></p>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-98-1.png" width="672" /></p>
 <p>When you want to assess something more specific you can use a point plot.
 Point plots allow us to see how two numeric variables correlate with each other.
 In this example we explore how bill length and flipper length might be correlated, within each species.</p>
@@ -843,7 +843,7 @@ In this example we explore how bill length and flipper length might be correlate
 <span id="cb201-7"><a href="exploratory-data-analysis-eda.html#cb201-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">&#39;Species&#39;</span>, <span class="at">shape =</span> <span class="st">&#39;Species&#39;</span>,</span>
 <span id="cb201-8"><a href="exploratory-data-analysis-eda.html#cb201-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&#39;Correlation between Flipper Length and Bill Length&#39;</span>) <span class="sc">+</span></span>
 <span id="cb201-9"><a href="exploratory-data-analysis-eda.html#cb201-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Dark2&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-99-1.png" width="672" /></p>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-99-1.png" width="672" /></p>
 </div>
 <div id="multiplots" class="section level3 hasAnchor" number="4.5.8">
 <h3><span class="header-section-number">4.5.8</span> Multiplots<a href="exploratory-data-analysis-eda.html#multiplots" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -873,10 +873,10 @@ Here’s how to do it:</p>
 <pre><code>## `summarise()` has grouped output by &#39;species&#39;. You can override using the
 ## `.groups` argument.</code></pre>
 <div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="exploratory-data-analysis-eda.html#cb206-1" aria-hidden="true" tabindex="-1"></a>Rmisc<span class="sc">::</span><span class="fu">multiplot</span>(d15_plot, d13_plot)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-100-1.png" width="672" /></p>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-100-1.png" width="672" /></p>
 <div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="exploratory-data-analysis-eda.html#cb207-1" aria-hidden="true" tabindex="-1"></a><span class="co"># or</span></span>
 <span id="cb207-2"><a href="exploratory-data-analysis-eda.html#cb207-2" aria-hidden="true" tabindex="-1"></a>Rmisc<span class="sc">::</span><span class="fu">multiplot</span>(d15_plot, d13_plot, <span class="at">cols =</span> <span class="dv">2</span>)  <span class="co"># the cols parameter establishes the number of columns in the plot matrix</span></span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-100-2.png" width="672" /></p>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-100-2.png" width="672" /></p>
 </div>
 <div id="date-1" class="section level3 hasAnchor" number="4.5.9">
 <h3><span class="header-section-number">4.5.9</span> Date<a href="exploratory-data-analysis-eda.html#date-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -888,7 +888,7 @@ Since I found a pattern, showing that these collection took place between Novemb
 <span id="cb208-2"><a href="exploratory-data-analysis-eda.html#cb208-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
 <span id="cb208-3"><a href="exploratory-data-analysis-eda.html#cb208-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(date_egg)) <span class="sc">+</span></span>
 <span id="cb208-4"><a href="exploratory-data-analysis-eda.html#cb208-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-101-1.png" width="672" /></p>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-101-1.png" width="672" /></p>
 <div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="exploratory-data-analysis-eda.html#cb209-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Transformed plot</span></span>
 <span id="cb209-2"><a href="exploratory-data-analysis-eda.html#cb209-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
 <span id="cb209-3"><a href="exploratory-data-analysis-eda.html#cb209-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">DateBlock =</span> <span class="fu">case_when</span>(  <span class="co"># creating a new column that identifies which year that data bellongs to</span></span>
@@ -900,7 +900,7 @@ Since I found a pattern, showing that these collection took place between Novemb
 <span id="cb209-9"><a href="exploratory-data-analysis-eda.html#cb209-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">&#39;lightblue&#39;</span>, <span class="at">color =</span> <span class="st">&#39;black&#39;</span>) <span class="sc">+</span> </span>
 <span id="cb209-10"><a href="exploratory-data-analysis-eda.html#cb209-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>DateBlock, <span class="at">scales =</span> <span class="st">&#39;free_x&#39;</span>) <span class="sc">+</span></span>
 <span id="cb209-11"><a href="exploratory-data-analysis-eda.html#cb209-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-101-2.png" width="672" /></p>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-101-2.png" width="672" /></p>
 </div>
 <div id="ordering-factors" class="section level3 hasAnchor" number="4.5.10">
 <h3><span class="header-section-number">4.5.10</span> Ordering factors<a href="exploratory-data-analysis-eda.html#ordering-factors" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -919,7 +919,7 @@ But lets say instead, we want to reorder the x-axis in a descending order accord
 <span id="cb210-7"><a href="exploratory-data-analysis-eda.html#cb210-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">&#39;bar&#39;</span>, <span class="at">width=</span>.<span class="dv">75</span>, <span class="at">fill =</span> <span class="st">&#39;tomato1&#39;</span>, <span class="at">color =</span> <span class="st">&#39;black&#39;</span>) <span class="sc">+</span>  <span class="co"># plotting the mean</span></span>
 <span id="cb210-8"><a href="exploratory-data-analysis-eda.html#cb210-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">10</span>, <span class="at">vjust =</span> <span class="fl">0.6</span>)) <span class="sc">+</span><span class="co"># just to show the x-axis text better</span></span>
 <span id="cb210-9"><a href="exploratory-data-analysis-eda.html#cb210-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>))</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-102-1.png" width="672" /></p>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-102-1.png" width="672" /></p>
 <div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="exploratory-data-analysis-eda.html#cb211-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reordered plot</span></span>
 <span id="cb211-2"><a href="exploratory-data-analysis-eda.html#cb211-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
 <span id="cb211-3"><a href="exploratory-data-analysis-eda.html#cb211-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">%&gt;%</span> </span>
@@ -929,7 +929,7 @@ But lets say instead, we want to reorder the x-axis in a descending order accord
 <span id="cb211-7"><a href="exploratory-data-analysis-eda.html#cb211-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">&#39;bar&#39;</span>, <span class="at">width=</span>.<span class="dv">75</span>, <span class="at">fill =</span> <span class="st">&#39;tomato1&#39;</span>, <span class="at">color =</span> <span class="st">&#39;black&#39;</span>) <span class="sc">+</span>  <span class="co"># plotting the mean</span></span>
 <span id="cb211-8"><a href="exploratory-data-analysis-eda.html#cb211-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">10</span>, <span class="at">vjust =</span> <span class="fl">0.6</span>)) <span class="sc">+</span> <span class="co"># just to show the x-axis text better</span></span>
 <span id="cb211-9"><a href="exploratory-data-analysis-eda.html#cb211-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>))</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-102-2.png" width="672" /></p>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-102-2.png" width="672" /></p>
 </div>
 </div>
 <div id="end-1" class="section level2 hasAnchor" number="4.6">
@@ -985,7 +985,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["_main.pdf", "_main.epub"],
+"download": ["using_r_data.pdf", "using_r_data.epub"],
 "search": {
 "engine": "fuse",
 "options": null

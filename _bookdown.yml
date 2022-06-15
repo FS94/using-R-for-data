@@ -4,3 +4,4 @@ language:
     chapter_name: "Chapter "
 rmd_subdir: ["data"]
 output_dir: "docs"
+book_filename: "using_r_data"
