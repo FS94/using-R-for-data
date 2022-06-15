@@ -559,13 +559,15 @@ df <- iris
 
 # Replacing for just 1 condition.
 df %>% 
-  mutate(SpeciesAlt = ifelse(Species == 'setosa', 'Specie1', Species))
+  mutate(SpeciesAlt = ifelse(Species == 'setosa', 'Specie1', Species)) %>% 
+  head()  # just to show the first 5 rows for the purpose of demonstration.
 
 # Replacing for 3 conditions (Gets a bit chaotic)
 df %>% 
   mutate(SpeciesAlt = ifelse(Species == 'setosa', 'Specie1', 
                              ifelse(Species == 'versicolor', 'Specie2',
-                                    ifelse(Species == 'virginica', 'Specie3', Species))))
+                                    ifelse(Species == 'virginica', 'Specie3', Species)))) %>% 
+  head()  # just to show the first 5 rows for the purpose of demonstration.
 ```
 
 As you can see, for changing just 1 Species, its quite easy and practical.
@@ -578,13 +580,15 @@ As a simpler alternative, when you deal with plenty of cases, you should use `re
 df %>% 
   mutate(SpeciesAlt = recode(Species, setosa = "Specie1",
                              versicolor = "Specie2", 
-                             virginica = 'Specie3'))
+                             virginica = 'Specie3')) %>% 
+  head()  # just to show the first 5 rows for the purpose of demonstration.
 
 
 # Recoding just 2 and giving all the rest the label "others"
 df %>% 
   mutate(SpeciesAlt = recode(Species, setosa = "Specie1",
-                             versicolor = "Specie2", .default = 'others'))
+                             versicolor = "Specie2", .default = 'others')) %>% 
+  head()  # just to show the first 5 rows for the purpose of demonstration.
 ```
 
 As an alternative (since it allows you to make more elaborate conditionals), you can use `case_when()`.
@@ -596,7 +600,8 @@ df %>%
     Species == 'setosa' ~ 'Specie1',
     Species == 'versicolor' ~ 'Specie2',
     Species == 'virginica' ~ 'Specie3'
-  ))
+  )) %>% 
+  head()  # just to show the first 5 rows for the purpose of demonstration.
 
 # Recoding just 2 and giving all the rest the label "others"
 df %>% 
@@ -604,7 +609,8 @@ df %>%
     Species == 'setosa' ~ 'Specie1',
     Species == 'versicolor' ~ 'Specie2',
     TRUE ~ 'others'
-  ))
+  )) %>% 
+  head()  # just to show the first 5 rows for the purpose of demonstration.
 ```
 
 ### Grouping and Summarizing
