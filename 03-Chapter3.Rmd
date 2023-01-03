@@ -37,7 +37,6 @@ P.s., `<dbl>` means a numerical value with decimal points.
 
 ```{r}
 str(penguins_raw)
-
 # You can also use glimpse() from the dplyr package
 # Or you can use the skim() function from the skimr package
 ```
@@ -171,6 +170,7 @@ Another thing that jumps to sight is the "stage" column, which appears to be tel
 Lets check.
 
 ```{r}
+table(penguins$stage)
 unique(penguins$stage)
 ```
 
@@ -188,6 +188,7 @@ We could just look at the `summary(penguins)`, or we could do this with other ba
 
 ```{r}
 sapply(penguins, function(x) sum(is.na(x)))
+
 apply(is.na(penguins), 2, sum)
 ```
 
@@ -233,6 +234,7 @@ Now for some final touches, I will transform the body mass column's units from g
 penguins <- penguins %>% 
   mutate(body_mass = body_mass_g/1000) %>% 
   mutate(body_mass_g = NULL)  # removing old column
+
 ```
 
 To finish this data cleaning, its important to point out that we could have just done everything in one go, as exemplified below.
@@ -287,7 +289,6 @@ penguins %>%
 ```
 
 What seem to be the main problems presented in the observation column?
-
 ```{r}
 penguins %>%
   filter(!is.na(comments)) %>% 
@@ -339,7 +340,7 @@ Otherwise I would recommend using `ggplot2`.
 It may seem complicated at first, but its actually quite simple.
 So every plot must start with a simple command:
 
-`ggplot2("dataframe", aes("data"))`
+`ggplot("dataframe", aes("data"))`
 
 In the first parameter you just tell the command which dataframe to use.
 Assuming your dataframe is labeled as "df" you can just the following:
@@ -381,7 +382,7 @@ So your general plot code for a simple bar plot should look something like:
 
 ```{r, eval = FALSE}
 ggplot(dataframe, aes(x = variable, y = variable2)) +
-  geom_bar()
+  geom_bar() 
 ```
 
 Lastly, you might want to specify other little details, such as the labels, the theme, the color scheme, etc.
@@ -466,7 +467,7 @@ penguins %>%
                color = 'black') +
   coord_cartesian(ylim = c(0, 6)) +
   theme_minimal() +
-  labs(title = 'Plot with Means: Method 2')
+  labs(title = 'Plot with Means: Method 2') +
 ```
 
 ### Boxplots
@@ -495,7 +496,7 @@ penguins %>%
   ggplot(aes(x = body_mass, fill = species)) + 
   geom_density(alpha = .5) +
   theme_minimal() +
-  labs(x = 'Body mass (g)', y = 'Density',
+  labs(x = 'Body mass (kg)', y = 'Density',
        fill = 'Species', 
        title = 'Body mass distributions across Species') +
   scale_color_brewer(palette = "Dark2")
@@ -564,7 +565,7 @@ Point plots allow us to see how two numeric variables correlate with each other.
 In this example we explore how bill length and flipper length might be correlated, within each species.
 
 ```{r}
-penguins %>% 
+plot_fixe <- penguins %>% 
   ggplot(aes(x = flipper_length_mm, y = culmen_length_mm, color = species, shape = species)) + 
   geom_point(aes(group = species), size = 1.7) +
   geom_smooth(aes(group = species), method = 'lm', alpha = .2, formula = 'y ~ x') + # adding a line based on linear regression
@@ -573,6 +574,7 @@ penguins %>%
        color = 'Species', shape = 'Species',
        title = 'Correlation between Flipper Length and Bill Length') +
   scale_color_brewer(palette = "Dark2")
+
 ```
 
 ### Multiplots
@@ -605,6 +607,7 @@ d13_plot <- penguins %>%
 Rmisc::multiplot(d15_plot, d13_plot)
 # or
 Rmisc::multiplot(d15_plot, d13_plot, cols = 2)  # the cols parameter establishes the number of columns in the plot matrix
+
 ```
 
 ### Date

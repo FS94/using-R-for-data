@@ -262,6 +262,7 @@ The symbols `$` lets you subset (select) columns of a dataframe really easily, i
 
 ```{r}
 df <- iris
+
 df$Sepal.Length
 ```
 
@@ -269,11 +270,11 @@ If you want more columns, you can use `[]`.
 By indicating `df[rows,columns]`.
 
 ```{r}
-df[ , 'Sepal.Length']  # just the "Sepal.Length]"
+df[, 'Sepal.Length']  # just the "Sepal.Length]"
 df[5, ]   # row 5 across all columns
 
 df[1, 'Sepal.Length']  # row 1 of the "Sepal.Length" column
-df[c(1:5), c('Sepal.Length', 'Sepal.Width')]  # row 1 to 5 from the Sepal.Length" and "Sepal.Width""
+df[c(1,4), c('Sepal.Length', 'Sepal.Width')]  # row 1 to 5 from the Sepal.Length" and "Sepal.Width""
 ```
 
 ### Columns
@@ -343,6 +344,8 @@ And we can create and transform the columns.
 ```{r}
 df <- iris
 
+
+
 df$Sepal_Area <- df$Sepal.Length * df$Sepal.Width  # Creating new variable with is the multiplication of the first 2.
 
 df$Sepal_Area <- round(df$Sepal_Area, 1)  # Transforming existing variable, making it just 1 decimal.
@@ -387,6 +390,7 @@ Although I would argue against it, since this doesn't make your R code easy to r
 
 ### Tidyverse & Pipes
 
+
 Before presenting the following commands below, we should talk quickly about tidyverse and pipes.
 Tidyverse, as the name implies "Tidy" + "[Uni]verse" is a big package that contains more packages.
 All of these packages are designed for data science.
@@ -424,9 +428,9 @@ It can be read as follows:
 So instead of this:
 
 ```{r, eval = FALSE}
-object <- function_1(object)
-object <- function_2(object)
-object <- function_3(object)
+object1 <- function_1(object_original)
+object2 <- function_2(object1)
+object3 <- function_3(object2)
 
 # or
 object <- function_3(function_2(function_1(object)))
@@ -883,7 +887,6 @@ df %>%
          Sepal.Width = as.numeric(Sepal.Width)) %>% 
   group_split(Species) %>%  # split by pictures
   map(~ cor.test(.$Sepal.Length, .$Sepal.Width))
-
 ```
 
 We can see it more clearly in this dataframe.

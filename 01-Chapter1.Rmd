@@ -444,6 +444,10 @@ A few notes and advices:\
 Don't be afraid or let down if you need to use google to help you with stuff you learned but just don't remember.
 Its normal, trust me.
 
+## Using AI to help you  
+
+As of its recent "debut", another important tool you should consider is [ChatGPT](https://openai.com/blog/chatgpt/) by [OpenAI](https://openai.com). If you haven't already come across it (launched November 2022), ChatGPT is a chatbot language model. Don't be discouraged by this wording, its, to say the least, google on steroids, and is particularly useful for programming. However, I cannot emphasize how this is underselling it. I truly encourage you to explore it yourself, and use it as a companion when coding in R. But I would advise some caution when using it, since it can give a false sense of confidence (answers are usually correct, by can lead to mistakes). You should always use your good judgment and search for other helpful tips across the internet.
+
 ## Further reading
 
 Need a more in-depth fundamentals of R?
