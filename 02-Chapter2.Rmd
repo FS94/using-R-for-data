@@ -89,7 +89,7 @@ Firstly, lets gather the names of the files in our directory that we want to imp
 setwd('C:/Users/fabio/OneDrive/My Things/Stats/Teaching/R_Book/data')
 
 # Empty list to list all txt files in folder
-list_of_files <- list()
+list_of_files <- c()
 
 # Searches for ".csv" files in the folder
 list_all_data <- dir(pattern='.csv')
@@ -100,13 +100,8 @@ for (file in list_all_data){
   cat('\nFile processed:', file)  # prints the file names
 }
 
-# Organizing the files
-list_of_files <- as.character(list_of_files)  # To character
-#list_of_files <- mixedsort(sort(list_of_files))  # Sorting them by name
-list_of_files <- as.list(list_of_files)  # Transforming it to list
-
 # How many files were processed?
-cat('\nTotal number of files processed:', length(unlist(list_of_files)))
+cat('\nTotal number of files processed:', length(list_of_files))
 ```
 
 Then we need to create a function that iterates over all of this file names.

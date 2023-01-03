@@ -28,6 +28,8 @@ Currently, it is divided into 3 chapters.
 
 -   **Chapter 3** will introduce you to a more practical example of data exploration, emphasizing plot building.
 
+-   **Chapter 4** will show you some basic statistical analysis.
+
 In the future I plan to further elaborate on this guide, but for now I think its good enough for most people to get a picture on what R is, why you should use it, as well as, of course, how to use it.
 
 I hope you learn something and find this guide useful.

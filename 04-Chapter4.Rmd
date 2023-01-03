@@ -1,0 +1,64 @@
+# Basic Statistical Analysis
+
+Resources:
+
+<https://bookdown.org/mikemahoney218/IDEAR/basic-statistics-using-r.html>
+
+To cover:
+
+```{r, include = FALSE}
+library(tidyverse)
+```
+
+In this chapter we will perform some basic analyses on several distinct datasets. These analyses are just some examples that should get you going. The point here is to show you the syntax adopted by most analyses-related functions as well as to help you interpret the output. Everything you will see will pretty much be the action part of the analysis plan, and not the whole exploration and full comprehension of the data that should precede any analysis. That latter part will be up to you, since you already have the know how on how to read, arrange, describe and visualize your data (Chapter 1, 2 and 3).\
+Thus, this is, by no means, a detailed guide on how to analyse data. That would require an entire book on itself. Remember, this is just a "demo" and not the entire game. I will make sure, however, to leave some references for each topic if you are interested in better understanding and applying these analyses methods yourself. At the end you will have some more general recommendations for a full "intro to analysis with R" type of books/guides.
+
+Now, why use R? Why not just manipulate the data however we like and then save it as a ".csv" and read it in SPSS (or any other statistical analysis program). Well, there are several reasons...
+
+-   *1*: It does not cut your workflow.\
+
+-   *2*: It records every step you take in the analysis.\
+
+-   *3*: It provides a sharable report for others to see and execute the code themselves.\
+
+-   *4*: It has more (way more) ways for you to analyze data.\
+
+-   *5*: It makes you understand (at least a bit more) what you are doing.\
+
+# Correlations
+
+Correlations tests, as you might already know, measure covariance between variables (strength of association), indicating if there is a positive or negative relationship between them.
+
+There are several types, but I will focus here on the two (well three) most common ones:
+
+-   *Pearson r correlation (Parametric)*: Measures the linear dependence between two variables (x and y).\
+
+-   *Spearman rho AND Kendall tau correlation (Non-parametric)*: Computes the correlation between the rankings of variable x and y.\
+
+There are several built-in commands/functions to perform correlations in R. These are `cor()`, `cor.test()`. There are slight differences between them, since `cor()` does not provide any p-values, but works for multiple comparisons, and `cor.test()` provides p-values, but does not work for multiple comparisons. There are definitely more functions to calculate different correlation indexes and with more features, but these are the simplest ones and you do not need to install any package to perform them.
+
+Choose something from carData::
+as_tibble(carData::Ericksen)
+as_tibble(carData::Ginzberg)
+as_tibble(carData::GSSvocab)
+
+
+```{r}
+
+```
+
+
+
+# Linear Regressions
+
+## T-tests
+
+## Anovas
+
+## Generalized Linear Regressions
+
+## Linear Mixed Models
+
+## Generalized Linear Mixed Models
+
+## Bayesian style
