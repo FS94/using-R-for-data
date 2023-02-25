@@ -314,7 +314,7 @@ These are:
 ```{r}
 penguins %>% 
   mutate(comments2 = fct_lump(f=comments, n = 1, other_level = 'OtherProblems')) %>% 
-  View()
+  head()
 ```
 
 Anyway, back to exploring the data...
@@ -325,7 +325,7 @@ We can do this, by simply grouping the data by species, that using the command b
 penguins %>% 
   group_by(species) %>% 
   summarise(across(where(is.numeric), mean, na.rm = TRUE)) %>% 
-  View()
+  head()
 ```
 
 ## Plots
@@ -467,7 +467,7 @@ penguins %>%
                color = 'black') +
   coord_cartesian(ylim = c(0, 6)) +
   theme_minimal() +
-  labs(title = 'Plot with Means: Method 2') +
+  labs(title = 'Plot with Means: Method 2')
 ```
 
 ### Boxplots

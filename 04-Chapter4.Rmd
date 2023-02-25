@@ -27,7 +27,7 @@ Now, why use R? Why not just manipulate the data however you like and then save 
 
 -   *5*: It makes you understand (at least a bit more) what you are doing.\
 
-# Correlations
+## Correlations
 
 Correlations tests, as you might already know, measure covariance between variables (strength of association), indicating if there is a positive or negative relationship between them.
 
@@ -112,7 +112,7 @@ For more information about correlations in R I recommend you read the following:
 - www.sthda.com/english/wiki/correlation-test-between-two-variables-in-r   
 - https://statsandr.com/blog/correlation-coefficient-and-correlation-test-in-r/#for-2-variables  
 
-# Linear Regressions
+## Linear Regressions
 So linear regression (LR) are a statistical method used to model a relationship between a **dependent (outcome) variable** and **independent (predictors) variables** by fitting a linear equation to the observed data. We can use it to study understand the relationship between these variables or predict future (yet unobserved) values.  
 The basic syntax for LR in R is as follows: `lm(y ~ x, data = d)`. `lm` stands for linear model. `y` will be our outcome variable and `x` our predictor. You can interpret `~` here and in the following analysis as "predicted by".
 
@@ -201,7 +201,7 @@ Linear regressions are one of the fundamental pillars of statistics. Nearly all 
 - https://www.datacamp.com/tutorial/linear-regression-R  
 - https://www.tutorialspoint.com/r/r_linear_regression.htm  
 
-## T-tests
+### T-tests
 T-tests, used two compare two samples, are also easily done with just base R.
 You have the following options:
 
@@ -256,11 +256,15 @@ head(d)
 t.test(weight ~ Time, data = d, paired = TRUE)
 ```
 
-## Anovas
+### Anovas
 (Very) Simply put, ANOVAs are used to compare groups with more than two-levels. So previously in the t-test examples we only compared two-groups. Either 1 level against a mean value, or two levels between themselves.
 Now, if we want to assess if the type of contour differs in their pH level we can simply perform an anova. There are definitely more ways to perform ANOVAs, but for sake of brevity, I'll just leave with the `aov()` way. 
 
 ```{r}
+# Loading our data frame
+d <- carData::Soils
+
+# Analysis
 oneway_anova <- aov(pH ~ Contour, data = d)
 summary(oneway_anova)  # asks for the summary
 ```
@@ -289,10 +293,10 @@ rep.anova2
 ```
 
 
-### Post-hocs
+#### Post-hocs
 Lastly, I would like to briefly introduce a way for you to perform post-hocs. Post-hoc tests are the follow-up on ANOVAs where you investigate which exact groups present a difference. So say for instance that our previous `twoway_anova` tells us that the type of Contour shows a statistically significant change over pH (I know it doesn't, so just pretend). Now, you may want to know which contour do exactly differ between themselves in terms of pH values.
 
-For that we will use the `emmeans` package and base functions such as `pairs()`and `contrats()`. There are many other ways to obtain post-hocs, some may be simpler but more specific, but, as an example, I'll demonstrate one of the most versatile (i.e., `emmeans`). This allows you to do post-hoc test for many types of linear, generalized linear models and mixed models. Given its vast applicability, it sometimes may be a bit confusing in how to extract the post-hoc tests for your model the way you want. For that you can consult its help vignette here:  
+For that we will use the `emmeans` package and base functions such as `pairs()`and `contrast()`. There are many other ways to obtain post-hocs, some may be simpler but more specific, but, as an example, I'll demonstrate one of the most versatile (i.e., `emmeans`). This allows you to do post-hoc test for many types of linear, generalized linear models and mixed models. Given its vast applicability, it sometimes may be a bit confusing in how to extract the post-hoc tests for your model the way you want. For that you can consult its help vignette here:  
 
 https://cran.r-project.org/web/packages/emmeans/vignettes/basics.html#contents
 
@@ -303,21 +307,25 @@ library(emmeans)  # stands for estimated marginal means
 summary(twoway_anova)
 
 emm <- emmeans(object = twoway_anova,
-                     specs = ~ Contour * Block,
+                     specs = ~ Contour*Block,
                      by = 'Contour', 
                      type = 'response',
                      adjust = 'bonferroni')
 
 
 pairs(emm)
-contrasts(emm)
+contrast(emm)
 ```
 
-You can change your `by` parameters to adjust what comparisons you want in the `pairs` and `contrasts` functions. I recommend you manipulate this to really understand its inner workings.  
+You can change your `by` parameters to adjust what comparisons you want in the `pairs` and `contrast` functions. I recommend you manipulate this to really understand its inner workings.  
+
+As for the difference between the two functions (i.e., `pairs` and `contrasts`):  
+- `pairs` -> Performs all pairwise comparisons
+- `contrast` -> Used to test specific comparisons/hypotheses
 
 If they are pairwise comparisons you should instead say (in this example) `pairwise ~ Contour * Block`.
 
-# Generalized Linear Regression
+## Generalized Linear Regression
 When you have a outcome variable in which its error distribution of its model is not normally distributed, i.e., outcomes such counts or yes/no answers, you should use a **generalized** linear regression (GLM). It has a *link function* that allows you to model the relationship between the predictor variables and the response variable in the same fashion as a linear regression. Again this is very briefly and simply put, I encourage you to explore more on your own.  
 
 Now, GLMs are aptly executed in R with the function `glm()`
@@ -342,11 +350,12 @@ summary(m)
 
 Once more, there are many parameters you can tune, other functions you can use, and other families you can model. This is just the more widely known function and most simple example. 
 
-# Linear Mixed Models
+## Linear Mixed Models
 Now, it is far beyond the scope of this brief book to explain to you what linear **mixed models** (LMMs) are. Firstly, they are known by many names (just see https://en.wikipedia.org/wiki/Multilevel_model). In linear mixed models you can specify both fixed and random effects. Fixed effects are your usual predictor variables that have systematic effects on your outcome (e.g., treatment manipulations). Random effects are those that have stochastic (random) effect on your outcome, since these are selected randomly. For instance, lets say you plan on exploring if aggressive words, compared to neutral words, cause people to have increased heart-rate. For this you would need to select a **random sample** of aggressive words and neutral words, since there is no way you could expose your participants to all aggressive or neutral words. These can thus be considered a *random variable*. Usually, IDs of the participants themselves are seen as random effects, since the participants introduce some random (unpredictable) variability (different sample of 1000 participant will lead to slightly different results). And by this I mean each word (the ID of each word), not the category of the word (the category is a fixed variable). You also can (need) to specify the structure of these random effects in a correct manner, namely which effects are nested or crossed and their respective structure. Now, I'm sorry if this doesn't make any sense, but the purpose here is to introduce you to a brief example of LMMs in R and I must skip with a detailed explanation. If it makes you feel any better, the distinction between random and fixed effects is still debated even among top statisticians. There are many more topics to cover for you to understand properly a LMM (even I don't think I understand all of them), but we'll stop here.
 
 To perform LMMs I will use the `lmer()` function from the `lme4` package. We will use the sleepstudy data from `lme4` package. This data is from an experiment related to how sleep deprivation impairs reaction times. In this data participants were trained on the first two days (day 0 and 1) and began the experiment on day 2 (baseline).
 ```{r}
+library(lme4)
 d <- lme4::sleepstudy
 
 # Preparing the data adjusting for deprivation days
@@ -370,12 +379,11 @@ emm <- emmeans(object = lmm,
 pairs(emm)[1:7]
 ```
 
-# Generalized Linear Mixed Models
+## Generalized Linear Mixed Models
 Much like generalized linear models, **Generalized Linear Mixed Models (GLMMs)** allow us to model data that doens't follow a linear trend, like binary data or count data.
 To perform GLMMs I will use the `glmer()` function from the same `lme4` package. We will use the MplsStops data from `carData` package. This data set contains the results of nearly all stops made by the Minneapolis Police Department for the year 2017. I'm interested in exploring if more stops are made for Black compared with White people. Since these have been collected by different precincts and different neighborhoods, I can use them too to help explain variability in the data. Obviously this is just an example, since firstly, the data should be adjusted towards the number of White and Black people living in these areas, but it serves as a base example.
 
 ```{r}
-library(lme4)
 d <- carData::MplsStops 
 
 # Isolating Black/White people and preparing data
@@ -386,7 +394,8 @@ d <- d %>%
   group_by(policePrecinct, neighborhood, race) %>% 
   dplyr::summarise(Stops = n())
 
-d %>% View()
+d %>% 
+  head()
 
 glmm <- glmer(Stops ~ race + (1|policePrecinct),
               family = 'poisson', data = d)
@@ -394,10 +403,10 @@ glmm <- glmer(Stops ~ race + (1|policePrecinct),
 car::Anova(glmm)
 ```
 
-# Bayesian analysis
+## Bayesian analysis
 
-# Time series
+## Time series
 
-# Drift difussion modelling
+## Drift difussion modelling
 
-# Survival analysis
+## Survival analysis

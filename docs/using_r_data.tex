@@ -33,14 +33,6 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
-\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
-\hypersetup{
-  pdftitle={Usefulness of R for managing data},
-  pdfauthor={Fábio A. Silva},
-  hidelinks,
-  pdfcreator={LaTeX via pandoc}}
-\urlstyle{same} % disable monospaced font for URLs
 \usepackage{color}
 \usepackage{fancyvrb}
 \newcommand{\VerbBar}{|}
@@ -114,10 +106,18 @@
 \fi
 \usepackage[]{natbib}
 \bibliographystyle{plainnat}
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Usefulness of R for managing data},
+  pdfauthor={Fábio A. Silva},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
 
 \title{Usefulness of R for managing data}
 \author{Fábio A. Silva}
-\date{2022-06-15}
+\date{2023-02-25}
 
 \begin{document}
 \maketitle
@@ -132,7 +132,7 @@
 This is a guide on R and its role in basic data manipulation.
 It requires no prior experience/knowledge in R.
 
-Currently, it is divided into 3 chapters.
+Currently, it is divided into 4 chapters (last one is still under development).
 
 \begin{itemize}
 \item
@@ -141,6 +141,8 @@ Currently, it is divided into 3 chapters.
   \textbf{Chapter 2} will introduce you to data management tools.
 \item
   \textbf{Chapter 3} will introduce you to a more practical example of data exploration, emphasizing plot building.
+\item
+  \textbf{Chapter 4} will show you some basic statistical analysis.
 \end{itemize}
 
 In the future I plan to further elaborate on this guide, but for now I think its good enough for most people to get a picture on what R is, why you should use it, as well as, of course, how to use it.
@@ -762,6 +764,11 @@ A few notes and advices:\\
 Don't be afraid or let down if you need to use google to help you with stuff you learned but just don't remember.
 Its normal, trust me.
 
+\hypertarget{using-ai-to-help-you}{%
+\section{Using AI to help you}\label{using-ai-to-help-you}}
+
+As of its recent ``debut'', another important tool you should consider is \href{https://openai.com/blog/chatgpt/}{ChatGPT} by \href{https://openai.com}{OpenAI}. If you haven't already come across it (launched November 2022), ChatGPT is a chatbot language model. Don't be discouraged by this wording, its, to say the least, google on steroids, and is particularly useful for programming. However, I cannot emphasize how this is underselling it. I truly encourage you to explore it yourself, and use it as a companion when coding in R. But I would advise some caution when using it, since it can give a false sense of confidence (answers are usually correct, by can lead to mistakes). You should always use your good judgment and search for other helpful tips across the internet.
+
 \hypertarget{further-reading}{%
 \section{Further reading}\label{further-reading}}
 
@@ -873,7 +880,7 @@ Firstly, lets gather the names of the files in our directory that we want to imp
 \FunctionTok{setwd}\NormalTok{(}\StringTok{\textquotesingle{}C:/Users/fabio/OneDrive/My Things/Stats/Teaching/R\_Book/data\textquotesingle{}}\NormalTok{)}
 
 \CommentTok{\# Empty list to list all txt files in folder}
-\NormalTok{list\_of\_files }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{()}
+\NormalTok{list\_of\_files }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{()}
 
 \CommentTok{\# Searches for ".csv" files in the folder}
 \NormalTok{list\_all\_data }\OtherTok{\textless{}{-}} \FunctionTok{dir}\NormalTok{(}\AttributeTok{pattern=}\StringTok{\textquotesingle{}.csv\textquotesingle{}}\NormalTok{)}
@@ -902,13 +909,8 @@ Firstly, lets gather the names of the files in our directory that we want to imp
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Organizing the files}
-\NormalTok{list\_of\_files }\OtherTok{\textless{}{-}} \FunctionTok{as.character}\NormalTok{(list\_of\_files)  }\CommentTok{\# To character}
-\CommentTok{\#list\_of\_files \textless{}{-} mixedsort(sort(list\_of\_files))  \# Sorting them by name}
-\NormalTok{list\_of\_files }\OtherTok{\textless{}{-}} \FunctionTok{as.list}\NormalTok{(list\_of\_files)  }\CommentTok{\# Transforming it to list}
-
 \CommentTok{\# How many files were processed?}
-\FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{Total number of files processed:\textquotesingle{}}\NormalTok{, }\FunctionTok{length}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(list\_of\_files)))}
+\FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{Total number of files processed:\textquotesingle{}}\NormalTok{, }\FunctionTok{length}\NormalTok{(list\_of\_files))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1103,6 +1105,7 @@ The symbols \texttt{\$} lets you subset (select) columns of a dataframe really e
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{df }\OtherTok{\textless{}{-}}\NormalTok{ iris}
+
 \NormalTok{df}\SpecialCharTok{$}\NormalTok{Sepal.Length}
 \end{Highlighting}
 \end{Shaded}
@@ -1124,7 +1127,7 @@ By indicating \texttt{df{[}rows,columns{]}}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{df[ , }\StringTok{\textquotesingle{}Sepal.Length\textquotesingle{}}\NormalTok{]  }\CommentTok{\# just the "Sepal.Length]"}
+\NormalTok{df[, }\StringTok{\textquotesingle{}Sepal.Length\textquotesingle{}}\NormalTok{]  }\CommentTok{\# just the "Sepal.Length]"}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1163,17 +1166,14 @@ By indicating \texttt{df{[}rows,columns{]}}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{df[}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}Sepal.Length\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Sepal.Width\textquotesingle{}}\NormalTok{)]  }\CommentTok{\# row 1 to 5 from the Sepal.Length" and "Sepal.Width""}
+\NormalTok{df[}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{4}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}Sepal.Length\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Sepal.Width\textquotesingle{}}\NormalTok{)]  }\CommentTok{\# row 1 to 5 from the Sepal.Length" and "Sepal.Width""}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ##   Sepal.Length Sepal.Width
 ## 1          5.1         3.5
-## 2          4.9         3.0
-## 3          4.7         3.2
 ## 4          4.6         3.1
-## 5          5.0         3.6
 \end{verbatim}
 
 \hypertarget{columns}{%
@@ -1273,6 +1273,8 @@ And we can create and transform the columns.
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{df }\OtherTok{\textless{}{-}}\NormalTok{ iris}
+
+
 
 \NormalTok{df}\SpecialCharTok{$}\NormalTok{Sepal\_Area }\OtherTok{\textless{}{-}}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{Sepal.Length }\SpecialCharTok{*}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{Sepal.Width  }\CommentTok{\# Creating new variable with is the multiplication of the first 2.}
 
@@ -1378,33 +1380,11 @@ These are:
 \end{Shaded}
 
 \begin{verbatim}
-## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
-\end{verbatim}
-
-\begin{verbatim}
+## -- Attaching packages --------------------------------------- tidyverse 1.3.2 --
 ## v ggplot2 3.3.6     v purrr   0.3.4
-## v tibble  3.1.5     v dplyr   1.0.8
-## v tidyr   1.2.0     v stringr 1.4.0
-## v readr   2.1.2     v forcats 0.5.1
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: package 'ggplot2' was built under R version 4.1.3
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: package 'tidyr' was built under R version 4.1.3
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: package 'readr' was built under R version 4.1.3
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: package 'dplyr' was built under R version 4.1.3
-\end{verbatim}
-
-\begin{verbatim}
+## v tibble  3.1.8     v dplyr   1.0.9
+## v tidyr   1.2.0     v stringr 1.4.1
+## v readr   2.1.3     v forcats 0.5.1
 ## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()
@@ -1423,9 +1403,9 @@ So instead of this:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{object }\OtherTok{\textless{}{-}} \FunctionTok{function\_1}\NormalTok{(object)}
-\NormalTok{object }\OtherTok{\textless{}{-}} \FunctionTok{function\_2}\NormalTok{(object)}
-\NormalTok{object }\OtherTok{\textless{}{-}} \FunctionTok{function\_3}\NormalTok{(object)}
+\NormalTok{object1 }\OtherTok{\textless{}{-}} \FunctionTok{function\_1}\NormalTok{(object\_original)}
+\NormalTok{object2 }\OtherTok{\textless{}{-}} \FunctionTok{function\_2}\NormalTok{(object1)}
+\NormalTok{object3 }\OtherTok{\textless{}{-}} \FunctionTok{function\_3}\NormalTok{(object2)}
 
 \CommentTok{\# or}
 \NormalTok{object }\OtherTok{\textless{}{-}} \FunctionTok{function\_3}\NormalTok{(}\FunctionTok{function\_2}\NormalTok{(}\FunctionTok{function\_1}\NormalTok{(object)))}
@@ -2313,18 +2293,19 @@ Additionally we can also use several commands to provide us some more general in
 
 \begin{verbatim}
 ## # A tibble: 6 x 17
-##   studyName `Sample Number` Species          Region Island Stage `Individual ID`
-##   <chr>               <dbl> <chr>            <chr>  <chr>  <chr> <chr>          
-## 1 PAL0708                 1 Adelie Penguin ~ Anvers Torge~ Adul~ N1A1           
-## 2 PAL0708                 2 Adelie Penguin ~ Anvers Torge~ Adul~ N1A2           
-## 3 PAL0708                 3 Adelie Penguin ~ Anvers Torge~ Adul~ N2A1           
-## 4 PAL0708                 4 Adelie Penguin ~ Anvers Torge~ Adul~ N2A2           
-## 5 PAL0708                 5 Adelie Penguin ~ Anvers Torge~ Adul~ N3A1           
-## 6 PAL0708                 6 Adelie Penguin ~ Anvers Torge~ Adul~ N3A2           
-## # ... with 10 more variables: `Clutch Completion` <chr>, `Date Egg` <date>,
-## #   `Culmen Length (mm)` <dbl>, `Culmen Depth (mm)` <dbl>,
+##   study~1 Sampl~2 Species Region Island Stage Indiv~3 Clutc~4 `Date Egg` Culme~5
+##   <chr>     <dbl> <chr>   <chr>  <chr>  <chr> <chr>   <chr>   <date>       <dbl>
+## 1 PAL0708       1 Adelie~ Anvers Torge~ Adul~ N1A1    Yes     2007-11-11    39.1
+## 2 PAL0708       2 Adelie~ Anvers Torge~ Adul~ N1A2    Yes     2007-11-11    39.5
+## 3 PAL0708       3 Adelie~ Anvers Torge~ Adul~ N2A1    Yes     2007-11-16    40.3
+## 4 PAL0708       4 Adelie~ Anvers Torge~ Adul~ N2A2    Yes     2007-11-16    NA  
+## 5 PAL0708       5 Adelie~ Anvers Torge~ Adul~ N3A1    Yes     2007-11-16    36.7
+## 6 PAL0708       6 Adelie~ Anvers Torge~ Adul~ N3A2    Yes     2007-11-16    39.3
+## # ... with 7 more variables: `Culmen Depth (mm)` <dbl>,
 ## #   `Flipper Length (mm)` <dbl>, `Body Mass (g)` <dbl>, Sex <chr>,
-## #   `Delta 15 N (o/oo)` <dbl>, `Delta 13 C (o/oo)` <dbl>, Comments <chr>
+## #   `Delta 15 N (o/oo)` <dbl>, `Delta 13 C (o/oo)` <dbl>, Comments <chr>, and
+## #   abbreviated variable names 1: studyName, 2: `Sample Number`,
+## #   3: `Individual ID`, 4: `Clutch Completion`, 5: `Culmen Length (mm)`
 \end{verbatim}
 
 \begin{Shaded}
@@ -2498,18 +2479,19 @@ We will, however, work with the raw version and transform it ourselves making it
 
 \begin{verbatim}
 ## # A tibble: 6 x 17
-##   studyName `Sample Number` Species          Region Island Stage `Individual ID`
-##   <chr>               <dbl> <chr>            <chr>  <chr>  <chr> <chr>          
-## 1 PAL0708                 1 Adelie Penguin ~ Anvers Torge~ Adul~ N1A1           
-## 2 PAL0708                 2 Adelie Penguin ~ Anvers Torge~ Adul~ N1A2           
-## 3 PAL0708                 3 Adelie Penguin ~ Anvers Torge~ Adul~ N2A1           
-## 4 PAL0708                 4 Adelie Penguin ~ Anvers Torge~ Adul~ N2A2           
-## 5 PAL0708                 5 Adelie Penguin ~ Anvers Torge~ Adul~ N3A1           
-## 6 PAL0708                 6 Adelie Penguin ~ Anvers Torge~ Adul~ N3A2           
-## # ... with 10 more variables: `Clutch Completion` <chr>, `Date Egg` <date>,
-## #   `Culmen Length (mm)` <dbl>, `Culmen Depth (mm)` <dbl>,
+##   study~1 Sampl~2 Species Region Island Stage Indiv~3 Clutc~4 `Date Egg` Culme~5
+##   <chr>     <dbl> <chr>   <chr>  <chr>  <chr> <chr>   <chr>   <date>       <dbl>
+## 1 PAL0708       1 Adelie~ Anvers Torge~ Adul~ N1A1    Yes     2007-11-11    39.1
+## 2 PAL0708       2 Adelie~ Anvers Torge~ Adul~ N1A2    Yes     2007-11-11    39.5
+## 3 PAL0708       3 Adelie~ Anvers Torge~ Adul~ N2A1    Yes     2007-11-16    40.3
+## 4 PAL0708       4 Adelie~ Anvers Torge~ Adul~ N2A2    Yes     2007-11-16    NA  
+## 5 PAL0708       5 Adelie~ Anvers Torge~ Adul~ N3A1    Yes     2007-11-16    36.7
+## 6 PAL0708       6 Adelie~ Anvers Torge~ Adul~ N3A2    Yes     2007-11-16    39.3
+## # ... with 7 more variables: `Culmen Depth (mm)` <dbl>,
 ## #   `Flipper Length (mm)` <dbl>, `Body Mass (g)` <dbl>, Sex <chr>,
-## #   `Delta 15 N (o/oo)` <dbl>, `Delta 13 C (o/oo)` <dbl>, Comments <chr>
+## #   `Delta 15 N (o/oo)` <dbl>, `Delta 13 C (o/oo)` <dbl>, Comments <chr>, and
+## #   abbreviated variable names 1: studyName, 2: `Sample Number`,
+## #   3: `Individual ID`, 4: `Clutch Completion`, 5: `Culmen Length (mm)`
 \end{verbatim}
 
 \hypertarget{cleaning}{%
@@ -2557,22 +2539,23 @@ We could also skip a few things and be less specific, but instead use only the f
 
 \begin{verbatim}
 ## # A tibble: 344 x 17
-##    studyname sample_number species    region island stage id    clutch_completi~
-##    <chr>             <dbl> <chr>      <chr>  <chr>  <chr> <chr> <chr>           
-##  1 PAL0708               1 Adelie Pe~ Anvers Torge~ Adul~ N1A1  Yes             
-##  2 PAL0708               2 Adelie Pe~ Anvers Torge~ Adul~ N1A2  Yes             
-##  3 PAL0708               3 Adelie Pe~ Anvers Torge~ Adul~ N2A1  Yes             
-##  4 PAL0708               4 Adelie Pe~ Anvers Torge~ Adul~ N2A2  Yes             
-##  5 PAL0708               5 Adelie Pe~ Anvers Torge~ Adul~ N3A1  Yes             
-##  6 PAL0708               6 Adelie Pe~ Anvers Torge~ Adul~ N3A2  Yes             
-##  7 PAL0708               7 Adelie Pe~ Anvers Torge~ Adul~ N4A1  No              
-##  8 PAL0708               8 Adelie Pe~ Anvers Torge~ Adul~ N4A2  No              
-##  9 PAL0708               9 Adelie Pe~ Anvers Torge~ Adul~ N5A1  Yes             
-## 10 PAL0708              10 Adelie Pe~ Anvers Torge~ Adul~ N5A2  Yes             
-## # ... with 334 more rows, and 9 more variables: date_egg <date>,
-## #   culmen_length_mm <dbl>, culmen_depth_mm <dbl>, flipper_length_mm <dbl>,
-## #   body_mass_g <dbl>, sex <chr>, delta_15_n_ooo <dbl>, delta_13_c_ooo <dbl>,
-## #   comments <chr>
+##    studyn~1 sampl~2 species region island stage id    clutc~3 date_egg   culme~4
+##    <chr>      <dbl> <chr>   <chr>  <chr>  <chr> <chr> <chr>   <date>       <dbl>
+##  1 PAL0708        1 Adelie~ Anvers Torge~ Adul~ N1A1  Yes     2007-11-11    39.1
+##  2 PAL0708        2 Adelie~ Anvers Torge~ Adul~ N1A2  Yes     2007-11-11    39.5
+##  3 PAL0708        3 Adelie~ Anvers Torge~ Adul~ N2A1  Yes     2007-11-16    40.3
+##  4 PAL0708        4 Adelie~ Anvers Torge~ Adul~ N2A2  Yes     2007-11-16    NA  
+##  5 PAL0708        5 Adelie~ Anvers Torge~ Adul~ N3A1  Yes     2007-11-16    36.7
+##  6 PAL0708        6 Adelie~ Anvers Torge~ Adul~ N3A2  Yes     2007-11-16    39.3
+##  7 PAL0708        7 Adelie~ Anvers Torge~ Adul~ N4A1  No      2007-11-15    38.9
+##  8 PAL0708        8 Adelie~ Anvers Torge~ Adul~ N4A2  No      2007-11-15    39.2
+##  9 PAL0708        9 Adelie~ Anvers Torge~ Adul~ N5A1  Yes     2007-11-09    34.1
+## 10 PAL0708       10 Adelie~ Anvers Torge~ Adul~ N5A2  Yes     2007-11-09    42  
+## # ... with 334 more rows, 7 more variables: culmen_depth_mm <dbl>,
+## #   flipper_length_mm <dbl>, body_mass_g <dbl>, sex <chr>,
+## #   delta_15_n_ooo <dbl>, delta_13_c_ooo <dbl>, comments <chr>, and abbreviated
+## #   variable names 1: studyname, 2: sample_number, 3: clutch_completion,
+## #   4: culmen_length_mm
 \end{verbatim}
 
 \hypertarget{date}{%
@@ -2632,6 +2615,18 @@ The command below simple means replace the \texttt{species} column with a new on
 
 Another thing that jumps to sight is the ``stage'' column, which appears to be telling the same thing always.
 Lets check.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(penguins}\SpecialCharTok{$}\NormalTok{stage)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Adult, 1 Egg Stage 
+##                344
+\end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2705,7 +2700,7 @@ Here are a few examples that I took from a quick google search:
 \end{Shaded}
 
 \begin{verbatim}
-## Warning: package 'naniar' was built under R version 4.1.3
+## Warning: package 'naniar' was built under R version 4.2.2
 \end{verbatim}
 
 \begin{Shaded}
@@ -2715,7 +2710,7 @@ Here are a few examples that I took from a quick google search:
 \end{Shaded}
 
 \begin{verbatim}
-## Warning: package 'UpSetR' was built under R version 4.1.3
+## Warning: package 'UpSetR' was built under R version 4.2.2
 \end{verbatim}
 
 \begin{Shaded}
@@ -2736,7 +2731,7 @@ Here are a few examples that I took from a quick google search:
 \end{Shaded}
 
 \begin{verbatim}
-## Warning: package 'visdat' was built under R version 4.1.3
+## Warning: package 'visdat' was built under R version 4.2.2
 \end{verbatim}
 
 \begin{Shaded}
@@ -2747,9 +2742,9 @@ Here are a few examples that I took from a quick google search:
 
 \begin{verbatim}
 ## Warning: `gather_()` was deprecated in tidyr 1.2.0.
-## Please use `gather()` instead.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
+## i Please use `gather()` instead.
+## i The deprecated feature was likely used in the visdat package.
+##   Please report the issue at <https://github.com/ropensci/visdat/issues>.
 \end{verbatim}
 
 \includegraphics{using_r_data_files/figure-latex/unnamed-chunk-78-2.pdf}
@@ -2916,9 +2911,26 @@ These are:
 \begin{Highlighting}[]
 \NormalTok{penguins }\SpecialCharTok{\%\textgreater{}\%} 
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{comments2 =} \FunctionTok{fct\_lump}\NormalTok{(}\AttributeTok{f=}\NormalTok{comments, }\AttributeTok{n =} \DecValTok{1}\NormalTok{, }\AttributeTok{other\_level =} \StringTok{\textquotesingle{}OtherProblems\textquotesingle{}}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{View}\NormalTok{()}
+  \FunctionTok{head}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 17
+##   study~1 sampl~2 species region island ID    clutc~3 date_egg   culme~4 culme~5
+##   <chr>     <dbl> <chr>   <chr>  <chr>  <chr> <chr>   <date>       <dbl>   <dbl>
+## 1 PAL0708       1 Adelie~ Anvers Torge~ N1A1  Yes     2007-11-11    39.1    18.7
+## 2 PAL0708       2 Adelie~ Anvers Torge~ N1A2  Yes     2007-11-11    39.5    17.4
+## 3 PAL0708       3 Adelie~ Anvers Torge~ N2A1  Yes     2007-11-16    40.3    18  
+## 4 PAL0708       5 Adelie~ Anvers Torge~ N3A1  Yes     2007-11-16    36.7    19.3
+## 5 PAL0708       6 Adelie~ Anvers Torge~ N3A2  Yes     2007-11-16    39.3    20.6
+## 6 PAL0708       7 Adelie~ Anvers Torge~ N4A1  No      2007-11-15    38.9    17.8
+## # ... with 7 more variables: flipper_length_mm <dbl>, sex <chr>,
+## #   delta_15_n_ooo <dbl>, delta_13_c_ooo <dbl>, comments <chr>,
+## #   body_mass <dbl>, comments2 <fct>, and abbreviated variable names
+## #   1: studyname, 2: sample_number, 3: clutch_completion, 4: culmen_length_mm,
+## #   5: culmen_depth_mm
+\end{verbatim}
 
 Anyway, back to exploring the data\ldots{}
 Now lets ask the mean for each specie \texttt{across} all columns in the dataframe, \texttt{where} the values are numeric.
@@ -2929,9 +2941,21 @@ We can do this, by simply grouping the data by species, that using the command b
 \NormalTok{penguins }\SpecialCharTok{\%\textgreater{}\%} 
   \FunctionTok{group\_by}\NormalTok{(species) }\SpecialCharTok{\%\textgreater{}\%} 
   \FunctionTok{summarise}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{where}\NormalTok{(is.numeric), mean, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{View}\NormalTok{()}
+  \FunctionTok{head}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 3 x 8
+##   species           sample_num~1 culme~2 culme~3 flipp~4 delta~5 delta~6 body_~7
+##   <chr>                    <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>
+## 1 Adelie Penguin            79      38.8    18.3    190.    8.86   -25.8    3.71
+## 2 Chinstrap penguin         34.5    48.8    18.4    196.    9.36   -24.5    3.73
+## 3 Gentoo penguin            61.5    47.6    15.0    217.    8.25   -26.2    5.09
+## # ... with abbreviated variable names 1: sample_number, 2: culmen_length_mm,
+## #   3: culmen_depth_mm, 4: flipper_length_mm, 5: delta_15_n_ooo,
+## #   6: delta_13_c_ooo, 7: body_mass
+\end{verbatim}
 
 \hypertarget{plots}{%
 \section{Plots}\label{plots}}
@@ -2947,7 +2971,7 @@ Otherwise I would recommend using \texttt{ggplot2}.
 It may seem complicated at first, but its actually quite simple.
 So every plot must start with a simple command:
 
-\texttt{ggplot2("dataframe",\ aes("data"))}
+\texttt{ggplot("dataframe",\ aes("data"))}
 
 In the first parameter you just tell the command which dataframe to use.
 Assuming your dataframe is labeled as ``df'' you can just the following:
@@ -2991,7 +3015,7 @@ So your general plot code for a simple bar plot should look something like:
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{ggplot}\NormalTok{(dataframe, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ variable, }\AttributeTok{y =}\NormalTok{ variable2)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_bar}\NormalTok{()}
+  \FunctionTok{geom\_bar}\NormalTok{() }
 \end{Highlighting}
 \end{Shaded}
 
@@ -3155,7 +3179,7 @@ You just need to point out the variable name, in this case we will look at ``bod
   \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ body\_mass, }\AttributeTok{fill =}\NormalTok{ species)) }\SpecialCharTok{+} 
   \FunctionTok{geom\_density}\NormalTok{(}\AttributeTok{alpha =}\NormalTok{ .}\DecValTok{5}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{\textquotesingle{}Body mass (g)\textquotesingle{}}\NormalTok{, }\AttributeTok{y =} \StringTok{\textquotesingle{}Density\textquotesingle{}}\NormalTok{,}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{\textquotesingle{}Body mass (kg)\textquotesingle{}}\NormalTok{, }\AttributeTok{y =} \StringTok{\textquotesingle{}Density\textquotesingle{}}\NormalTok{,}
        \AttributeTok{fill =} \StringTok{\textquotesingle{}Species\textquotesingle{}}\NormalTok{, }
        \AttributeTok{title =} \StringTok{\textquotesingle{}Body mass distributions across Species\textquotesingle{}}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{scale\_color\_brewer}\NormalTok{(}\AttributeTok{palette =} \StringTok{"Dark2"}\NormalTok{)}
@@ -3260,7 +3284,7 @@ In this example we explore how bill length and flipper length might be correlate
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{penguins }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{plot\_fixe }\OtherTok{\textless{}{-}}\NormalTok{ penguins }\SpecialCharTok{\%\textgreater{}\%} 
   \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ flipper\_length\_mm, }\AttributeTok{y =}\NormalTok{ culmen\_length\_mm, }\AttributeTok{color =}\NormalTok{ species, }\AttributeTok{shape =}\NormalTok{ species)) }\SpecialCharTok{+} 
   \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{group =}\NormalTok{ species), }\AttributeTok{size =} \FloatTok{1.7}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{geom\_smooth}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{group =}\NormalTok{ species), }\AttributeTok{method =} \StringTok{\textquotesingle{}lm\textquotesingle{}}\NormalTok{, }\AttributeTok{alpha =}\NormalTok{ .}\DecValTok{2}\NormalTok{, }\AttributeTok{formula =} \StringTok{\textquotesingle{}y \textasciitilde{} x\textquotesingle{}}\NormalTok{) }\SpecialCharTok{+} \CommentTok{\# adding a line based on linear regression}
@@ -3271,8 +3295,6 @@ In this example we explore how bill length and flipper length might be correlate
   \FunctionTok{scale\_color\_brewer}\NormalTok{(}\AttributeTok{palette =} \StringTok{"Dark2"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
-
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-99-1.pdf}
 
 \hypertarget{multiplots}{%
 \subsection{Multiplots}\label{multiplots}}
@@ -3417,6 +3439,1008 @@ But lets say instead, we want to reorder the x-axis in a descending order accord
 
 \hypertarget{end-1}{%
 \section{End}\label{end-1}}
+
+\hypertarget{basic-statistical-analysis}{%
+\chapter{Basic Statistical Analysis}\label{basic-statistical-analysis}}
+
+Resources:
+
+\url{https://bookdown.org/mikemahoney218/IDEAR/basic-statistics-using-r.html}
+
+To cover:
+
+In this chapter we will perform some basic statistical analyses on several distinct data sets. These analyses are just some examples that should get you going. The point here is to show you the syntax adopted by most analyses-related functions as well as to demonstrate how you need to prepare data, what the output looks like, etc.. Everything you will see will pretty much be the action part of the analysis plan, and not the whole exploration and full comprehension of the data that should precede any analysis. I will not be discussing the output of each analysis, only how to perform them. That latter part will be up to you, since you already have the know-how on how to read, wrangle, describe and visualize your data (Chapter 1, 2 and 3).\\
+Thus, this is by no means a detailed guide on how to analyse data. That would require an entire book on itself. So remember, this is just a ``demo'' and not the entire game. I will make sure, however, to leave some references for each topic if you are interested in better understanding and applying these analyses methods yourself. At the end you will have some more general recommendations for a full ``intro to analysis with R'' type of books/guides.\\
+
+\textbf{Disclaimer}: I am not (by no means) a statistical expert, and some of the explanations used here, albeit brief and simple, might oversimplify or even outright give you a wrong idea about the analysis. I advise you to carefully read about the analysis you plan to perform and not just rely on this guide for that purpose.
+
+Now, why use R? Why not just manipulate the data however you like and then save it as a ``.csv'' and read it in SPSS (or any other statistical analysis program). Well, there are several reasons\ldots{}
+
+\begin{itemize}
+\item
+  \emph{1}: It does not cut your workflow.\\
+\item
+  \emph{2}: It records every step you take in the analysis.\\
+\item
+  \emph{3}: It provides a sharable report for others to see and execute the code themselves.\\
+\item
+  \emph{4}: It has more (way more) ways for you to analyze data.\\
+\item
+  \emph{5}: It makes you understand (at least a bit more) what you are doing.\\
+\end{itemize}
+
+\hypertarget{correlations}{%
+\section{Correlations}\label{correlations}}
+
+Correlations tests, as you might already know, measure covariance between variables (strength of association), indicating if there is a positive or negative relationship between them.
+
+There are several types, but I will focus here on the two (well three) most common ones:
+
+\begin{itemize}
+\item
+  \emph{Pearson r correlation (Parametric)}: Measures the linear dependence between two variables (x and y).\\
+\item
+  \emph{Spearman rho AND Kendall tau correlation (Non-parametric)}: Computes the correlation between the rankings of variable x and y.\\
+\end{itemize}
+
+There are several built-in commands/functions to perform correlations in R. These are \texttt{cor()}, \texttt{cor.test()}. There are slight differences between them, since \texttt{cor()} does not provide any p-values, but works for multiple comparisons, and \texttt{cor.test()} provides p-values, but does not work for multiple comparisons. There are definitely more functions to calculate different correlation indexes and with more features, but these are the simpler ones and do not require you to install any package to perform them.
+
+To show off some examples of correlation, we will use a data set ``Ginzberg'' from the \texttt{carData} package, which containing data about psychiatric patients hospitalized with depression.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{d }\OtherTok{\textless{}{-}} \FunctionTok{as\_tibble}\NormalTok{(carData}\SpecialCharTok{::}\NormalTok{Ginzberg)}
+
+\FunctionTok{head}\NormalTok{(d)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 6
+##   simplicity fatalism depression adjsimp adjfatal adjdep
+##        <dbl>    <dbl>      <dbl>   <dbl>    <dbl>  <dbl>
+## 1      0.930   0.356       0.599   0.759   0.107   0.419
+## 2      0.911   1.18        0.728   0.727   0.999   0.517
+## 3      0.534  -0.0584      0.534   0.622   0.0381  0.707
+## 4      0.741   0.356       0.566   0.835   0.422   0.656
+## 5      0.534   0.770       0.502   0.477   0.814   0.535
+## 6      0.628   1.39        0.566   0.407   1.23    0.340
+\end{verbatim}
+
+We can choose to selectively correlate two variables, like for instance fatalism with depression
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Plot}
+\NormalTok{d }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(fatalism, depression)) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{method =} \StringTok{\textquotesingle{}lm\textquotesingle{}}\NormalTok{, }\AttributeTok{formula =} \StringTok{\textquotesingle{}y \textasciitilde{} x\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-105-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Correlation test}
+\FunctionTok{cor.test}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{fatalism, d}\SpecialCharTok{$}\NormalTok{depression)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pearson's product-moment correlation
+## 
+## data:  d$fatalism and d$depression
+## t = 7.8024, df = 80, p-value = 1.97e-11
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  0.5136315 0.7652141
+## sample estimates:
+##       cor 
+## 0.6573674
+\end{verbatim}
+
+Alternatively we can quickly explor all correlations within a data set
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Simple descripite measure}
+\FunctionTok{cor}\NormalTok{(d[,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{6}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##            simplicity  fatalism depression   adjsimp  adjfatal    adjdep
+## simplicity  1.0000000 0.6312820  0.6432668 0.8828320 0.4739231 0.5055916
+## fatalism    0.6312820 1.0000000  0.6573674 0.4762675 0.8871990 0.5155501
+## depression  0.6432668 0.6573674  1.0000000 0.5240324 0.5317250 0.9150317
+## adjsimp     0.8828320 0.4762675  0.5240324 1.0000000 0.5368211 0.5726930
+## adjfatal    0.4739231 0.8871990  0.5317250 0.5368211 1.0000000 0.5810994
+## adjdep      0.5055916 0.5155501  0.9150317 0.5726930 0.5810994 1.0000000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Simple graphic version}
+\FunctionTok{pairs}\NormalTok{(d)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-106-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# More elaborate version}
+\FunctionTok{library}\NormalTok{(GGally)}
+\FunctionTok{ggpairs}\NormalTok{(d)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-106-2.pdf}
+
+You can also split the correlation by groups. Here's how.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Adding a generic group variable}
+\NormalTok{group }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}B\textquotesingle{}}\NormalTok{), }\FunctionTok{nrow}\NormalTok{(d), }\AttributeTok{replace=}\ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{d}\SpecialCharTok{$}\NormalTok{group }\OtherTok{\textless{}{-}}\NormalTok{ group}
+
+
+\CommentTok{\# Correlation plots}
+\FunctionTok{ggpairs}\NormalTok{(d[, }\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{7}\NormalTok{)], }
+        \FunctionTok{aes}\NormalTok{(}\AttributeTok{color =}\NormalTok{ group))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+\end{verbatim}
+
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-107-1.pdf}
+
+Lastly, we can correlate all other variables with one of our choosing.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Naming cols}
+\NormalTok{cols }\OtherTok{\textless{}{-}} \FunctionTok{colnames}\NormalTok{(d)[}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{6}\NormalTok{)]}
+
+\CommentTok{\# d to dataframe (cor.test is picky)}
+\NormalTok{d }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(d)}
+
+\CommentTok{\# Iterate over all combinations}
+\ControlFlowTok{for}\NormalTok{ (col }\ControlFlowTok{in}\NormalTok{ cols)\{}
+\NormalTok{  cor }\OtherTok{\textless{}{-}} \FunctionTok{unlist}\NormalTok{(}\FunctionTok{cor.test}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{depression, d[, col]))}
+\NormalTok{  cor\_value }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(cor[}\DecValTok{4}\NormalTok{]), }\DecValTok{3}\NormalTok{)}
+\NormalTok{  cor\_pvalue }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(cor[}\DecValTok{3}\NormalTok{]), }\DecValTok{3}\NormalTok{)}
+  
+  \ControlFlowTok{if}\NormalTok{ (cor\_pvalue }\SpecialCharTok{==} \DecValTok{0}\NormalTok{)\{}
+\NormalTok{    cor\_pvalue }\OtherTok{=} \StringTok{\textquotesingle{}\textless{}0.001\textquotesingle{}}
+\NormalTok{  \}}
+  
+  \FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{Correlation between Depression and\textquotesingle{}}\NormalTok{, col, }\StringTok{\textquotesingle{}: \textquotesingle{}}\NormalTok{, cor\_value, }\StringTok{\textquotesingle{}, with p{-}value:\textquotesingle{}}\NormalTok{, cor\_pvalue)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Correlation between Depression and simplicity :  0.643 , with p-value: <0.001
+## Correlation between Depression and fatalism :  0.657 , with p-value: <0.001
+## Correlation between Depression and adjsimp :  0.524 , with p-value: <0.001
+## Correlation between Depression and adjfatal :  0.532 , with p-value: <0.001
+## Correlation between Depression and adjdep :  0.915 , with p-value: <0.001
+\end{verbatim}
+
+Now all of the correlation we have seen so far have been between two continuous variables, and we thus always employed a Pearson correlation test. To perform other correlations, just choose which method you want with the \texttt{method} argument inside the \texttt{cor.test()} function. You can choose between ``pearson'' (default), ``kendall'' or ``spearman''.\\
+
+For more information about correlations in R I recommend you read the following:\\
+- www.sthda.com/english/wiki/correlation-test-between-two-variables-in-r\\
+- \url{https://statsandr.com/blog/correlation-coefficient-and-correlation-test-in-r/\#for-2-variables}
+
+\hypertarget{linear-regressions}{%
+\section{Linear Regressions}\label{linear-regressions}}
+
+So linear regression (LR) are a statistical method used to model a relationship between a \textbf{dependent (outcome) variable} and \textbf{independent (predictors) variables} by fitting a linear equation to the observed data. We can use it to study understand the relationship between these variables or predict future (yet unobserved) values.\\
+The basic syntax for LR in R is as follows: \texttt{lm(y\ \textasciitilde{}\ x,\ data\ =\ d)}. \texttt{lm} stands for linear model. \texttt{y} will be our outcome variable and \texttt{x} our predictor. You can interpret \texttt{\textasciitilde{}} here and in the following analysis as ``predicted by''.
+
+Lets look at a couple of examples. To do this we are going to load the data ``Soils'' from the \texttt{carData} package. This data concerns soil characteristics measured on samples. We will assume ``pH'' is our outcome/dependent variable.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{d }\OtherTok{\textless{}{-}}\NormalTok{ carData}\SpecialCharTok{::}\NormalTok{Soils}
+
+\NormalTok{m }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(pH }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Depth, }\AttributeTok{data =}\NormalTok{ d)}
+\NormalTok{m}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = pH ~ Depth, data = d)
+## 
+## Coefficients:
+## (Intercept)   Depth10-30   Depth30-60   Depth60-90  
+##      5.3975      -0.3933      -1.1192      -1.4000
+\end{verbatim}
+
+Now if you call the model you created (here labeled as ``m'') it prints only a very small output with the coefficients of the equation only. You can get a more detailed view of everything using the command \texttt{summary()} or something more concise with \texttt{anova()} or \texttt{car::Anova()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(m)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = pH ~ Depth, data = d)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.54417 -0.23250 -0.08083  0.15500  1.66583 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   5.3975     0.1089  49.585  < 2e-16 ***
+## Depth10-30   -0.3933     0.1539  -2.555   0.0142 *  
+## Depth30-60   -1.1192     0.1539  -7.270 4.60e-09 ***
+## Depth60-90   -1.4000     0.1539  -9.094 1.15e-11 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.3771 on 44 degrees of freedom
+## Multiple R-squared:  0.7051, Adjusted R-squared:  0.685 
+## F-statistic: 35.07 on 3 and 44 DF,  p-value: 9.811e-12
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{anova}\NormalTok{(m)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Response: pH
+##           Df  Sum Sq Mean Sq F value    Pr(>F)    
+## Depth      3 14.9590  4.9863  35.068 9.811e-12 ***
+## Residuals 44  6.2563  0.1422                      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{car}\SpecialCharTok{::}\FunctionTok{Anova}\NormalTok{(m)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Anova Table (Type II tests)
+## 
+## Response: pH
+##            Sum Sq Df F value    Pr(>F)    
+## Depth     14.9590  3  35.068 9.811e-12 ***
+## Residuals  6.2563 44                      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+Now its not the focus of this book to explain all the content of the output. If you ever performed a similar analysis in SPSS then you should, by looking careful, finding everything you need.
+
+Now, linear regression has a few assumptions that you probably would like to assure. These are:
+
+1 - \emph{Linearity}: The relationship between the independent and dependent variables is linear.
+2 - \emph{Independence}: The observations are independent of each other.
+3 - \emph{Homoscedasticity}: The variance of the errors is constant across all levels of the independent variable(s)
+4 - \emph{Normality}: The errors are normally distributed.
+5 - \emph{Independence of errors}: The errors are independent of the independent variable(s)
+
+Again, these are beside the point of the guide, but if you want to check them, here is a quick way around a few of the most pertinent points.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Homoscedasticity }
+\FunctionTok{plot}\NormalTok{(m}\SpecialCharTok{$}\NormalTok{residuals }\SpecialCharTok{\textasciitilde{}}\NormalTok{ m}\SpecialCharTok{$}\NormalTok{fitted.values)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-111-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Or with ggplot}
+\NormalTok{t }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(m}\SpecialCharTok{$}\NormalTok{residuals, m}\SpecialCharTok{$}\NormalTok{fitted.values)}
+\NormalTok{t }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(m.fitted.values, m.residuals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-111-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Normality}
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{density}\NormalTok{(m}\SpecialCharTok{$}\NormalTok{residuals))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-111-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Or with ggplot}
+\NormalTok{t }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(m.residuals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_density}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-111-4.pdf}
+
+With your model you can then make predictions, of course. To do this you use the command \texttt{predict}. Lets create a different model first with a continuous predictor
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# New model}
+\NormalTok{m }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(pH }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Na, }\AttributeTok{data =}\NormalTok{ d)}
+
+\CommentTok{\# Creating a data frame with several predictor variables we wish to now the predictions too.}
+\NormalTok{pd }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{Na =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\FloatTok{3.5}\NormalTok{, }\DecValTok{7}\NormalTok{, }\FloatTok{8.2}\NormalTok{, }\DecValTok{10}\NormalTok{))}
+
+\CommentTok{\# Predicting}
+\FunctionTok{predict}\NormalTok{(m, pd)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        1        2        3        4        5 
+## 5.320747 4.966709 4.471054 4.301116 4.046208
+\end{verbatim}
+
+Lastly, lets plot our model.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Creating a dummy range of Na values.}
+\NormalTok{na\_values }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\FunctionTok{range}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{Na)[}\DecValTok{1}\NormalTok{], }\FunctionTok{range}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{Na)[}\DecValTok{2}\NormalTok{], }\FloatTok{0.5}\NormalTok{)}
+\NormalTok{plt\_data }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{Na =}\NormalTok{ na\_values)}
+
+\CommentTok{\# Generating predictions with prediction confidence intervals}
+\NormalTok{plt\_data}\SpecialCharTok{$}\NormalTok{predictions }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(m, plt\_data, }\AttributeTok{se.fit =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{interval =} \StringTok{\textquotesingle{}prediction\textquotesingle{}}\NormalTok{, }\AttributeTok{level =}\NormalTok{ .}\DecValTok{95}\NormalTok{)}\SpecialCharTok{$}\NormalTok{fit[, }\DecValTok{1}\NormalTok{]}
+\NormalTok{plt\_data}\SpecialCharTok{$}\NormalTok{lwr }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(m, plt\_data, }\AttributeTok{se.fit =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{interval =} \StringTok{\textquotesingle{}prediction\textquotesingle{}}\NormalTok{, }\AttributeTok{level =}\NormalTok{ .}\DecValTok{95}\NormalTok{)}\SpecialCharTok{$}\NormalTok{fit[, }\DecValTok{2}\NormalTok{]}
+\NormalTok{plt\_data}\SpecialCharTok{$}\NormalTok{upr }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(m, plt\_data, }\AttributeTok{se.fit =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{interval =} \StringTok{\textquotesingle{}prediction\textquotesingle{}}\NormalTok{, }\AttributeTok{level =}\NormalTok{ .}\DecValTok{95}\NormalTok{)}\SpecialCharTok{$}\NormalTok{fit[, }\DecValTok{3}\NormalTok{]}
+
+\CommentTok{\# Plotting}
+\NormalTok{plt\_data }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(Na, predictions)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{group =} \DecValTok{1}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_ribbon}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ lwr, }\AttributeTok{ymax =}\NormalTok{ upr), }\AttributeTok{alpha =} \FloatTok{0.1}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{coord\_cartesian}\NormalTok{(}\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{8}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-113-1.pdf}
+
+Linear regressions are one of the fundamental pillars of statistics. Nearly all statistical analyses are variations of linear regressions. I encourage you to truly understand them as it will give you more confidence when trying to perform any of the analyses shown below. Here are a few resources:\\
+
+\begin{itemize}
+\tightlist
+\item
+  \url{https://www.spiceworks.com/tech/artificial-intelligence/articles/what-is-linear-regression/} (Just on linear regression)\\
+\item
+  \url{https://www.datacamp.com/tutorial/linear-regression-R}\strut \\
+\item
+  \url{https://www.tutorialspoint.com/r/r_linear_regression.htm}
+\end{itemize}
+
+\hypertarget{t-tests}{%
+\subsection{T-tests}\label{t-tests}}
+
+T-tests, used two compare two samples, are also easily done with just base R.
+You have the following options:
+
+\begin{itemize}
+\item
+  One sample (for, as an example, a mean of 2)
+  \texttt{t.test(y,\ mu\ =\ 2)}
+\item
+  Independent samples (samples not related to each other)
+  \texttt{t.test(y\ \textasciitilde{}\ x)} (Syntax wide)
+  \texttt{t.test(y1,\ y2)} (Syntax long)
+\item
+  Paired samples (samples related in some way to each other - e.g., from the same ID but different conditions)
+  \texttt{t.test(y1,\ y2,\ paired=TRUE)}
+\end{itemize}
+
+Lets proceed to some basic examples with the Soils data set from the \texttt{carData} package. This data set depicts soil characteristics that were measured on sample from three types of contours and four depths. The area was also divided into four blocks.
+
+Needless to say the assumptions of the linear regression also hold for the t-tests and ANOVAs, so you should check them out first. But, for the purpose of demonstration, lets skip this and get to the point.
+
+So one question, even if it doesn't entirely makes sense (or at all), is if Density of the samples
+is different from 1.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{d }\OtherTok{\textless{}{-}}\NormalTok{ carData}\SpecialCharTok{::}\NormalTok{Soils}
+
+\FunctionTok{t.test}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{Dens, }\AttributeTok{mu =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  One Sample t-test
+## 
+## data:  d$Dens
+## t = 9.9572, df = 47, p-value = 3.678e-13
+## alternative hypothesis: true mean is not equal to 1
+## 95 percent confidence interval:
+##  1.252023 1.379644
+## sample estimates:
+## mean of x 
+##  1.315833
+\end{verbatim}
+
+Now, we may want to know if a Top contour is different from a Slope contour in terms of pH values.
+For that we can use a independent-sample t-test. As I showed above, you can use two different syntaxes, with the result, of course, being exactly the same. The choice of syntax usually depends on how your data is structured. If in a long format (such as in this data set) we usually just use the second type of syntax (\texttt{t.test(y1,\ y2)}). If in a wide format we typically use the first syntax (\texttt{y\ \textasciitilde{}\ x}). Still, as long as you prepare your data, you can use whatever format you want.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Syntax wide}
+\FunctionTok{t.test}\NormalTok{(d[d}\SpecialCharTok{$}\NormalTok{Contour }\SpecialCharTok{==} \StringTok{\textquotesingle{}Top\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}pH\textquotesingle{}}\NormalTok{], d[d}\SpecialCharTok{$}\NormalTok{Contour }\SpecialCharTok{==} \StringTok{\textquotesingle{}Slope\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}pH\textquotesingle{}}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Welch Two Sample t-test
+## 
+## data:  d[d$Contour == "Top", "pH"] and d[d$Contour == "Slope", "pH"]
+## t = -0.67156, df = 27.412, p-value = 0.5075
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.7143742  0.3618742
+## sample estimates:
+## mean of x mean of y 
+##   4.57000   4.74625
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Syntax long}
+\NormalTok{d\_test }\OtherTok{\textless{}{-}}\NormalTok{ d[d}\SpecialCharTok{$}\NormalTok{Contour }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}Top\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Slope\textquotesingle{}}\NormalTok{),]  }\CommentTok{\# subsetting the data with these two types of contour}
+\FunctionTok{t.test}\NormalTok{(pH }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Contour, }\AttributeTok{data =}\NormalTok{ d\_test)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Welch Two Sample t-test
+## 
+## data:  pH by Contour
+## t = 0.67156, df = 27.412, p-value = 0.5075
+## alternative hypothesis: true difference in means between group Slope and group Top is not equal to 0
+## 95 percent confidence interval:
+##  -0.3618742  0.7143742
+## sample estimates:
+## mean in group Slope   mean in group Top 
+##             4.74625             4.57000
+\end{verbatim}
+
+Now all of these were examples of \textbf{independent} t-tests. To do a \textbf{paired-samples (dependent)} t-test you just have to use \texttt{paired\ =\ TRUE} within the function.
+Now the data we used is not dependent/related in any manner. As such, lets use a different data set that features dependent/paired data. For this we will use the data set ``ChickWeight'' that is pre-installed in R. This data describes how time impact the weight gain by chickens considering different diets. Although the type of diet is not paired (only one diet is explored per chicken) the time intervals are measured per chick (each chicken is measured across several time intervals). We are going to work only with the first and second time measurements.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Loading our data frame}
+\NormalTok{d }\OtherTok{\textless{}{-}}\NormalTok{ ChickWeight}
+
+\CommentTok{\# Messing up with the data so that we can work on a simple example}
+\NormalTok{d }\OtherTok{\textless{}{-}}\NormalTok{ d }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(Time }\SpecialCharTok{==} \DecValTok{0} \SpecialCharTok{|}\NormalTok{ Time }\SpecialCharTok{==} \DecValTok{2}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Time =} \FunctionTok{ifelse}\NormalTok{(Time }\SpecialCharTok{==} \DecValTok{0}\NormalTok{, }\StringTok{\textquotesingle{}InitialEvaluation\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}FinalEvaluation\textquotesingle{}}\NormalTok{)) }
+
+\FunctionTok{head}\NormalTok{(d)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Grouped Data: weight ~ Time | Chick
+##   weight              Time Chick Diet
+## 1     42 InitialEvaluation     1    1
+## 2     51   FinalEvaluation     1    1
+## 3     40 InitialEvaluation     2    1
+## 4     49   FinalEvaluation     2    1
+## 5     43 InitialEvaluation     3    1
+## 6     39   FinalEvaluation     3    1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{t.test}\NormalTok{(weight }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Time, }\AttributeTok{data =}\NormalTok{ d, }\AttributeTok{paired =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Paired t-test
+## 
+## data:  weight by Time
+## t = 15.907, df = 49, p-value < 2.2e-16
+## alternative hypothesis: true mean difference is not equal to 0
+## 95 percent confidence interval:
+##  7.129123 9.190877
+## sample estimates:
+## mean difference 
+##            8.16
+\end{verbatim}
+
+\hypertarget{anovas}{%
+\subsection{Anovas}\label{anovas}}
+
+(Very) Simply put, ANOVAs are used to compare groups with more than two-levels. So previously in the t-test examples we only compared two-groups. Either 1 level against a mean value, or two levels between themselves.
+Now, if we want to assess if the type of contour differs in their pH level we can simply perform an anova. There are definitely more ways to perform ANOVAs, but for sake of brevity, I'll just leave with the \texttt{aov()} way.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Loading our data frame}
+\NormalTok{d }\OtherTok{\textless{}{-}}\NormalTok{ carData}\SpecialCharTok{::}\NormalTok{Soils}
+
+\CommentTok{\# Analysis}
+\NormalTok{oneway\_anova }\OtherTok{\textless{}{-}} \FunctionTok{aov}\NormalTok{(pH }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Contour, }\AttributeTok{data =}\NormalTok{ d)}
+\FunctionTok{summary}\NormalTok{(oneway\_anova)  }\CommentTok{\# asks for the summary}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##             Df Sum Sq Mean Sq F value Pr(>F)
+## Contour      2  0.261  0.1303    0.28  0.757
+## Residuals   45 20.955  0.4657
+\end{verbatim}
+
+Once more, we performed a one-way (Just 1 factor, which in this case is Contour) independent sample anova. To perform two-way or even more, we could just add more factors such as \texttt{aov(y\ \textasciitilde{}\ factor1\ +\ factor2,\ data\ =\ d)}. Let me exemplify below so I can also you show how you test for interaction between factors in a two-way ANOVA.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{twoway\_anova }\OtherTok{\textless{}{-}} \FunctionTok{aov}\NormalTok{(pH }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Contour}\SpecialCharTok{*}\NormalTok{Block, }\AttributeTok{data =}\NormalTok{ d)}
+\FunctionTok{summary}\NormalTok{(twoway\_anova)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##               Df Sum Sq Mean Sq F value Pr(>F)
+## Contour        2  0.261  0.1303   0.274  0.762
+## Block          3  1.232  0.4108   0.862  0.470
+## Contour:Block  6  2.568  0.4280   0.898  0.507
+## Residuals     36 17.154  0.4765
+\end{verbatim}
+
+The \texttt{*} between the two factors, signifies ``interaction''.
+
+Lastly, you may want to perform a paired samples ANOVA. In this case you can't simply say \texttt{paired\ =\ TRUE}. Here you need a different function. I'm going to introduce you two new ways to perform a repeated-measures (or independent) ANOVA.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(rstatix)  }\CommentTok{\# for anova\_test()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'rstatix'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:stats':
+## 
+##     filter
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ez)  }\CommentTok{\# for the ezANOVA()}
+
+\NormalTok{rep.anova1 }\OtherTok{\textless{}{-}} \FunctionTok{anova\_test}\NormalTok{(}\AttributeTok{data =}\NormalTok{ d, }\AttributeTok{dv =}\NormalTok{ pH, }\AttributeTok{wid =}\NormalTok{ Group, }\AttributeTok{within =}\NormalTok{ Block)}
+\NormalTok{rep.anova1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## ANOVA Table (type III tests)
+## 
+## $ANOVA
+##   Effect DFn DFd     F     p p<.05   ges
+## 1  Block   3  33 3.192 0.036     * 0.058
+## 
+## $`Mauchly's Test for Sphericity`
+##   Effect     W        p p<.05
+## 1  Block 0.069 9.95e-05     *
+## 
+## $`Sphericity Corrections`
+##   Effect   GGe      DF[GG] p[GG] p[GG]<.05   HFe     DF[HF] p[HF] p[HF]<.05
+## 1  Block 0.417 1.25, 13.78 0.089           0.446 1.34, 14.7 0.086
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Or}
+
+\NormalTok{rep.anova2 }\OtherTok{\textless{}{-}} \FunctionTok{ezANOVA}\NormalTok{(}\AttributeTok{data =}\NormalTok{ d, }\AttributeTok{dv =}\NormalTok{ pH, }\AttributeTok{wid =}\NormalTok{ Group, }\AttributeTok{within =}\NormalTok{ Block)}
+\NormalTok{rep.anova2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $ANOVA
+##   Effect DFn DFd        F         p p<.05        ges
+## 2  Block   3  33 3.191956 0.0362248     * 0.05809364
+## 
+## $`Mauchly's Test for Sphericity`
+##   Effect         W            p p<.05
+## 2  Block 0.0690423 9.949466e-05     *
+## 
+## $`Sphericity Corrections`
+##   Effect       GGe      p[GG] p[GG]<.05       HFe      p[HF] p[HF]<.05
+## 2  Block 0.4174896 0.08941906           0.4455701 0.08562993
+\end{verbatim}
+
+\hypertarget{post-hocs}{%
+\subsubsection{Post-hocs}\label{post-hocs}}
+
+Lastly, I would like to briefly introduce a way for you to perform post-hocs. Post-hoc tests are the follow-up on ANOVAs where you investigate which exact groups present a difference. So say for instance that our previous \texttt{twoway\_anova} tells us that the type of Contour shows a statistically significant change over pH (I know it doesn't, so just pretend). Now, you may want to know which contour do exactly differ between themselves in terms of pH values.
+
+For that we will use the \texttt{emmeans} package and base functions such as \texttt{pairs()}and \texttt{contrast()}. There are many other ways to obtain post-hocs, some may be simpler but more specific, but, as an example, I'll demonstrate one of the most versatile (i.e., \texttt{emmeans}). This allows you to do post-hoc test for many types of linear, generalized linear models and mixed models. Given its vast applicability, it sometimes may be a bit confusing in how to extract the post-hoc tests for your model the way you want. For that you can consult its help vignette here:
+
+\url{https://cran.r-project.org/web/packages/emmeans/vignettes/basics.html\#contents}
+
+This function
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(emmeans)  }\CommentTok{\# stands for estimated marginal means}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'emmeans'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:GGally':
+## 
+##     pigs
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(twoway\_anova)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##               Df Sum Sq Mean Sq F value Pr(>F)
+## Contour        2  0.261  0.1303   0.274  0.762
+## Block          3  1.232  0.4108   0.862  0.470
+## Contour:Block  6  2.568  0.4280   0.898  0.507
+## Residuals     36 17.154  0.4765
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{emm }\OtherTok{\textless{}{-}} \FunctionTok{emmeans}\NormalTok{(}\AttributeTok{object =}\NormalTok{ twoway\_anova,}
+                     \AttributeTok{specs =} \SpecialCharTok{\textasciitilde{}}\NormalTok{ Contour}\SpecialCharTok{*}\NormalTok{Block,}
+                     \AttributeTok{by =} \StringTok{\textquotesingle{}Contour\textquotesingle{}}\NormalTok{, }
+                     \AttributeTok{type =} \StringTok{\textquotesingle{}response\textquotesingle{}}\NormalTok{,}
+                     \AttributeTok{adjust =} \StringTok{\textquotesingle{}bonferroni\textquotesingle{}}\NormalTok{)}
+
+
+\FunctionTok{pairs}\NormalTok{(emm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Contour = Depression:
+##  contrast        estimate    SE df t.ratio p.value
+##  Block1 - Block2  -0.3525 0.488 36  -0.722  0.8876
+##  Block1 - Block3  -0.3000 0.488 36  -0.615  0.9268
+##  Block1 - Block4  -0.6550 0.488 36  -1.342  0.5431
+##  Block2 - Block3   0.0525 0.488 36   0.108  0.9995
+##  Block2 - Block4  -0.3025 0.488 36  -0.620  0.9251
+##  Block3 - Block4  -0.3550 0.488 36  -0.727  0.8855
+## 
+## Contour = Slope:
+##  contrast        estimate    SE df t.ratio p.value
+##  Block1 - Block2  -0.2725 0.488 36  -0.558  0.9437
+##  Block1 - Block3  -0.2500 0.488 36  -0.512  0.9557
+##  Block1 - Block4  -1.0225 0.488 36  -2.095  0.1742
+##  Block2 - Block3   0.0225 0.488 36   0.046  1.0000
+##  Block2 - Block4  -0.7500 0.488 36  -1.537  0.4270
+##  Block3 - Block4  -0.7725 0.488 36  -1.583  0.4010
+## 
+## Contour = Top:
+##  contrast        estimate    SE df t.ratio p.value
+##  Block1 - Block2  -0.1050 0.488 36  -0.215  0.9964
+##  Block1 - Block3   0.2250 0.488 36   0.461  0.9670
+##  Block1 - Block4   0.3900 0.488 36   0.799  0.8544
+##  Block2 - Block3   0.3300 0.488 36   0.676  0.9055
+##  Block2 - Block4   0.4950 0.488 36   1.014  0.7423
+##  Block3 - Block4   0.1650 0.488 36   0.338  0.9865
+## 
+## P value adjustment: tukey method for comparing a family of 4 estimates
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{contrast}\NormalTok{(emm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Contour = Depression:
+##  contrast      estimate    SE df t.ratio p.value
+##  Block1 effect  -0.3269 0.299 36  -1.094  0.5628
+##  Block2 effect   0.0256 0.299 36   0.086  0.9322
+##  Block3 effect  -0.0269 0.299 36  -0.090  0.9322
+##  Block4 effect   0.3281 0.299 36   1.098  0.5628
+## 
+## Contour = Slope:
+##  contrast      estimate    SE df t.ratio p.value
+##  Block1 effect  -0.3862 0.299 36  -1.292  0.4090
+##  Block2 effect  -0.1138 0.299 36  -0.381  0.7058
+##  Block3 effect  -0.1363 0.299 36  -0.456  0.7058
+##  Block4 effect   0.6362 0.299 36   2.129  0.1608
+## 
+## Contour = Top:
+##  contrast      estimate    SE df t.ratio p.value
+##  Block1 effect   0.1275 0.299 36   0.427  0.7462
+##  Block2 effect   0.2325 0.299 36   0.778  0.7462
+##  Block3 effect  -0.0975 0.299 36  -0.326  0.7462
+##  Block4 effect  -0.2625 0.299 36  -0.878  0.7462
+## 
+## P value adjustment: fdr method for 4 tests
+\end{verbatim}
+
+You can change your \texttt{by} parameters to adjust what comparisons you want in the \texttt{pairs} and \texttt{contrast} functions. I recommend you manipulate this to really understand its inner workings.
+
+As for the difference between the two functions (i.e., \texttt{pairs} and \texttt{contrasts}):\\
+- \texttt{pairs} -\textgreater{} Performs all pairwise comparisons
+- \texttt{contrast} -\textgreater{} Used to test specific comparisons/hypotheses
+
+If they are pairwise comparisons you should instead say (in this example) \texttt{pairwise\ \textasciitilde{}\ Contour\ *\ Block}.
+
+\hypertarget{generalized-linear-regression}{%
+\section{Generalized Linear Regression}\label{generalized-linear-regression}}
+
+When you have a outcome variable in which its error distribution of its model is not normally distributed, i.e., outcomes such counts or yes/no answers, you should use a \textbf{generalized} linear regression (GLM). It has a \emph{link function} that allows you to model the relationship between the predictor variables and the response variable in the same fashion as a linear regression. Again this is very briefly and simply put, I encourage you to explore more on your own.
+
+Now, GLMs are aptly executed in R with the function \texttt{glm()}
+
+We are going to take on an example from the CES11 database (carData package) which a 2011 Canadian poll on abortion. Here people could vote on weather abortion should be banned (`Yes') or not (`No').
+Before performing our GLM we need to first convert the YES/NO answers to 0 and 1 values. Which is which doesn't really matter (only matter for the interpretation of the estimate). Since this is a A or B type of response, we will use the binomial family to model the data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{d }\OtherTok{\textless{}{-}}\NormalTok{ carData}\SpecialCharTok{::}\NormalTok{CES11}
+
+\CommentTok{\# Recoding}
+\NormalTok{d }\OtherTok{\textless{}{-}}\NormalTok{ d }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{abortion01 =} \FunctionTok{ifelse}\NormalTok{(abortion }\SpecialCharTok{==} \StringTok{\textquotesingle{}Yes\textquotesingle{}}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{))}
+
+\CommentTok{\# GLM}
+\NormalTok{m }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(abortion01 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ gender, }\AttributeTok{family =} \StringTok{\textquotesingle{}binomial\textquotesingle{}}\NormalTok{, }\AttributeTok{data =}\NormalTok{ d)}
+
+\CommentTok{\# Interpretation/Summary}
+\FunctionTok{summary}\NormalTok{(m)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = abortion01 ~ gender, family = "binomial", data = d)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -0.6425  -0.6425  -0.6365  -0.6365   1.8418  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(>|z|)    
+## (Intercept) -1.47295    0.07279 -20.235   <2e-16 ***
+## genderMale  -0.02064    0.10984  -0.188    0.851    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 2137.6  on 2230  degrees of freedom
+## Residual deviance: 2137.6  on 2229  degrees of freedom
+## AIC: 2141.6
+## 
+## Number of Fisher Scoring iterations: 4
+\end{verbatim}
+
+Once more, there are many parameters you can tune, other functions you can use, and other families you can model. This is just the more widely known function and most simple example.
+
+\hypertarget{linear-mixed-models}{%
+\section{Linear Mixed Models}\label{linear-mixed-models}}
+
+Now, it is far beyond the scope of this brief book to explain to you what linear \textbf{mixed models} (LMMs) are. Firstly, they are known by many names (just see \url{https://en.wikipedia.org/wiki/Multilevel_model}). In linear mixed models you can specify both fixed and random effects. Fixed effects are your usual predictor variables that have systematic effects on your outcome (e.g., treatment manipulations). Random effects are those that have stochastic (random) effect on your outcome, since these are selected randomly. For instance, lets say you plan on exploring if aggressive words, compared to neutral words, cause people to have increased heart-rate. For this you would need to select a \textbf{random sample} of aggressive words and neutral words, since there is no way you could expose your participants to all aggressive or neutral words. These can thus be considered a \emph{random variable}. Usually, IDs of the participants themselves are seen as random effects, since the participants introduce some random (unpredictable) variability (different sample of 1000 participant will lead to slightly different results). And by this I mean each word (the ID of each word), not the category of the word (the category is a fixed variable). You also can (need) to specify the structure of these random effects in a correct manner, namely which effects are nested or crossed and their respective structure. Now, I'm sorry if this doesn't make any sense, but the purpose here is to introduce you to a brief example of LMMs in R and I must skip with a detailed explanation. If it makes you feel any better, the distinction between random and fixed effects is still debated even among top statisticians. There are many more topics to cover for you to understand properly a LMM (even I don't think I understand all of them), but we'll stop here.
+
+To perform LMMs I will use the \texttt{lmer()} function from the \texttt{lme4} package. We will use the sleepstudy data from \texttt{lme4} package. This data is from an experiment related to how sleep deprivation impairs reaction times. In this data participants were trained on the first two days (day 0 and 1) and began the experiment on day 2 (baseline).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(lme4)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: Matrix
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'Matrix'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:tidyr':
+## 
+##     expand, pack, unpack
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{d }\OtherTok{\textless{}{-}}\NormalTok{ lme4}\SpecialCharTok{::}\NormalTok{sleepstudy}
+
+\CommentTok{\# Preparing the data adjusting for deprivation days}
+\NormalTok{d }\OtherTok{\textless{}{-}}\NormalTok{ d }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\NormalTok{(Days }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{))) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Days =}\NormalTok{ Days }\SpecialCharTok{{-}} \DecValTok{2}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Days =} \FunctionTok{as.factor}\NormalTok{(Days))}
+
+\NormalTok{lmm }\OtherTok{\textless{}{-}} \FunctionTok{lmer}\NormalTok{(Reaction }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Days }\SpecialCharTok{+}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{|}\NormalTok{Subject), }\AttributeTok{data =}\NormalTok{ d)}
+\NormalTok{car}\SpecialCharTok{::}\FunctionTok{Anova}\NormalTok{(lmm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Deviance Table (Type II Wald chisquare tests)
+## 
+## Response: Reaction
+##       Chisq Df Pr(>Chisq)    
+## Days 107.17  7  < 2.2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Post{-}hocs}
+\FunctionTok{library}\NormalTok{(emmeans)}
+\NormalTok{emm }\OtherTok{\textless{}{-}} \FunctionTok{emmeans}\NormalTok{(}\AttributeTok{object =}\NormalTok{ lmm,}
+                     \AttributeTok{specs =}\NormalTok{ pairwise }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Days,}
+                     \AttributeTok{type =} \StringTok{\textquotesingle{}response\textquotesingle{}}\NormalTok{,}
+                     \AttributeTok{adjust =} \StringTok{\textquotesingle{}bonferroni\textquotesingle{}}\NormalTok{, }
+               \AttributeTok{contr =} \FunctionTok{list}\NormalTok{(}\AttributeTok{Days =} \StringTok{"dummy"}\NormalTok{))}
+
+
+\FunctionTok{pairs}\NormalTok{(emm)[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{7}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## I bet you wanted to call this with just object[[1]] - use '[[]]' or which' if I'm wrong.
+## See '? emm_list' for more information
+\end{verbatim}
+
+\begin{verbatim}
+## Note: adjust = "tukey" was changed to "sidak"
+## because "tukey" is only appropriate for one set of pairwise comparisons
+\end{verbatim}
+
+\begin{verbatim}
+##  contrast      estimate   SE  df t.ratio p.value
+##  Days0 - Days1    -17.6 10.2 119  -1.723  0.4728
+##  Days0 - Days2    -23.3 10.2 119  -2.277  0.1600
+##  Days0 - Days3    -43.2 10.2 119  -4.219  0.0003
+##  Days0 - Days4    -46.8 10.2 119  -4.577  0.0001
+##  Days0 - Days5    -53.4 10.2 119  -5.219  <.0001
+##  Days0 - Days6    -71.3 10.2 119  -6.967  <.0001
+##  Days0 - Days7    -85.5 10.2 119  -8.357  <.0001
+## 
+## Degrees-of-freedom method: kenward-roger 
+## P value adjustment: sidak method for 7 tests
+\end{verbatim}
+
+\hypertarget{generalized-linear-mixed-models}{%
+\section{Generalized Linear Mixed Models}\label{generalized-linear-mixed-models}}
+
+Much like generalized linear models, \textbf{Generalized Linear Mixed Models (GLMMs)} allow us to model data that doens't follow a linear trend, like binary data or count data.
+To perform GLMMs I will use the \texttt{glmer()} function from the same \texttt{lme4} package. We will use the MplsStops data from \texttt{carData} package. This data set contains the results of nearly all stops made by the Minneapolis Police Department for the year 2017. I'm interested in exploring if more stops are made for Black compared with White people. Since these have been collected by different precincts and different neighborhoods, I can use them too to help explain variability in the data. Obviously this is just an example, since firstly, the data should be adjusted towards the number of White and Black people living in these areas, but it serves as a base example.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{d }\OtherTok{\textless{}{-}}\NormalTok{ carData}\SpecialCharTok{::}\NormalTok{MplsStops }
+
+\CommentTok{\# Isolating Black/White people and preparing data}
+\NormalTok{d }\OtherTok{\textless{}{-}}\NormalTok{ d }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{race =} \FunctionTok{as.character}\NormalTok{(race)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(race }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}Black\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}White\textquotesingle{}}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{race =} \FunctionTok{as.factor}\NormalTok{(race)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{group\_by}\NormalTok{(policePrecinct, neighborhood, race) }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{summarise}\NormalTok{(}\AttributeTok{Stops =} \FunctionTok{n}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'policePrecinct', 'neighborhood'. You can
+## override using the `.groups` argument.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{d }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{head}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 4
+## # Groups:   policePrecinct, neighborhood [3]
+##   policePrecinct neighborhood    race  Stops
+##            <int> <fct>           <fct> <int>
+## 1              1 Cedar Riverside Black   140
+## 2              1 Cedar Riverside White    80
+## 3              1 Downtown East   Black    49
+## 4              1 Downtown East   White    81
+## 5              1 Downtown West   Black  1367
+## 6              1 Downtown West   White   780
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{glmm }\OtherTok{\textless{}{-}} \FunctionTok{glmer}\NormalTok{(Stops }\SpecialCharTok{\textasciitilde{}}\NormalTok{ race }\SpecialCharTok{+}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{|}\NormalTok{policePrecinct),}
+              \AttributeTok{family =} \StringTok{\textquotesingle{}poisson\textquotesingle{}}\NormalTok{, }\AttributeTok{data =}\NormalTok{ d)}
+
+\NormalTok{car}\SpecialCharTok{::}\FunctionTok{Anova}\NormalTok{(glmm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Deviance Table (Type II Wald chisquare tests)
+## 
+## Response: Stops
+##       Chisq Df Pr(>Chisq)    
+## race 456.84  1  < 2.2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\hypertarget{bayesian-analysis}{%
+\section{Bayesian analysis}\label{bayesian-analysis}}
+
+\hypertarget{time-series}{%
+\section{Time series}\label{time-series}}
+
+\hypertarget{drift-difussion-modelling}{%
+\section{Drift difussion modelling}\label{drift-difussion-modelling}}
+
+\hypertarget{survival-analysis}{%
+\section{Survival analysis}\label{survival-analysis}}
 
   \bibliography{book.bib,packages.bib}
 
