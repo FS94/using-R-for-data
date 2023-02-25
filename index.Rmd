@@ -20,7 +20,7 @@ github-repo: rstudio/bookdown-demo
 This is a guide on R and its role in basic data manipulation.
 It requires no prior experience/knowledge in R.
 
-Currently, it is divided into 3 chapters.
+Currently, it is divided into 4 chapters (last one is still under development).
 
 -   **Chapter 1** will introduce you to R and provide you the basic programming tools, alongside other useful tips, to help you navigate R.
 

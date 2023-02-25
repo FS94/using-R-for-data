@@ -10,10 +10,12 @@ To cover:
 library(tidyverse)
 ```
 
-In this chapter we will perform some basic analyses on several distinct datasets. These analyses are just some examples that should get you going. The point here is to show you the syntax adopted by most analyses-related functions as well as to help you interpret the output. Everything you will see will pretty much be the action part of the analysis plan, and not the whole exploration and full comprehension of the data that should precede any analysis. That latter part will be up to you, since you already have the know how on how to read, arrange, describe and visualize your data (Chapter 1, 2 and 3).\
-Thus, this is, by no means, a detailed guide on how to analyse data. That would require an entire book on itself. Remember, this is just a "demo" and not the entire game. I will make sure, however, to leave some references for each topic if you are interested in better understanding and applying these analyses methods yourself. At the end you will have some more general recommendations for a full "intro to analysis with R" type of books/guides.
+In this chapter we will perform some basic statistical analyses on several distinct data sets. These analyses are just some examples that should get you going. The point here is to show you the syntax adopted by most analyses-related functions as well as to demonstrate how you need to prepare data, what the output looks like, etc.. Everything you will see will pretty much be the action part of the analysis plan, and not the whole exploration and full comprehension of the data that should precede any analysis. I will not be discussing the output of each analysis, only how to perform them. That latter part will be up to you, since you already have the know-how on how to read, wrangle, describe and visualize your data (Chapter 1, 2 and 3).\
+Thus, this is by no means a detailed guide on how to analyse data. That would require an entire book on itself. So remember, this is just a "demo" and not the entire game. I will make sure, however, to leave some references for each topic if you are interested in better understanding and applying these analyses methods yourself. At the end you will have some more general recommendations for a full "intro to analysis with R" type of books/guides.\
 
-Now, why use R? Why not just manipulate the data however we like and then save it as a ".csv" and read it in SPSS (or any other statistical analysis program). Well, there are several reasons...
+**Disclaimer**: I am not (by no means) a statistical expert, and some of the explanations used here, albeit brief and simple, might oversimplify or even outright give you a wrong idea about the analysis. I advise you to carefully read about the analysis you plan to perform and not just rely on this guide for that purpose.
+
+Now, why use R? Why not just manipulate the data however you like and then save it as a ".csv" and read it in SPSS (or any other statistical analysis program). Well, there are several reasons...
 
 -   *1*: It does not cut your workflow.\
 
@@ -35,30 +37,367 @@ There are several types, but I will focus here on the two (well three) most comm
 
 -   *Spearman rho AND Kendall tau correlation (Non-parametric)*: Computes the correlation between the rankings of variable x and y.\
 
-There are several built-in commands/functions to perform correlations in R. These are `cor()`, `cor.test()`. There are slight differences between them, since `cor()` does not provide any p-values, but works for multiple comparisons, and `cor.test()` provides p-values, but does not work for multiple comparisons. There are definitely more functions to calculate different correlation indexes and with more features, but these are the simplest ones and you do not need to install any package to perform them.
+There are several built-in commands/functions to perform correlations in R. These are `cor()`, `cor.test()`. There are slight differences between them, since `cor()` does not provide any p-values, but works for multiple comparisons, and `cor.test()` provides p-values, but does not work for multiple comparisons. There are definitely more functions to calculate different correlation indexes and with more features, but these are the simpler ones and do not require you to install any package to perform them.
 
-Choose something from carData::
-as_tibble(carData::Ericksen)
-as_tibble(carData::Ginzberg)
-as_tibble(carData::GSSvocab)
-
-
+To show off some examples of correlation, we will use a data set "Ginzberg" from the `carData` package, which containing data about psychiatric patients hospitalized with depression.
 ```{r}
+d <- as_tibble(carData::Ginzberg)
+
+head(d)
+```
+
+We can choose to selectively correlate two variables, like for instance fatalism with depression
+```{r}
+# Plot
+d %>% 
+  ggplot(aes(fatalism, depression)) + 
+  geom_point() +
+  geom_smooth(method = 'lm', formula = 'y ~ x')
+
+# Correlation test
+cor.test(d$fatalism, d$depression)
+```
+
+Alternatively we can quickly explor all correlations within a data set
+```{r}
+# Simple descripite measure
+cor(d[,1:6])
+
+# Simple graphic version
+pairs(d)
+
+# More elaborate version
+library(GGally)
+ggpairs(d)
+```
+
+You can also split the correlation by groups. Here's how.
+```{r}
+# Adding a generic group variable
+group <- sample(c('A', 'B'), nrow(d), replace=TRUE)
+d$group <- group
+
+
+# Correlation plots
+ggpairs(d[, c(1,2,3,7)], 
+        aes(color = group))
 
 ```
 
+Lastly, we can correlate all other variables with one of our choosing.
+```{r}
+# Naming cols
+cols <- colnames(d)[c(1,2,4,5,6)]
 
+# d to dataframe (cor.test is picky)
+d <- as.data.frame(d)
+
+# Iterate over all combinations
+for (col in cols){
+  cor <- unlist(cor.test(d$depression, d[, col]))
+  cor_value <- round(as.numeric(cor[4]), 3)
+  cor_pvalue <- round(as.numeric(cor[3]), 3)
+  
+  if (cor_pvalue == 0){
+    cor_pvalue = '<0.001'
+  }
+  
+  cat('\nCorrelation between Depression and', col, ': ', cor_value, ', with p-value:', cor_pvalue)
+}
+```
+
+Now all of the correlation we have seen so far have been between two continuous variables, and we thus always employed a Pearson correlation test. To perform other correlations, just choose which method you want with the `method` argument inside the `cor.test()` function. You can choose between "pearson" (default), "kendall" or "spearman".\
+
+For more information about correlations in R I recommend you read the following:  
+- www.sthda.com/english/wiki/correlation-test-between-two-variables-in-r   
+- https://statsandr.com/blog/correlation-coefficient-and-correlation-test-in-r/#for-2-variables  
 
 # Linear Regressions
+So linear regression (LR) are a statistical method used to model a relationship between a **dependent (outcome) variable** and **independent (predictors) variables** by fitting a linear equation to the observed data. We can use it to study understand the relationship between these variables or predict future (yet unobserved) values.  
+The basic syntax for LR in R is as follows: `lm(y ~ x, data = d)`. `lm` stands for linear model. `y` will be our outcome variable and `x` our predictor. You can interpret `~` here and in the following analysis as "predicted by".
+
+Lets look at a couple of examples. To do this we are going to load the data "Soils" from the `carData` package. This data concerns soil characteristics measured on samples. We will assume "pH" is our outcome/dependent variable. 
+```{r}
+d <- carData::Soils
+
+m <- lm(pH ~ Depth, data = d)
+m
+```
+
+Now if you call the model you created (here labeled as "m") it prints only a very small output with the coefficients of the equation only. You can get a more detailed view of everything using the command `summary()` or something more concise with `anova()` or `car::Anova()`.
+```{r}
+summary(m)
+anova(m)
+car::Anova(m)
+```
+
+Now its not the focus of this book to explain all the content of the output. If you ever performed a similar analysis in SPSS then you should, by looking careful, finding everything you need.
+
+Now, linear regression has a few assumptions that you probably would like to assure. These are:
+
+1 - *Linearity*: The relationship between the independent and dependent variables is linear.
+2 - *Independence*: The observations are independent of each other.
+3 - *Homoscedasticity*: The variance of the errors is constant across all levels of the independent variable(s)
+4 - *Normality*: The errors are normally distributed.
+5 - *Independence of errors*: The errors are independent of the independent variable(s)
+
+Again, these are beside the point of the guide, but if you want to check them, here is a quick way around a few of the most pertinent points.
+```{r}
+# Homoscedasticity 
+plot(m$residuals ~ m$fitted.values)
+
+## Or with ggplot
+t <- data.frame(m$residuals, m$fitted.values)
+t %>% 
+  ggplot(aes(m.fitted.values, m.residuals)) +
+  geom_point()
+
+# Normality
+plot(density(m$residuals))
+
+## Or with ggplot
+t %>% 
+  ggplot(aes(m.residuals)) +
+  geom_density()
+```
+
+
+With your model you can then make predictions, of course. To do this you use the command `predict`. Lets create a different model first with a continuous predictor
+```{r}
+# New model
+m <- lm(pH ~ Na, data = d)
+
+# Creating a data frame with several predictor variables we wish to now the predictions too.
+pd <- data.frame(Na = c(1, 3.5, 7, 8.2, 10))
+
+# Predicting
+predict(m, pd)
+```
+
+Lastly, lets plot our model.
+```{r}
+# Creating a dummy range of Na values.
+na_values <- seq(range(d$Na)[1], range(d$Na)[2], 0.5)
+plt_data <- data.frame(Na = na_values)
+
+# Generating predictions with prediction confidence intervals
+plt_data$predictions <- predict(m, plt_data, se.fit = TRUE, interval = 'prediction', level = .95)$fit[, 1]
+plt_data$lwr <- predict(m, plt_data, se.fit = TRUE, interval = 'prediction', level = .95)$fit[, 2]
+plt_data$upr <- predict(m, plt_data, se.fit = TRUE, interval = 'prediction', level = .95)$fit[, 3]
+
+# Plotting
+plt_data %>% 
+  ggplot(aes(Na, predictions)) +
+  geom_point() +
+  geom_line(aes(group = 1)) +
+  geom_ribbon(aes(ymin = lwr, ymax = upr), alpha = 0.1) +
+  coord_cartesian(ylim = c(2, 8))
+
+```
+
+Linear regressions are one of the fundamental pillars of statistics. Nearly all statistical analyses are variations of linear regressions. I encourage you to truly understand them as it will give you more confidence when trying to perform any of the analyses shown below. Here are a few resources:\
+
+- https://www.spiceworks.com/tech/artificial-intelligence/articles/what-is-linear-regression/ (Just on linear regression)  
+- https://www.datacamp.com/tutorial/linear-regression-R  
+- https://www.tutorialspoint.com/r/r_linear_regression.htm  
 
 ## T-tests
+T-tests, used two compare two samples, are also easily done with just base R.
+You have the following options:
+
+- One sample (for, as an example, a mean of 2)
+`t.test(y, mu = 2)`
+
+- Independent samples (samples not related to each other)
+`t.test(y ~ x)` (Syntax wide)
+`t.test(y1, y2)` (Syntax long)
+
+- Paired samples (samples related in some way to each other - e.g., from the same ID but different conditions)
+`t.test(y1, y2, paired=TRUE)`
+
+Lets proceed to some basic examples with the Soils data set from the `carData` package. This data set depicts soil characteristics that were measured on sample from three types of contours and four depths. The area was also divided into four blocks.
+
+Needless to say the assumptions of the linear regression also hold for the t-tests and ANOVAs, so you should check them out first. But, for the purpose of demonstration, lets skip this and get to the point.
+
+So one question, even if it doesn't entirely makes sense (or at all), is if Density of the samples
+is different from 1.
+```{r}
+d <- carData::Soils
+
+t.test(d$Dens, mu = 1)
+```
+
+Now, we may want to know if a Top contour is different from a Slope contour in terms of pH values.
+For that we can use a independent-sample t-test. As I showed above, you can use two different syntaxes, with the result, of course, being exactly the same. The choice of syntax usually depends on how your data is structured. If in a long format (such as in this data set) we usually just use the second type of syntax (`t.test(y1, y2)`). If in a wide format we typically use the first syntax (`y ~ x`). Still, as long as you prepare your data, you can use whatever format you want.
+
+```{r}
+# Syntax wide
+t.test(d[d$Contour == 'Top', 'pH'], d[d$Contour == 'Slope', 'pH'])
+
+# Syntax long
+d_test <- d[d$Contour %in% c('Top', 'Slope'),]  # subsetting the data with these two types of contour
+t.test(pH ~ Contour, data = d_test)
+```
+
+Now all of these were examples of **independent** t-tests. To do a **paired-samples (dependent)** t-test you just have to use `paired = TRUE` within the function.
+Now the data we used is not dependent/related in any manner. As such, lets use a different data set that features dependent/paired data. For this we will use the data set "ChickWeight" that is pre-installed in R. This data describes how time impact the weight gain by chickens considering different diets. Although the type of diet is not paired (only one diet is explored per chicken) the time intervals are measured per chick (each chicken is measured across several time intervals). We are going to work only with the first and second time measurements.
+
+```{r}
+# Loading our data frame
+d <- ChickWeight
+
+# Messing up with the data so that we can work on a simple example
+d <- d %>% 
+  filter(Time == 0 | Time == 2) %>% 
+  mutate(Time = ifelse(Time == 0, 'InitialEvaluation', 'FinalEvaluation')) 
+
+head(d)
+
+t.test(weight ~ Time, data = d, paired = TRUE)
+```
 
 ## Anovas
+(Very) Simply put, ANOVAs are used to compare groups with more than two-levels. So previously in the t-test examples we only compared two-groups. Either 1 level against a mean value, or two levels between themselves.
+Now, if we want to assess if the type of contour differs in their pH level we can simply perform an anova. There are definitely more ways to perform ANOVAs, but for sake of brevity, I'll just leave with the `aov()` way. 
 
-## Generalized Linear Regressions
+```{r}
+oneway_anova <- aov(pH ~ Contour, data = d)
+summary(oneway_anova)  # asks for the summary
+```
 
-## Linear Mixed Models
+Once more, we performed a one-way (Just 1 factor, which in this case is Contour) independent sample anova. To perform two-way or even more, we could just add more factors such as `aov(y ~ factor1 + factor2, data = d)`. Let me exemplify below so I can also you show how you test for interaction between factors in a two-way ANOVA.
+```{r}
+twoway_anova <- aov(pH ~ Contour*Block, data = d)
+summary(twoway_anova)
+```
 
-## Generalized Linear Mixed Models
+The `*` between the two factors, signifies "interaction".
 
-## Bayesian style
+Lastly, you may want to perform a paired samples ANOVA. In this case you can't simply say `paired = TRUE`. Here you need a different function. I'm going to introduce you two new ways to perform a repeated-measures (or independent) ANOVA.
+
+```{r}
+library(rstatix)  # for anova_test()
+library(ez)  # for the ezANOVA()
+
+rep.anova1 <- anova_test(data = d, dv = pH, wid = Group, within = Block)
+rep.anova1
+
+# Or
+
+rep.anova2 <- ezANOVA(data = d, dv = pH, wid = Group, within = Block)
+rep.anova2
+```
+
+
+### Post-hocs
+Lastly, I would like to briefly introduce a way for you to perform post-hocs. Post-hoc tests are the follow-up on ANOVAs where you investigate which exact groups present a difference. So say for instance that our previous `twoway_anova` tells us that the type of Contour shows a statistically significant change over pH (I know it doesn't, so just pretend). Now, you may want to know which contour do exactly differ between themselves in terms of pH values.
+
+For that we will use the `emmeans` package and base functions such as `pairs()`and `contrats()`. There are many other ways to obtain post-hocs, some may be simpler but more specific, but, as an example, I'll demonstrate one of the most versatile (i.e., `emmeans`). This allows you to do post-hoc test for many types of linear, generalized linear models and mixed models. Given its vast applicability, it sometimes may be a bit confusing in how to extract the post-hoc tests for your model the way you want. For that you can consult its help vignette here:  
+
+https://cran.r-project.org/web/packages/emmeans/vignettes/basics.html#contents
+
+This function
+
+```{r}
+library(emmeans)  # stands for estimated marginal means
+summary(twoway_anova)
+
+emm <- emmeans(object = twoway_anova,
+                     specs = ~ Contour * Block,
+                     by = 'Contour', 
+                     type = 'response',
+                     adjust = 'bonferroni')
+
+
+pairs(emm)
+contrasts(emm)
+```
+
+You can change your `by` parameters to adjust what comparisons you want in the `pairs` and `contrasts` functions. I recommend you manipulate this to really understand its inner workings.  
+
+If they are pairwise comparisons you should instead say (in this example) `pairwise ~ Contour * Block`.
+
+# Generalized Linear Regression
+When you have a outcome variable in which its error distribution of its model is not normally distributed, i.e., outcomes such counts or yes/no answers, you should use a **generalized** linear regression (GLM). It has a *link function* that allows you to model the relationship between the predictor variables and the response variable in the same fashion as a linear regression. Again this is very briefly and simply put, I encourage you to explore more on your own.  
+
+Now, GLMs are aptly executed in R with the function `glm()`
+
+We are going to take on an example from the CES11 database (carData package) which a 2011 Canadian poll on abortion. Here people could vote on weather abortion should be banned ('Yes') or not ('No').
+Before performing our GLM we need to first convert the YES/NO answers to 0 and 1 values. Which is which doesn't really matter (only matter for the interpretation of the estimate). Since this is a A or B type of response, we will use the binomial family to model the data.
+
+
+```{r}
+d <- carData::CES11
+
+# Recoding
+d <- d %>% 
+  mutate(abortion01 = ifelse(abortion == 'Yes', 1, 0))
+
+# GLM
+m <- glm(abortion01 ~ gender, family = 'binomial', data = d)
+
+# Interpretation/Summary
+summary(m)
+```
+
+Once more, there are many parameters you can tune, other functions you can use, and other families you can model. This is just the more widely known function and most simple example. 
+
+# Linear Mixed Models
+Now, it is far beyond the scope of this brief book to explain to you what linear **mixed models** (LMMs) are. Firstly, they are known by many names (just see https://en.wikipedia.org/wiki/Multilevel_model). In linear mixed models you can specify both fixed and random effects. Fixed effects are your usual predictor variables that have systematic effects on your outcome (e.g., treatment manipulations). Random effects are those that have stochastic (random) effect on your outcome, since these are selected randomly. For instance, lets say you plan on exploring if aggressive words, compared to neutral words, cause people to have increased heart-rate. For this you would need to select a **random sample** of aggressive words and neutral words, since there is no way you could expose your participants to all aggressive or neutral words. These can thus be considered a *random variable*. Usually, IDs of the participants themselves are seen as random effects, since the participants introduce some random (unpredictable) variability (different sample of 1000 participant will lead to slightly different results). And by this I mean each word (the ID of each word), not the category of the word (the category is a fixed variable). You also can (need) to specify the structure of these random effects in a correct manner, namely which effects are nested or crossed and their respective structure. Now, I'm sorry if this doesn't make any sense, but the purpose here is to introduce you to a brief example of LMMs in R and I must skip with a detailed explanation. If it makes you feel any better, the distinction between random and fixed effects is still debated even among top statisticians. There are many more topics to cover for you to understand properly a LMM (even I don't think I understand all of them), but we'll stop here.
+
+To perform LMMs I will use the `lmer()` function from the `lme4` package. We will use the sleepstudy data from `lme4` package. This data is from an experiment related to how sleep deprivation impairs reaction times. In this data participants were trained on the first two days (day 0 and 1) and began the experiment on day 2 (baseline).
+```{r}
+d <- lme4::sleepstudy
+
+# Preparing the data adjusting for deprivation days
+d <- d %>% 
+  filter(!(Days %in% c(0, 1))) %>% 
+  mutate(Days = Days - 2) %>% 
+  mutate(Days = as.factor(Days))
+
+lmm <- lmer(Reaction ~ Days + (1|Subject), data = d)
+car::Anova(lmm)
+
+# Post-hocs
+library(emmeans)
+emm <- emmeans(object = lmm,
+                     specs = pairwise ~ Days,
+                     type = 'response',
+                     adjust = 'bonferroni', 
+               contr = list(Days = "dummy"))
+
+
+pairs(emm)[1:7]
+```
+
+# Generalized Linear Mixed Models
+Much like generalized linear models, **Generalized Linear Mixed Models (GLMMs)** allow us to model data that doens't follow a linear trend, like binary data or count data.
+To perform GLMMs I will use the `glmer()` function from the same `lme4` package. We will use the MplsStops data from `carData` package. This data set contains the results of nearly all stops made by the Minneapolis Police Department for the year 2017. I'm interested in exploring if more stops are made for Black compared with White people. Since these have been collected by different precincts and different neighborhoods, I can use them too to help explain variability in the data. Obviously this is just an example, since firstly, the data should be adjusted towards the number of White and Black people living in these areas, but it serves as a base example.
+
+```{r}
+library(lme4)
+d <- carData::MplsStops 
+
+# Isolating Black/White people and preparing data
+d <- d %>% 
+  mutate(race = as.character(race)) %>% 
+  filter(race %in% c('Black', 'White')) %>% 
+  mutate(race = as.factor(race)) %>% 
+  group_by(policePrecinct, neighborhood, race) %>% 
+  dplyr::summarise(Stops = n())
+
+d %>% View()
+
+glmm <- glmer(Stops ~ race + (1|policePrecinct),
+              family = 'poisson', data = d)
+
+car::Anova(glmm)
+```
+
+# Bayesian analysis
+
+# Time series
+
+# Drift difussion modelling
+
+# Survival analysis
