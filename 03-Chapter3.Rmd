@@ -642,7 +642,7 @@ Another useful function, is the function `fct_reorder()` which comes from the pa
 This function is particularly (although not exclusively) useful for plots.
 As default, R organizes the levels in a factor by alphabetical order.
 This function allows us to alter the order by which levels in a factor are presented, according to certain conditions we can define ourselves.
-For instance if we plot the mean "delta_15_ooo" per species of penguin, we get the x-axis with (alphabettically defined) Adelie, Chinstrap and Gentoo penguins.
+For instance if we plot the mean "delta_15_ooo" per species of penguin, we get the x-axis with (alphabetically defined) Adelie, Chinstrap and Gentoo penguins.
 But lets say instead, we want to reorder the x-axis in a descending order according to mean delta_15 of each species.
 
 ```{r}

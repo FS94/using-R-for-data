@@ -5,7 +5,7 @@ what-is-r-and-rstudio
 why-r
 where-to-get-it-and-how-to-run-it
 environment
-scripts-notebooks-and-rmarkdown
+scripts-notebooks-and-rmarkdown-and-projects
 working-directories
 operators
 classes-types-and-structures
@@ -13,7 +13,8 @@ comments
 objects
 combinations
 subsetting
-ifs-and-whiles
+ifs-and-elses
+loops
 functions
 packages
 shortcuts
@@ -47,6 +48,7 @@ ungrouping
 stringscharacters
 splits
 mapping
+nesting
 end
 exploratory-data-analysis-eda
 loading-data
@@ -82,3 +84,4 @@ bayesian-analysis
 time-series
 drift-difussion-modelling
 survival-analysis
+end-2

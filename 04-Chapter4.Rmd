@@ -1,11 +1,5 @@
 # Basic Statistical Analysis
 
-Resources:
-
-<https://bookdown.org/mikemahoney218/IDEAR/basic-statistics-using-r.html>
-
-To cover:
-
 ```{r, include = FALSE}
 library(tidyverse)
 ```
@@ -404,9 +398,98 @@ car::Anova(glmm)
 ```
 
 ## Bayesian analysis
+Bayesian analysis, can be performed with, among others, the package `brms`.
+This package creates an interface for STAN through R. For those of you who don't know what STAN is, don't worry, its just another probabilistic programming language used for Bayesian statistical inference. 
+A bayesian model is not that different from the models we built above, we just need to specificy some additional parameters, like *family* and *priors*. Explaining this is beyond this guide, so I encourage you to visit/read the following:
+
+- https://rstudio-pubs-static.s3.amazonaws.com/721703_f1c1a8d256ce4393aabfe23c9c1d221d.html#what-is-bayesian-inference-work
+- Statistical Rethinking by Richard McElreath
+
+Now, we are going to build a model using the `mtcars`. For this example we are going to create a model predicting *mpg* (miles per galon) using *disp* (displacement of the engine). The model is going to be pretty simple with uninformative priors. 
+
+Here is a list (courtesy of chatGPT) of all parameters that can be defined inside a `brm()` model, with their respective descriptions
+
+•	*formula*: The model formula specified using bf(), which defines the response and predictor variables in the model.
+•	*data*: The dataset containing the variables used in the model.
+•	*family*: The likelihood function used in the model, which specifies the distribution of the response variable. Common options include gaussian() (for linear regression), binomial() (for logistic regression), poisson() (for count data), and negbinomial() (for overdispersed count data).
+•	*prior*: A specification of the prior distributions used for the model parameters. Priors can be specified using prior() and can include a wide range of distributions, such as normal(), cauchy(), gamma(), student_t(), and lkj().
+•	*control*: A list of control parameters that affect the behavior of the MCMC algorithm used to estimate the posterior distribution. Control parameters can include adapt_delta (the target acceptance rate for the algorithm), max_treedepth (the maximum depth of the trees used in the algorithm), and iter (the total number of MCMC iterations to run).
+•	*chains*: The number of Markov chains to run during the MCMC algorithm. The default is 4.
+•	*cores*: The number of cores to use for parallel processing during the MCMC algorithm.
+•	*iter*: The total number of MCMC iterations to run.
+•	*warmup*: The number of warmup iterations to run at the beginning of the MCMC algorithm, which are discarded before the posterior distribution is estimated.
+•	*thin*: The thinning interval used to reduce autocorrelation between the MCMC samples.
+•	*cores*: The number of CPU cores to use for parallel processing.
+•	*seed*: The random seed used to initialize the MCMC algorithm.
+•	*save_all_pars*: Whether to save all parameter values during the MCMC algorithm. If TRUE, all parameter values are saved, which can be useful for diagnostic purposes.
+
+
+```{r}
+library(brms)
+
+d <- mtcars
+
+brm(formula = bf(mpg ~ disp),
+    data = d,
+    family = gaussian(),
+    prior = c(prior(normal(0, 5), class = Intercept),
+              prior(normal(0, 5), class = b)),
+    chains = 4, iter = 2000, warmup = 500)
+
+
+m1 <- brm(data = d, 
+    family = gaussian,
+    formula = mpg ~ 1 + disp, # or simply bf(mpg ~ disp)
+    prior = c(prior(normal(0, 5), class = Intercept),
+              prior(normal(0, 5), class = b),
+              prior(lognormal(0, 1), class = sigma)),
+    iter = 2000, warmup = 1000, chains = 4, cores = 4,
+    seed = 7,
+    file = 'ex_fit')
+
+print(m1)
+```
+
 
 ## Time series
+Time series analysis are another common type of analysis that allows us to identify trends and forecast future values in data that is collected in regular intervals along some time-frame. 
+To illustrate a time-series analysis we are going to use the "AirPassengers" data set. This data set represents the monthly totals of international airline passengers from 1949 to 1960.
+To perform a time series you need to make sure that your data is a `ts` object. Luckily our example is already in this format. For further reading and questions, you can read the following:
+
+- https://a-little-book-of-r-for-time-series.readthedocs.io/en/latest/src/timeseries.html
+- https://www.geeksforgeeks.org/time-series-analysis-in-r/
+
+
+```{r}
+# Load the AirPassengers dataset
+data(AirPassengers)
+d <- AirPassengers
+
+# Converting the data frame to a ts object.
+ts_data <- ts(d, start = c(1949, 1), frequency = 12)
+
+# Plotting data frame
+d_plot <- data.frame(date = time(ts_data), passengers = as.numeric(ts_data))
+
+d_plot %>% 
+  ggplot(aes(date, passengers)) +
+  geom_line()
+
+# Perform a decomposition to separate the trend, seasonal, and random components
+decomp <- decompose(ts_data)
+
+# See the results of the decomposition
+plot(decomp)
+
+# Fit a simple linear regression model to the time series data
+m <- lm(ts_data ~ time(ts_data))
+
+summary(m)
+```
 
 ## Drift difussion modelling
 
+
 ## Survival analysis
+
+## End

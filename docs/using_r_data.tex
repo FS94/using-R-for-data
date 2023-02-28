@@ -117,7 +117,7 @@
 
 \title{Usefulness of R for managing data}
 \author{Fábio A. Silva}
-\date{2023-02-25}
+\date{2023-02-28}
 
 \begin{document}
 \maketitle
@@ -156,14 +156,17 @@ I hope you learn something and find this guide useful.
 \section{Note}\label{note}}
 
 This portion of the guide is intended to present you the basics of R to get you up and running.\\
+
 However, this is not meant to give you all the guidance and know-how, as well as answer all your questions.
 There are plenty of internet tutorials already that answer more specific and basic questions.\\
+
 I'll provide a few links at the end that complement what I'll show you here.
 
 \hypertarget{what-is-r-and-rstudio}{%
 \section{What is R and RStudio}\label{what-is-r-and-rstudio}}
 
 From their own website, simply put ``R is a language and environment for statistical computing and graphics.''.\\
+
 So R is a programming language, just like Python, Matlab or even the syntax you find in SPSS.
 This language is particularly driven towards mathematical operations and thus proves quite useful when it comes to data management and analysis.
 Importantly, its an expansive (things keep getting added all the time) and open-source (the code is freely available).
@@ -237,11 +240,12 @@ Note, all of your environment is customizable, changing both what panels appear 
 \caption{R IDE.}
 \end{figure}
 
-\hypertarget{scripts-notebooks-and-rmarkdown}{%
-\section{Scripts, Notebooks and RMarkdown}\label{scripts-notebooks-and-rmarkdown}}
+\hypertarget{scripts-notebooks-and-rmarkdown-and-projects}{%
+\section{Scripts, Notebooks and RMarkdown (and Projects)}\label{scripts-notebooks-and-rmarkdown-and-projects}}
 
 In creating a new R script you can choose one of three different R documents, \textbf{R Script}, \textbf{R Notebook} and \textbf{R Markdown}.
 Well you can actually choose more, but these are perhaps (particularly regarding the focus of this book) the most important ones.\\
+
 \textbf{R script} is a simple sheet where you write code and add comments by using \#.
 R scripts are best used when are writing scripts for automacy (automating tasks) and don't necessarily need to view any output along the way, but only at the end (when everything is computed and done).
 Otherwise, I would almost always recommend either one of the other two formats.
@@ -252,6 +256,8 @@ These types of special scripts are built with a markdown language, such that the
 Importantly, and perhaps one of the best features, is that the output of each chunk is, by default, shown just below that code chunk.
 This makes these scripts extremely useful when doing data analysis of any kind, given that, provided that they are not too messy, they have the potential to make great reports of your data analysis (showing results and graphs along the way).
 So if you are new o this, I would recommend using \textbf{R Notebook} otherwise just default to \textbf{R Markdown}.
+
+Lastly, when starting project you can instead opt to first create a Project in RStudio. This will create a \emph{.Rproj} file in the folder you created your project in. This will help you resume faster your project by simply opening this \emph{.RProj} and every script associated with the project, as well as the defined working directories will be opened and ready. It has more advantages, such as better integration in version control system such as git, better for collaboration, reproducibility and efficiency.
 
 \hypertarget{working-directories}{%
 \section{Working directories}\label{working-directories}}
@@ -264,10 +270,14 @@ You can also alter this working directory by executing \texttt{setwd(\textquotes
 Importantly, when saving your working directory it should in a string format and separated by ``/'' and not ``\textbackslash{}''.
 For instance \texttt{setwd("C:/Users/MyName/Work/Project1")}.
 
+There is also a quick way to do it, although I don't recommend it as much because the next time you initiate RStudio and work on that script you'll need to again set the working directory.
+If you have it in writing in one of the first lines of your scripts it automatically runs it the moment you run your script.
+
 \hypertarget{operators}{%
 \section{Operators}\label{operators}}
 
 R has \textbf{arithmetic operators} and \textbf{logical operators}.\\
+
 The first ones, \textbf{arithmetic operators} are the following (there are more but, I believe, less important):
 
 \texttt{+}: adds\\
@@ -292,7 +302,7 @@ Then there are \textbf{logical operators}:
 \section{Classes, Types and Structures}\label{classes-types-and-structures}}
 
 The data you imported can be in a wide range of classes (types).
-There are 3 basic types of classes, built-in (different functions can use more), you need to be aware (although there are more).
+There are 4 basic types of classes, built-in (different functions can use more), you need to be aware (although there are more).
 These are:
 
 \begin{itemize}
@@ -429,10 +439,11 @@ Below you see a function, kinda of a confusing one, where comments in each line 
 
 In R you can create objects.
 This can be any type of classes we discussed above.
-Your object can be a letter, a number, a word, a mix of letters and numbers, a dataframe, a vectors, a list, multiple lists, multiple data frames, you name it.
+Your object can be a letter, a number, a word, a mix of letters and numbers, a data frame, a vectors, a list, multiple lists, multiple data frames, you name it.
 If your object contains multiple things, it becomes a list.
 Objects, when created, appear in your Environment panel (top right).
 To create an object you must give it a name and then you use \texttt{\textless{}-} followed by whatever you want to make an object.\\
+
 For instance:
 
 \begin{Shaded}
@@ -448,7 +459,7 @@ For instance:
 \hypertarget{combinations}{%
 \section{Combinations}\label{combinations}}
 
-In R, as you've seen above, you can use combinations and attribute these combinations to a variable.
+In R, as you've seen above, you can use combinations (concatenations) and attribute these combinations to a variable.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -501,11 +512,11 @@ When you have complex objects (not just a single entry object) you can use subse
 ## [1] "carrots"    "oranges"    "strawberry"
 \end{verbatim}
 
-\hypertarget{ifs-and-whiles}{%
-\section{Ifs and Whiles}\label{ifs-and-whiles}}
+\hypertarget{ifs-and-elses}{%
+\section{Ifs and elses}\label{ifs-and-elses}}
 
-\texttt{if()}, as well as \texttt{while()}, functions are really basic functions in programming languages, that allow you to iterate certain actions (i.e., perform an action multiple times).
-They are written, and mean, the following:
+The \texttt{if()} function is a really basic functions in programming languages that allows you to iterate certain actions (i.e., perform an action multiple times).
+The \texttt{if()} function is written, and means, the following:
 
 \textbf{If function}
 
@@ -516,14 +527,6 @@ perform\_this \# if true
 \} else \{
 
 perform\_that \# if false
-
-\}
-
-\textbf{While function}
-
-while (condition)\{
-
-perform\_this
 
 \}
 
@@ -563,6 +566,23 @@ Here are just a few basic examples for you to get an idea.
 ## [1] "The second item in the list must be banana!"
 \end{verbatim}
 
+\hypertarget{loops}{%
+\section{Loops}\label{loops}}
+
+Loops are also a great tool. These functions automatically run a block of run repeatedly until a
+end condition is met.
+You have two types of loops. We will call them the ``for'' and ``while'' loops. The latter runs a function, until a ``stop'' condition is met. I would say while loops are less common, but can be quite useful. However, be warned that they can easily get ``stuck'', i.e., you specify a condition that is never met and the loop runs infinitely, forcing you to stop r from running. It follows the following structure.
+
+\textbf{While loop}
+
+while (condition)\{
+
+perform\_this
+
+\}
+
+Lets see a basic example of this loop. In this case we have a ``my number'' object which starts as 0. Then we will have a function that will run until this number is no longer inferior to five. Per each iteration/loop of this function we will add 1 to this number. Let's see the example below.
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Third example}
@@ -583,6 +603,110 @@ Here are just a few basic examples for you to get an idea.
 ## [1] "My current number is lower than 5"
 \end{verbatim}
 
+A perhaps more common loop is the ``for'' type of loop.
+This type of loop follows this basic structure:
+
+\textbf{For loop}
+
+for (element in set\_of\_elements)\{
+do\_something
+\}
+
+The element can be anything, either a single letter (commonly i, x or z) or a short word. It does not need to have meaning - even though ``element'' is not known to R, in the context of that loop above it will signify every object in ``set\_of\_elements''.
+
+Ok, so lets work on a very basic example. Let say you have a number ``n'' and you want to add every number from 1 to 10 to this n.~Lets say our initial n is 0 and we want a loop to help us do this without having to do it ``manually''.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n }\OtherTok{\textless{}{-}} \DecValTok{0}
+
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{)\{}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{Adding\textquotesingle{}}\NormalTok{, i ,}\StringTok{\textquotesingle{}to\textquotesingle{}}\NormalTok{, n)}
+\NormalTok{  n }\OtherTok{=}\NormalTok{ n }\SpecialCharTok{+}\NormalTok{ i}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{Result:\textquotesingle{}}\NormalTok{, n)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Adding 1 to 0
+## Result: 1
+## Adding 2 to 1
+## Result: 3
+## Adding 3 to 3
+## Result: 6
+## Adding 4 to 6
+## Result: 10
+## Adding 5 to 10
+## Result: 15
+## Adding 6 to 15
+## Result: 21
+## Adding 7 to 21
+## Result: 28
+## Adding 8 to 28
+## Result: 36
+## Adding 9 to 36
+## Result: 45
+## Adding 10 to 45
+## Result: 55
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{Final n\textquotesingle{}}\NormalTok{, n)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Final n 55
+\end{verbatim}
+
+Now onto a more practical one. Lets say you have a list of numbers and you only
+want to add those that are above 10 to a new list. You could look over every one of them and add it manually, or you could just build the loop below.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_number\_list }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{7}\NormalTok{, }\DecValTok{20}\NormalTok{, }\DecValTok{21}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{61}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{29}\NormalTok{, }\DecValTok{02}\NormalTok{, }\DecValTok{19}\NormalTok{, }\DecValTok{44}\NormalTok{,}
+                    \DecValTok{03}\NormalTok{, }\DecValTok{4}\NormalTok{, }\FloatTok{5.5}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{71}\NormalTok{, }\FloatTok{10.5}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{65}\NormalTok{, }\FloatTok{4.5}\NormalTok{)}
+
+\NormalTok{list\_bigger\_10 }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{() }\CommentTok{\# empty object }
+
+\ControlFlowTok{for}\NormalTok{ (n }\ControlFlowTok{in}\NormalTok{ my\_number\_list)\{}
+  \ControlFlowTok{if}\NormalTok{ (n }\SpecialCharTok{\textgreater{}} \DecValTok{10}\NormalTok{)\{}
+\NormalTok{    list\_bigger\_10 }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(list\_bigger\_10, n)}
+\NormalTok{  \} }\ControlFlowTok{else}\NormalTok{ \{}
+    \FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{\textquotesingle{}}\NormalTok{, n, }\StringTok{\textquotesingle{}not bigger than 10\textquotesingle{}}\NormalTok{)}
+\NormalTok{  \}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  7 not bigger than 10
+##  5 not bigger than 10
+##  2 not bigger than 10
+##  2 not bigger than 10
+##  3 not bigger than 10
+##  4 not bigger than 10
+##  5.5 not bigger than 10
+##  10 not bigger than 10
+##  4 not bigger than 10
+##  4.5 not bigger than 10
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(list\_bigger\_10)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 20.0 21.0 61.0 29.0 19.0 44.0 71.0 10.5 65.0
+\end{verbatim}
+
 \hypertarget{functions}{%
 \section{Functions}\label{functions}}
 
@@ -590,6 +714,7 @@ A function is a set of statements (commands) organized in a way to perform a tas
 R, for instance, already has a large number of in-built functions (for instance, \texttt{mean(c(5,\ 10,\ 15))} is a function).
 The cool thing, however, is that, as with other programming languages, we can build our own function.
 The function takes a set of arguments and performs actions over that argument and output something (if we want).\\
+
 Its general structure is as follows:
 
 \begin{Shaded}
@@ -669,6 +794,7 @@ These packages add new functions to R.
 You have \emph{base packages} (already installed, but not loaded) and \emph{contributed packages} (need to be installed and loaded).
 
 You can install the latter by using the following command \texttt{install.packages(\textquotesingle{}package\_name\textquotesingle{})} and call (load) packages with \texttt{library(package\_name)}.\\
+
 Most packages come from CRAN (Comprehensive R Archive Network, which is basically R's house), thus all you need to write is that.
 
 However, if some packages come from github for instance you need to install the packages ``devtools'' (\texttt{install.packages(\textquotesingle{}devtools\textquotesingle{})}) then load it (\texttt{library(devtools)}) and finally use \texttt{install\_github("profile\_name/repository")} to install the package.
@@ -747,6 +873,7 @@ This can be immensely useful for you to find, and specially, replace lots of thi
 \section{Getting help}\label{getting-help}}
 
 To get help you have several options, which depend a lot on which type of help you need.\\
+
 If you want to know what arguments a functions requires, you can write its name and, and having your writing bar inside the ``()'' press TAB.
 
 If you need generic help about a function - what arguments go where, or, for instance, what does ``na.rm'' mean in that function - you can use the command \texttt{?function\_name()} in which ``function\_name'' is the name of your function.
@@ -756,10 +883,16 @@ Depending on the function and its respective documentation this help can either 
 
 If you need further help, or need help in problems that are not just concerned about a single function, you will want an internet connection.
 Having google searching skills will help lots with your R programming.\\
+
 A few notes and advices:\\
 - Search your problem using English language.\\
-- Search your problem in a generic way using proper searching language (don't write sentences, write the most relevant words of the problem).\\
-- If its an error just post the error message on google.\\
+
+\begin{itemize}
+\item
+  Search your problem in a generic way using proper searching language (don't write sentences, write the most relevant words of the problem).\\
+\item
+  If its an error just post the error message on google.\\
+\end{itemize}
 
 Don't be afraid or let down if you need to use google to help you with stuff you learned but just don't remember.
 Its normal, trust me.
@@ -767,7 +900,13 @@ Its normal, trust me.
 \hypertarget{using-ai-to-help-you}{%
 \section{Using AI to help you}\label{using-ai-to-help-you}}
 
-As of its recent ``debut'', another important tool you should consider is \href{https://openai.com/blog/chatgpt/}{ChatGPT} by \href{https://openai.com}{OpenAI}. If you haven't already come across it (launched November 2022), ChatGPT is a chatbot language model. Don't be discouraged by this wording, its, to say the least, google on steroids, and is particularly useful for programming. However, I cannot emphasize how this is underselling it. I truly encourage you to explore it yourself, and use it as a companion when coding in R. But I would advise some caution when using it, since it can give a false sense of confidence (answers are usually correct, by can lead to mistakes). You should always use your good judgment and search for other helpful tips across the internet.
+As of its recent ``debut'', another important tool you should consider is \href{https://openai.com/blog/chatgpt/}{ChatGPT} by \href{https://openai.com}{OpenAI}.
+If you haven't already come across it (launched November 2022), ChatGPT is a chatbot language model.
+Don't be discouraged by this wording, its, to say the least, google on steroids, and is particularly useful for programming.
+However, I cannot emphasize how this is underselling it.
+I truly encourage you to explore it yourself, and use it as a companion when coding in R.
+But I would advise some caution when using it, since it can give a false sense of confidence (answers are usually correct, by can lead to mistakes).
+You should always use your good judgment and search for other helpful tips across the internet.
 
 \hypertarget{further-reading}{%
 \section{Further reading}\label{further-reading}}
@@ -794,7 +933,7 @@ Usually, when using R, you want to work with data.
 This data is usually already there and you want to open it in R.
 The good thing is that R can read just about anything (just google ``read''file type'' in R'' on google).
 Here I show you how to read some of the most common formats.
-Be sure to install the \texttt{xlsx} and \texttt{haven} packages to open Excell and SPSS files, respectively.
+Be sure to install the \texttt{xlsx} and \texttt{haven} packages to open Excel and SPSS files, respectively.
 Additionally, there are multiple ways to read the same file.
 Some will be built in R itself, others will require external packages.
 This is important to know because some functions, although working, may be outdated or just give you some sort of weird error.
@@ -879,38 +1018,11 @@ Firstly, lets gather the names of the files in our directory that we want to imp
 \CommentTok{\# Setting our working directory}
 \FunctionTok{setwd}\NormalTok{(}\StringTok{\textquotesingle{}C:/Users/fabio/OneDrive/My Things/Stats/Teaching/R\_Book/data\textquotesingle{}}\NormalTok{)}
 
-\CommentTok{\# Empty list to list all txt files in folder}
-\NormalTok{list\_of\_files }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{()}
+\CommentTok{\# Look for ".csv" files}
+\NormalTok{files }\OtherTok{\textless{}{-}} \FunctionTok{list.files}\NormalTok{(}\AttributeTok{pattern =} \StringTok{"*.csv"}\NormalTok{)}
 
-\CommentTok{\# Searches for ".csv" files in the folder}
-\NormalTok{list\_all\_data }\OtherTok{\textless{}{-}} \FunctionTok{dir}\NormalTok{(}\AttributeTok{pattern=}\StringTok{\textquotesingle{}.csv\textquotesingle{}}\NormalTok{)}
-
-\CommentTok{\# For each ".csv" file, append this file to a list that will contain all ".csv" file names.}
-\ControlFlowTok{for}\NormalTok{ (file }\ControlFlowTok{in}\NormalTok{ list\_all\_data)\{}
-\NormalTok{  list\_of\_files }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(list\_of\_files, file)}
-  \FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{File processed:\textquotesingle{}}\NormalTok{, file)  }\CommentTok{\# prints the file names}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## 
-## File processed: Participant_1.csv
-## File processed: Participant_10.csv
-## File processed: Participant_2.csv
-## File processed: Participant_3.csv
-## File processed: Participant_4.csv
-## File processed: Participant_5.csv
-## File processed: Participant_6.csv
-## File processed: Participant_7.csv
-## File processed: Participant_8.csv
-## File processed: Participant_9.csv
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# How many files were processed?}
-\FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{Total number of files processed:\textquotesingle{}}\NormalTok{, }\FunctionTok{length}\NormalTok{(list\_of\_files))}
+\CommentTok{\# See how many were read}
+\FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{Total number of files processed:\textquotesingle{}}\NormalTok{, }\FunctionTok{length}\NormalTok{(files))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -919,28 +1031,49 @@ Firstly, lets gather the names of the files in our directory that we want to imp
 ## Total number of files processed: 10
 \end{verbatim}
 
-Then we need to create a function that iterates over all of this file names.
-It will need to import each file (by their name) and append them to a general dataframe.
+Now lets create a dataframe and join each file into it.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Setting our working directory}
 \FunctionTok{setwd}\NormalTok{(}\StringTok{\textquotesingle{}C:/Users/fabio/OneDrive/My Things/Stats/Teaching/R\_Book/data\textquotesingle{}}\NormalTok{)}
 
-\CommentTok{\# Create an empty dataframe where all data will be stored}
-\NormalTok{df\_all }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{()}
+\CommentTok{\# Creating an empty data frame}
+\NormalTok{d }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{()}
 
-\CommentTok{\# Create a simple reading function for every element in a list}
-\NormalTok{import\_data }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(file\_name)\{}
-  \ControlFlowTok{for}\NormalTok{ (name }\ControlFlowTok{in}\NormalTok{ file\_name)\{  }\CommentTok{\# for every name in that list}
-\NormalTok{    df }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(name, }\AttributeTok{header=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{encoding =} \StringTok{\textquotesingle{}utf{-}8\textquotesingle{}}\NormalTok{, }\AttributeTok{sep=}\StringTok{\textquotesingle{},\textquotesingle{}}\NormalTok{)  }\CommentTok{\# read that name and assign it to "df"}
-\NormalTok{    df\_all }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(df\_all, df)  }\CommentTok{\# add "df" to that list   }
-\NormalTok{  \}}
-\NormalTok{  df\_all }\OtherTok{\textless{}\textless{}{-}}\NormalTok{ df\_all  }\CommentTok{\# Makes this object available globally}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in}\NormalTok{ files)\{}
+\NormalTok{  temp }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(i) }\CommentTok{\# Reading each file}
+\NormalTok{  d }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(d, temp)  }\CommentTok{\# Binding (by row) each file into our data frame}
 \NormalTok{\}}
 
-\CommentTok{\# Running function}
-\FunctionTok{import\_data}\NormalTok{(}\AttributeTok{file\_name =}\NormalTok{ list\_of\_files)}
+\CommentTok{\# Preview}
+\FunctionTok{head}\NormalTok{(d)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Participant_ID   Condition       RT
+## 1              1 Condition_1 1.478651
+## 2              1 Condition_1 1.495121
+## 3              1 Condition_1 1.506271
+## 4              1 Condition_1 1.561987
+## 5              1 Condition_1 1.508967
+## 6              1 Condition_1 1.512732
+\end{verbatim}
+
+Alternatively, you might just want to read/import each file into R, without merging them.
+For that you can use this bit of code.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Setting our working directory}
+\FunctionTok{setwd}\NormalTok{(}\StringTok{\textquotesingle{}C:/Users/fabio/OneDrive/My Things/Stats/Teaching/R\_Book/data\textquotesingle{}}\NormalTok{)}
+
+\CommentTok{\# Loop through each CSV file and read into a data frame}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in}\NormalTok{ files) \{}
+  \CommentTok{\# Read CSV file into a data frame with the same name as the file}
+  \FunctionTok{assign}\NormalTok{(}\FunctionTok{sub}\NormalTok{(}\StringTok{".csv"}\NormalTok{, }\StringTok{""}\NormalTok{, i), }\FunctionTok{read.csv}\NormalTok{(i))}
+\NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1064,7 +1197,7 @@ Note that if we don't specify the path along with the name of the file to be cre
 \NormalTok{filename }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(path, }\StringTok{\textquotesingle{}some\_data.csv\textquotesingle{}}\NormalTok{, }\AttributeTok{sep =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
 
 \CommentTok{\# Export it}
-\FunctionTok{write.csv}\NormalTok{(}\AttributeTok{x =}\NormalTok{ df\_all, }\AttributeTok{file =}\NormalTok{ filename)}
+\FunctionTok{write.csv}\NormalTok{(}\AttributeTok{x =}\NormalTok{ d\_all, }\AttributeTok{file =}\NormalTok{ filename)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1752,7 +1885,7 @@ You can then build operations on top of your summaries (like mutations or plots)
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-48-1.pdf}
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-52-1.pdf}
 
 \hypertarget{changing-format-widelong}{%
 \subsection{Changing Format (Wide/Long)}\label{changing-format-widelong}}
@@ -2259,6 +2392,123 @@ We can see it more clearly in this dataframe.
 ## 3    23.86803 -2.192438
 \end{verbatim}
 
+\hypertarget{nesting}{%
+\subsection{Nesting}\label{nesting}}
+
+Now nesting is another neat feature, albeit less used, that sometimes might come in handy if you want a more clean data frame. Nesting allows you to ``nest'' data frames within data frames. The best way to see how it works and its possible benefits is with an example.
+
+We have an example below (again, courtesy of chatGPT) about patient visits to a hospital.
+Lets first build this simulated data frame.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\FunctionTok{library}\NormalTok{(lubridate)  }\CommentTok{\# used for ymd function}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'lubridate'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     date, intersect, setdiff, union
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Simulate a dataset of patients with multiple visits}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{)}
+\NormalTok{n\_patients }\OtherTok{\textless{}{-}} \DecValTok{50}
+\NormalTok{n\_visits }\OtherTok{\textless{}{-}} \DecValTok{5}
+\NormalTok{patient\_data }\OtherTok{\textless{}{-}} \FunctionTok{tibble}\NormalTok{(}
+  \AttributeTok{patient\_id =} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{n\_patients, }\AttributeTok{each =}\NormalTok{ n\_visits),}
+  \AttributeTok{visit\_date =} \FunctionTok{rep}\NormalTok{(}\FunctionTok{seq}\NormalTok{(}\AttributeTok{from =} \FunctionTok{ymd}\NormalTok{(}\StringTok{"20220101"}\NormalTok{), }\AttributeTok{length.out =}\NormalTok{ n\_visits, }\AttributeTok{by =} \StringTok{"month"}\NormalTok{), }\AttributeTok{times =}\NormalTok{ n\_patients),}
+  \AttributeTok{symptom =} \FunctionTok{sample}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"cough"}\NormalTok{, }\StringTok{"fever"}\NormalTok{, }\StringTok{"headache"}\NormalTok{, }\StringTok{"fatigue"}\NormalTok{, }\StringTok{"nausea"}\NormalTok{), }\AttributeTok{size =}\NormalTok{ n\_patients }\SpecialCharTok{*}\NormalTok{ n\_visits, }\AttributeTok{replace =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{)}
+
+\FunctionTok{head}\NormalTok{(patient\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 3
+##   patient_id visit_date symptom 
+##        <int> <date>     <chr>   
+## 1          1 2022-01-01 headache
+## 2          1 2022-02-01 headache
+## 3          1 2022-03-01 fever   
+## 4          1 2022-04-01 fever   
+## 5          1 2022-05-01 headache
+## 6          2 2022-01-01 nausea
+\end{verbatim}
+
+Now lets nest the data per ID.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Nest the visits within each patient}
+\NormalTok{patient\_data\_nested }\OtherTok{\textless{}{-}}\NormalTok{ patient\_data }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{group\_by}\NormalTok{(patient\_id) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{nest}\NormalTok{()}
+
+\FunctionTok{head}\NormalTok{(patient\_data\_nested)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 2
+## # Groups:   patient_id [6]
+##   patient_id data            
+##        <int> <list>          
+## 1          1 <tibble [5 x 2]>
+## 2          2 <tibble [5 x 2]>
+## 3          3 <tibble [5 x 2]>
+## 4          4 <tibble [5 x 2]>
+## 5          5 <tibble [5 x 2]>
+## 6          6 <tibble [5 x 2]>
+\end{verbatim}
+
+Now lets run some statistics on each patient.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Calculate the proportion of visits where each symptom was reported}
+\NormalTok{patient\_data\_nested\_summary }\OtherTok{\textless{}{-}}\NormalTok{ patient\_data\_nested }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{symptom\_summary =} \FunctionTok{map}\NormalTok{(data, }\SpecialCharTok{\textasciitilde{}}\NormalTok{ .x }\SpecialCharTok{\%\textgreater{}\%} 
+      \FunctionTok{group\_by}\NormalTok{(symptom) }\SpecialCharTok{\%\textgreater{}\%} 
+      \FunctionTok{summarize}\NormalTok{(}\AttributeTok{prop\_reports =} \FunctionTok{n}\NormalTok{()}\SpecialCharTok{/}\FunctionTok{nrow}\NormalTok{(.))}
+\NormalTok{    )}
+\NormalTok{  )}
+
+\CommentTok{\# Unnesting and view results}
+\NormalTok{patient\_data\_nested\_summary }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{unnest}\NormalTok{(symptom\_summary)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 168 x 4
+## # Groups:   patient_id [50]
+##    patient_id data             symptom  prop_reports
+##         <int> <list>           <chr>           <dbl>
+##  1          1 <tibble [5 x 2]> fever             0.4
+##  2          1 <tibble [5 x 2]> headache          0.6
+##  3          2 <tibble [5 x 2]> cough             0.2
+##  4          2 <tibble [5 x 2]> fatigue           0.2
+##  5          2 <tibble [5 x 2]> fever             0.2
+##  6          2 <tibble [5 x 2]> headache          0.2
+##  7          2 <tibble [5 x 2]> nausea            0.2
+##  8          3 <tibble [5 x 2]> cough             0.2
+##  9          3 <tibble [5 x 2]> fatigue           0.2
+## 10          3 <tibble [5 x 2]> headache          0.4
+## # ... with 158 more rows
+\end{verbatim}
+
 \hypertarget{end}{%
 \section{End}\label{end}}
 
@@ -2721,7 +2971,7 @@ Here are a few examples that I took from a quick google search:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-78-1.pdf}
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-85-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2747,7 +2997,7 @@ Here are a few examples that I took from a quick google search:
 ##   Please report the issue at <https://github.com/ropensci/visdat/issues>.
 \end{verbatim}
 
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-78-2.pdf}
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-85-2.pdf}
 
 Now, we need to decide what to do with these NA values.
 We can see below that two penguins have data missing from their base features (e.g., culmen\_lenght and body\_mass).
@@ -3095,7 +3345,7 @@ Here's an example usage of \texttt{geom\_bar}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-91-1.pdf}
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-98-1.pdf}
 
 Now regarding \texttt{geom\_col} and the more typical use of showing means.
 You have two ways of doing it, either:
@@ -3129,7 +3379,7 @@ I usually just use \texttt{stat\_summary()}, instead of pre-computing the means,
 ## `.groups` argument.
 \end{verbatim}
 
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-92-1.pdf}
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-99-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3144,7 +3394,7 @@ I usually just use \texttt{stat\_summary()}, instead of pre-computing the means,
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-92-2.pdf}
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-99-2.pdf}
 
 \hypertarget{boxplots}{%
 \subsection{Boxplots}\label{boxplots}}
@@ -3165,7 +3415,7 @@ Below I introduce you the standard box plot, while also showing you other layers
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-93-1.pdf}
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-100-1.pdf}
 
 \hypertarget{density}{%
 \subsection{Density}\label{density}}
@@ -3186,7 +3436,7 @@ You just need to point out the variable name, in this case we will look at ``bod
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-94-1.pdf}
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-101-1.pdf}
 
 \hypertarget{facets}{%
 \subsection{Facets}\label{facets}}
@@ -3211,7 +3461,7 @@ In this case since we want to compare them directly, I think its best if they ar
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-95-1.pdf}
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-102-1.pdf}
 
 \hypertarget{coord-flip}{%
 \subsection{Coord flip}\label{coord-flip}}
@@ -3231,7 +3481,7 @@ Here's an example.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-96-1.pdf}
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-103-1.pdf}
 
 \hypertarget{correlation-plots}{%
 \subsection{Correlation plots}\label{correlation-plots}}
@@ -3250,7 +3500,7 @@ Here's a way to do it:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-97-1.pdf}
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-104-1.pdf}
 
 We can additionally separate this correlations by specie.
 For that we can use the function \texttt{ggpairs()} from the \texttt{GGally} package.
@@ -3276,7 +3526,7 @@ For that we can use the function \texttt{ggpairs()} from the \texttt{GGally} pac
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-98-1.pdf}
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-105-1.pdf}
 
 When you want to assess something more specific you can use a point plot.
 Point plots allow us to see how two numeric variables correlate with each other.
@@ -3347,7 +3597,7 @@ Here's how to do it:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-100-1.pdf}
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-107-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3356,7 +3606,7 @@ Here's how to do it:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-100-2.pdf}
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-107-2.pdf}
 
 \hypertarget{date-1}{%
 \subsection{Date}\label{date-1}}
@@ -3375,7 +3625,7 @@ Since I found a pattern, showing that these collection took place between Novemb
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-101-1.pdf}
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-108-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3393,7 +3643,7 @@ Since I found a pattern, showing that these collection took place between Novemb
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-101-2.pdf}
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-108-2.pdf}
 
 \hypertarget{ordering-factors}{%
 \subsection{Ordering factors}\label{ordering-factors}}
@@ -3402,7 +3652,7 @@ Another useful function, is the function \texttt{fct\_reorder()} which comes fro
 This function is particularly (although not exclusively) useful for plots.
 As default, R organizes the levels in a factor by alphabetical order.
 This function allows us to alter the order by which levels in a factor are presented, according to certain conditions we can define ourselves.
-For instance if we plot the mean ``delta\_15\_ooo'' per species of penguin, we get the x-axis with (alphabettically defined) Adelie, Chinstrap and Gentoo penguins.
+For instance if we plot the mean ``delta\_15\_ooo'' per species of penguin, we get the x-axis with (alphabetically defined) Adelie, Chinstrap and Gentoo penguins.
 But lets say instead, we want to reorder the x-axis in a descending order according to mean delta\_15 of each species.
 
 \begin{Shaded}
@@ -3419,7 +3669,7 @@ But lets say instead, we want to reorder the x-axis in a descending order accord
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-102-1.pdf}
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-109-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3435,19 +3685,13 @@ But lets say instead, we want to reorder the x-axis in a descending order accord
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-102-2.pdf}
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-109-2.pdf}
 
 \hypertarget{end-1}{%
 \section{End}\label{end-1}}
 
 \hypertarget{basic-statistical-analysis}{%
 \chapter{Basic Statistical Analysis}\label{basic-statistical-analysis}}
-
-Resources:
-
-\url{https://bookdown.org/mikemahoney218/IDEAR/basic-statistics-using-r.html}
-
-To cover:
 
 In this chapter we will perform some basic statistical analyses on several distinct data sets. These analyses are just some examples that should get you going. The point here is to show you the syntax adopted by most analyses-related functions as well as to demonstrate how you need to prepare data, what the output looks like, etc.. Everything you will see will pretty much be the action part of the analysis plan, and not the whole exploration and full comprehension of the data that should precede any analysis. I will not be discussing the output of each analysis, only how to perform them. That latter part will be up to you, since you already have the know-how on how to read, wrangle, describe and visualize your data (Chapter 1, 2 and 3).\\
 Thus, this is by no means a detailed guide on how to analyse data. That would require an entire book on itself. So remember, this is just a ``demo'' and not the entire game. I will make sure, however, to leave some references for each topic if you are interested in better understanding and applying these analyses methods yourself. At the end you will have some more general recommendations for a full ``intro to analysis with R'' type of books/guides.\\
@@ -3519,7 +3763,7 @@ We can choose to selectively correlate two variables, like for instance fatalism
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-105-1.pdf}
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-112-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3568,7 +3812,7 @@ Alternatively we can quickly explor all correlations within a data set
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-106-1.pdf}
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-113-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3578,7 +3822,7 @@ Alternatively we can quickly explor all correlations within a data set
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-106-2.pdf}
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-113-2.pdf}
 
 You can also split the correlation by groups. Here's how.
 
@@ -3601,7 +3845,7 @@ You can also split the correlation by groups. Here's how.
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-107-1.pdf}
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-114-1.pdf}
 
 Lastly, we can correlate all other variables with one of our choosing.
 
@@ -3754,7 +3998,7 @@ Again, these are beside the point of the guide, but if you want to check them, h
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-111-1.pdf}
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-118-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3766,7 +4010,7 @@ Again, these are beside the point of the guide, but if you want to check them, h
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-111-2.pdf}
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-118-2.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3775,7 +4019,7 @@ Again, these are beside the point of the guide, but if you want to check them, h
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-111-3.pdf}
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-118-3.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3786,7 +4030,7 @@ Again, these are beside the point of the guide, but if you want to check them, h
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-111-4.pdf}
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-118-4.pdf}
 
 With your model you can then make predictions, of course. To do this you use the command \texttt{predict}. Lets create a different model first with a continuous predictor
 
@@ -3831,7 +4075,7 @@ Lastly, lets plot our model.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-113-1.pdf}
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-120-1.pdf}
 
 Linear regressions are one of the fundamental pillars of statistics. Nearly all statistical analyses are variations of linear regressions. I encourage you to truly understand them as it will give you more confidence when trying to perform any of the analyses shown below. Here are a few resources:\\
 
@@ -4433,14 +4677,342 @@ To perform GLMMs I will use the \texttt{glmer()} function from the same \texttt{
 \hypertarget{bayesian-analysis}{%
 \section{Bayesian analysis}\label{bayesian-analysis}}
 
+Bayesian analysis, can be performed with, among others, the package \texttt{brms}.
+This package creates an interface for STAN through R. For those of you who don't know what STAN is, don't worry, its just another probabilistic programming language used for Bayesian statistical inference.
+A bayesian model is not that different from the models we built above, we just need to specificy some additional parameters, like \emph{family} and \emph{priors}. Explaining this is beyond this guide, so I encourage you to visit/read the following:
+
+\begin{itemize}
+\tightlist
+\item
+  \url{https://rstudio-pubs-static.s3.amazonaws.com/721703_f1c1a8d256ce4393aabfe23c9c1d221d.html\#what-is-bayesian-inference-work}
+\item
+  Statistical Rethinking by Richard McElreath
+\end{itemize}
+
+Now, we are going to build a model using the \texttt{mtcars}. For this example we are going to create a model predicting \emph{mpg} (miles per galon) using \emph{disp} (displacement of the engine). The model is going to be pretty simple with uninformative priors.
+
+Here is a list (courtesy of chatGPT) of all parameters that can be defined inside a \texttt{brm()} model, with their respective descriptions
+
+• \emph{formula}: The model formula specified using bf(), which defines the response and predictor variables in the model.
+• \emph{data}: The dataset containing the variables used in the model.
+• \emph{family}: The likelihood function used in the model, which specifies the distribution of the response variable. Common options include gaussian() (for linear regression), binomial() (for logistic regression), poisson() (for count data), and negbinomial() (for overdispersed count data).
+• \emph{prior}: A specification of the prior distributions used for the model parameters. Priors can be specified using prior() and can include a wide range of distributions, such as normal(), cauchy(), gamma(), student\_t(), and lkj().
+• \emph{control}: A list of control parameters that affect the behavior of the MCMC algorithm used to estimate the posterior distribution. Control parameters can include adapt\_delta (the target acceptance rate for the algorithm), max\_treedepth (the maximum depth of the trees used in the algorithm), and iter (the total number of MCMC iterations to run).
+• \emph{chains}: The number of Markov chains to run during the MCMC algorithm. The default is 4.
+• \emph{cores}: The number of cores to use for parallel processing during the MCMC algorithm.
+• \emph{iter}: The total number of MCMC iterations to run.
+• \emph{warmup}: The number of warmup iterations to run at the beginning of the MCMC algorithm, which are discarded before the posterior distribution is estimated.
+• \emph{thin}: The thinning interval used to reduce autocorrelation between the MCMC samples.
+• \emph{cores}: The number of CPU cores to use for parallel processing.
+• \emph{seed}: The random seed used to initialize the MCMC algorithm.
+• \emph{save\_all\_pars}: Whether to save all parameter values during the MCMC algorithm. If TRUE, all parameter values are saved, which can be useful for diagnostic purposes.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(brms)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: Rcpp
+\end{verbatim}
+
+\begin{verbatim}
+## Loading 'brms' package (version 2.18.0). Useful instructions
+## can be found by typing help('brms'). A more detailed introduction
+## to the package is available through vignette('brms_overview').
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'brms'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:lme4':
+## 
+##     ngrps
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:stats':
+## 
+##     ar
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{d }\OtherTok{\textless{}{-}}\NormalTok{ mtcars}
+
+\FunctionTok{brm}\NormalTok{(}\AttributeTok{formula =} \FunctionTok{bf}\NormalTok{(mpg }\SpecialCharTok{\textasciitilde{}}\NormalTok{ disp),}
+    \AttributeTok{data =}\NormalTok{ d,}
+    \AttributeTok{family =} \FunctionTok{gaussian}\NormalTok{(),}
+    \AttributeTok{prior =} \FunctionTok{c}\NormalTok{(}\FunctionTok{prior}\NormalTok{(}\FunctionTok{normal}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{5}\NormalTok{), }\AttributeTok{class =}\NormalTok{ Intercept),}
+              \FunctionTok{prior}\NormalTok{(}\FunctionTok{normal}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{5}\NormalTok{), }\AttributeTok{class =}\NormalTok{ b)),}
+    \AttributeTok{chains =} \DecValTok{4}\NormalTok{, }\AttributeTok{iter =} \DecValTok{2000}\NormalTok{, }\AttributeTok{warmup =} \DecValTok{500}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Compiling Stan program...
+\end{verbatim}
+
+\begin{verbatim}
+## Start sampling
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
+## Chain 1: 
+## Chain 1: Gradient evaluation took 4.8e-05 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.48 seconds.
+## Chain 1: Adjust your expectations accordingly!
+## Chain 1: 
+## Chain 1: 
+## Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
+## Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
+## Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
+## Chain 1: Iteration:  501 / 2000 [ 25%]  (Sampling)
+## Chain 1: Iteration:  700 / 2000 [ 35%]  (Sampling)
+## Chain 1: Iteration:  900 / 2000 [ 45%]  (Sampling)
+## Chain 1: Iteration: 1100 / 2000 [ 55%]  (Sampling)
+## Chain 1: Iteration: 1300 / 2000 [ 65%]  (Sampling)
+## Chain 1: Iteration: 1500 / 2000 [ 75%]  (Sampling)
+## Chain 1: Iteration: 1700 / 2000 [ 85%]  (Sampling)
+## Chain 1: Iteration: 1900 / 2000 [ 95%]  (Sampling)
+## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
+## Chain 1: 
+## Chain 1:  Elapsed Time: 0.057 seconds (Warm-up)
+## Chain 1:                0.037 seconds (Sampling)
+## Chain 1:                0.094 seconds (Total)
+## Chain 1: 
+## 
+## SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
+## Chain 2: 
+## Chain 2: Gradient evaluation took 8e-06 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.08 seconds.
+## Chain 2: Adjust your expectations accordingly!
+## Chain 2: 
+## Chain 2: 
+## Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
+## Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
+## Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
+## Chain 2: Iteration:  501 / 2000 [ 25%]  (Sampling)
+## Chain 2: Iteration:  700 / 2000 [ 35%]  (Sampling)
+## Chain 2: Iteration:  900 / 2000 [ 45%]  (Sampling)
+## Chain 2: Iteration: 1100 / 2000 [ 55%]  (Sampling)
+## Chain 2: Iteration: 1300 / 2000 [ 65%]  (Sampling)
+## Chain 2: Iteration: 1500 / 2000 [ 75%]  (Sampling)
+## Chain 2: Iteration: 1700 / 2000 [ 85%]  (Sampling)
+## Chain 2: Iteration: 1900 / 2000 [ 95%]  (Sampling)
+## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
+## Chain 2: 
+## Chain 2:  Elapsed Time: 0.041 seconds (Warm-up)
+## Chain 2:                0.037 seconds (Sampling)
+## Chain 2:                0.078 seconds (Total)
+## Chain 2: 
+## 
+## SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
+## Chain 3: 
+## Chain 3: Gradient evaluation took 8e-06 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.08 seconds.
+## Chain 3: Adjust your expectations accordingly!
+## Chain 3: 
+## Chain 3: 
+## Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
+## Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
+## Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
+## Chain 3: Iteration:  501 / 2000 [ 25%]  (Sampling)
+## Chain 3: Iteration:  700 / 2000 [ 35%]  (Sampling)
+## Chain 3: Iteration:  900 / 2000 [ 45%]  (Sampling)
+## Chain 3: Iteration: 1100 / 2000 [ 55%]  (Sampling)
+## Chain 3: Iteration: 1300 / 2000 [ 65%]  (Sampling)
+## Chain 3: Iteration: 1500 / 2000 [ 75%]  (Sampling)
+## Chain 3: Iteration: 1700 / 2000 [ 85%]  (Sampling)
+## Chain 3: Iteration: 1900 / 2000 [ 95%]  (Sampling)
+## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
+## Chain 3: 
+## Chain 3:  Elapsed Time: 0.027 seconds (Warm-up)
+## Chain 3:                0.036 seconds (Sampling)
+## Chain 3:                0.063 seconds (Total)
+## Chain 3: 
+## 
+## SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
+## Chain 4: 
+## Chain 4: Gradient evaluation took 7e-06 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.07 seconds.
+## Chain 4: Adjust your expectations accordingly!
+## Chain 4: 
+## Chain 4: 
+## Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)
+## Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)
+## Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)
+## Chain 4: Iteration:  501 / 2000 [ 25%]  (Sampling)
+## Chain 4: Iteration:  700 / 2000 [ 35%]  (Sampling)
+## Chain 4: Iteration:  900 / 2000 [ 45%]  (Sampling)
+## Chain 4: Iteration: 1100 / 2000 [ 55%]  (Sampling)
+## Chain 4: Iteration: 1300 / 2000 [ 65%]  (Sampling)
+## Chain 4: Iteration: 1500 / 2000 [ 75%]  (Sampling)
+## Chain 4: Iteration: 1700 / 2000 [ 85%]  (Sampling)
+## Chain 4: Iteration: 1900 / 2000 [ 95%]  (Sampling)
+## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
+## Chain 4: 
+## Chain 4:  Elapsed Time: 0.022 seconds (Warm-up)
+## Chain 4:                0.037 seconds (Sampling)
+## Chain 4:                0.059 seconds (Total)
+## Chain 4:
+\end{verbatim}
+
+\begin{verbatim}
+##  Family: gaussian 
+##   Links: mu = identity; sigma = identity 
+## Formula: mpg ~ disp 
+##    Data: d (Number of observations: 32) 
+##   Draws: 4 chains, each with iter = 2000; warmup = 500; thin = 1;
+##          total post-warmup draws = 6000
+## 
+## Population-Level Effects: 
+##           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## Intercept    29.32      1.30    26.73    31.77 1.00     6134     4014
+## disp         -0.04      0.00    -0.05    -0.03 1.00     6922     4592
+## 
+## Family Specific Parameters: 
+##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma     3.38      0.47     2.64     4.45 1.00     3204     2894
+## 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m1 }\OtherTok{\textless{}{-}} \FunctionTok{brm}\NormalTok{(}\AttributeTok{data =}\NormalTok{ d, }
+    \AttributeTok{family =}\NormalTok{ gaussian,}
+    \AttributeTok{formula =}\NormalTok{ mpg }\SpecialCharTok{\textasciitilde{}} \DecValTok{1} \SpecialCharTok{+}\NormalTok{ disp, }\CommentTok{\# or simply bf(mpg \textasciitilde{} disp)}
+    \AttributeTok{prior =} \FunctionTok{c}\NormalTok{(}\FunctionTok{prior}\NormalTok{(}\FunctionTok{normal}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{5}\NormalTok{), }\AttributeTok{class =}\NormalTok{ Intercept),}
+              \FunctionTok{prior}\NormalTok{(}\FunctionTok{normal}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{5}\NormalTok{), }\AttributeTok{class =}\NormalTok{ b),}
+              \FunctionTok{prior}\NormalTok{(}\FunctionTok{lognormal}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{class =}\NormalTok{ sigma)),}
+    \AttributeTok{iter =} \DecValTok{2000}\NormalTok{, }\AttributeTok{warmup =} \DecValTok{1000}\NormalTok{, }\AttributeTok{chains =} \DecValTok{4}\NormalTok{, }\AttributeTok{cores =} \DecValTok{4}\NormalTok{,}
+    \AttributeTok{seed =} \DecValTok{7}\NormalTok{,}
+    \AttributeTok{file =} \StringTok{\textquotesingle{}ex\_fit\textquotesingle{}}\NormalTok{)}
+
+\FunctionTok{print}\NormalTok{(m1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  Family: gaussian 
+##   Links: mu = identity; sigma = identity 
+## Formula: mpg ~ 1 + disp 
+##    Data: d (Number of observations: 32) 
+##   Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+##          total post-warmup draws = 4000
+## 
+## Population-Level Effects: 
+##           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## Intercept    29.30      1.21    26.77    31.71 1.00     3401     2398
+## disp         -0.04      0.00    -0.05    -0.03 1.00     3515     2666
+## 
+## Family Specific Parameters: 
+##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma     3.28      0.42     2.59     4.20 1.00     2640     2936
+## 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).
+\end{verbatim}
+
 \hypertarget{time-series}{%
 \section{Time series}\label{time-series}}
+
+Time series analysis are another common type of analysis that allows us to identify trends and forecast future values in data that is collected in regular intervals along some time-frame.
+To illustrate a time-series analysis we are going to use the ``AirPassengers'' data set. This data set represents the monthly totals of international airline passengers from 1949 to 1960.
+To perform a time series you need to make sure that your data is a \texttt{ts} object. Luckily our example is already in this format. For further reading and questions, you can read the following:
+
+\begin{itemize}
+\tightlist
+\item
+  \url{https://a-little-book-of-r-for-time-series.readthedocs.io/en/latest/src/timeseries.html}
+\item
+  \url{https://www.geeksforgeeks.org/time-series-analysis-in-r/}
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Load the AirPassengers dataset}
+\FunctionTok{data}\NormalTok{(AirPassengers)}
+\NormalTok{d }\OtherTok{\textless{}{-}}\NormalTok{ AirPassengers}
+
+\CommentTok{\# Converting the data frame to a ts object.}
+\NormalTok{ts\_data }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{(d, }\AttributeTok{start =} \FunctionTok{c}\NormalTok{(}\DecValTok{1949}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{frequency =} \DecValTok{12}\NormalTok{)}
+
+\CommentTok{\# Plotting data frame}
+\NormalTok{d\_plot }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{date =} \FunctionTok{time}\NormalTok{(ts\_data), }\AttributeTok{passengers =} \FunctionTok{as.numeric}\NormalTok{(ts\_data))}
+
+\NormalTok{d\_plot }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(date, passengers)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Don't know how to automatically pick scale for object of type ts. Defaulting to continuous.
+\end{verbatim}
+
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-132-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Perform a decomposition to separate the trend, seasonal, and random components}
+\NormalTok{decomp }\OtherTok{\textless{}{-}} \FunctionTok{decompose}\NormalTok{(ts\_data)}
+
+\CommentTok{\# See the results of the decomposition}
+\FunctionTok{plot}\NormalTok{(decomp)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{using_r_data_files/figure-latex/unnamed-chunk-132-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Fit a simple linear regression model to the time series data}
+\NormalTok{m }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(ts\_data }\SpecialCharTok{\textasciitilde{}} \FunctionTok{time}\NormalTok{(ts\_data))}
+
+\FunctionTok{summary}\NormalTok{(m)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = ts_data ~ time(ts_data))
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -93.858 -30.727  -5.757  24.489 164.999 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   -62055.907   2166.077  -28.65   <2e-16 ***
+## time(ts_data)     31.886      1.108   28.78   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 46.06 on 142 degrees of freedom
+## Multiple R-squared:  0.8536, Adjusted R-squared:  0.8526 
+## F-statistic: 828.2 on 1 and 142 DF,  p-value: < 2.2e-16
+\end{verbatim}
 
 \hypertarget{drift-difussion-modelling}{%
 \section{Drift difussion modelling}\label{drift-difussion-modelling}}
 
 \hypertarget{survival-analysis}{%
 \section{Survival analysis}\label{survival-analysis}}
+
+\hypertarget{end-2}{%
+\section{End}\label{end-2}}
 
   \bibliography{book.bib,packages.bib}
 

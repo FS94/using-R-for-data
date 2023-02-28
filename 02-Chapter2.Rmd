@@ -17,7 +17,7 @@ Usually, when using R, you want to work with data.
 This data is usually already there and you want to open it in R.
 The good thing is that R can read just about anything (just google "read "file type" in R" on google).
 Here I show you how to read some of the most common formats.
-Be sure to install the `xlsx` and `haven` packages to open Excell and SPSS files, respectively.
+Be sure to install the `xlsx` and `haven` packages to open Excel and SPSS files, respectively.
 Additionally, there are multiple ways to read the same file.
 Some will be built in R itself, others will require external packages.
 This is important to know because some functions, although working, may be outdated or just give you some sort of weird error.
@@ -88,43 +88,41 @@ Firstly, lets gather the names of the files in our directory that we want to imp
 # Setting our working directory
 setwd('C:/Users/fabio/OneDrive/My Things/Stats/Teaching/R_Book/data')
 
-# Empty list to list all txt files in folder
-list_of_files <- c()
+# Look for ".csv" files
+files <- list.files(pattern = "*.csv")
 
-# Searches for ".csv" files in the folder
-list_all_data <- dir(pattern='.csv')
-
-# For each ".csv" file, append this file to a list that will contain all ".csv" file names.
-for (file in list_all_data){
-  list_of_files <- c(list_of_files, file)
-  cat('\nFile processed:', file)  # prints the file names
-}
-
-# How many files were processed?
-cat('\nTotal number of files processed:', length(list_of_files))
+# See how many were read
+cat('\nTotal number of files processed:', length(files))
 ```
 
-Then we need to create a function that iterates over all of this file names.
-It will need to import each file (by their name) and append them to a general dataframe.
-
+Now lets create a dataframe and join each file into it.
 ```{r}
 # Setting our working directory
 setwd('C:/Users/fabio/OneDrive/My Things/Stats/Teaching/R_Book/data')
 
-# Create an empty dataframe where all data will be stored
-df_all <- data.frame()
+# Creating an empty data frame
+d <- data.frame()
 
-# Create a simple reading function for every element in a list
-import_data <- function(file_name){
-  for (name in file_name){  # for every name in that list
-    df <- read.csv(name, header=TRUE, encoding = 'utf-8', sep=',')  # read that name and assign it to "df"
-    df_all <- rbind(df_all, df)  # add "df" to that list   
-  }
-  df_all <<- df_all  # Makes this object available globally
+for (i in files){
+  temp <- read.csv(i) # Reading each file
+  d <- rbind(d, temp)  # Binding (by row) each file into our data frame
 }
 
-# Running function
-import_data(file_name = list_of_files)
+# Preview
+head(d)
+```
+
+Alternatively, you might just want to read/import each file into R, without merging them.
+For that you can use this bit of code.
+```{r}
+# Setting our working directory
+setwd('C:/Users/fabio/OneDrive/My Things/Stats/Teaching/R_Book/data')
+
+# Loop through each CSV file and read into a data frame
+for (i in files) {
+  # Read CSV file into a data frame with the same name as the file
+  assign(sub(".csv", "", i), read.csv(i))
+}
 ```
 
 ## Merging
@@ -224,7 +222,7 @@ path = 'C:/Users/fabio/OneDrive/My Things/Stats/Teaching/R_Book/'
 filename <- paste(path, 'some_data.csv', sep = '')
 
 # Export it
-write.csv(x = df_all, file = filename)
+write.csv(x = d_all, file = filename)
 ```
 
 ## Special cases in R
@@ -891,6 +889,54 @@ mtcars %>%
   split(.$cyl) %>%
   map(~ lm(mpg ~ wt, data = .x)) %>%
   map_dfr(~ as.data.frame(t(as.matrix(coef(.)))))  # returns the result in a dataframe format
+```
+
+### Nesting
+Now nesting is another neat feature, albeit less used, that sometimes might come in handy if you want a more clean data frame. Nesting allows you to "nest" data frames within data frames. The best way to see how it works and its possible benefits is with an example. 
+
+We have an example below (again, courtesy of chatGPT) about patient visits to a hospital.
+Lets first build this simulated data frame.
+
+```{r}
+library(tidyverse)
+library(lubridate)  # used for ymd function
+# Simulate a dataset of patients with multiple visits
+set.seed(123)
+n_patients <- 50
+n_visits <- 5
+patient_data <- tibble(
+  patient_id = rep(1:n_patients, each = n_visits),
+  visit_date = rep(seq(from = ymd("20220101"), length.out = n_visits, by = "month"), times = n_patients),
+  symptom = sample(c("cough", "fever", "headache", "fatigue", "nausea"), size = n_patients * n_visits, replace = TRUE)
+)
+
+head(patient_data)
+```
+
+Now lets nest the data per ID.
+```{r}
+# Nest the visits within each patient
+patient_data_nested <- patient_data %>% 
+  group_by(patient_id) %>% 
+  nest()
+
+head(patient_data_nested)
+```
+
+Now lets run some statistics on each patient.
+```{r}
+# Calculate the proportion of visits where each symptom was reported
+patient_data_nested_summary <- patient_data_nested %>% 
+  mutate(
+    symptom_summary = map(data, ~ .x %>% 
+      group_by(symptom) %>% 
+      summarize(prop_reports = n()/nrow(.))
+    )
+  )
+
+# Unnesting and view results
+patient_data_nested_summary %>% 
+  unnest(symptom_summary)
 ```
 
 ## End
