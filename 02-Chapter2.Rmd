@@ -1,3 +1,9 @@
+---
+editor_options: 
+  markdown: 
+    wrap: sentence
+---
+
 # R - Dealing with data
 
 ```{r, include = FALSE}
@@ -15,7 +21,7 @@ So, tell him by using the command `setwd()`.
 **Reading the data**\
 Usually, when using R, you want to work with data.
 This data is usually already there and you want to open it in R.
-The good thing is that R can read just about anything (just google "read "file type" in R" on google).
+The good thing is that R can read just about anything (just google "read"file type" in R" on google).
 Here I show you how to read some of the most common formats.
 Be sure to install the `xlsx` and `haven` packages to open Excel and SPSS files, respectively.
 Additionally, there are multiple ways to read the same file.
@@ -38,7 +44,7 @@ Lets say you do the following `mydata <- read.delim(file = 'example.txt', header
 Now, your `mydata` object is the dataframe containing that imported data set.
 
 ```{r}
-mydata <- read.csv('data/heart/heart_2020_cleaned.csv')
+mydata <- read.csv('data/heart/heart_2020_cleaned.csv', sep = ',')
 ```
 
 **Possible problems**\
@@ -79,6 +85,7 @@ head(mydata, 10)
 
 Lets say you have a folder, lets assume is named "data", and in there you have all your data files (files from each participant).
 Ideally, to analyze and view the data as a whole, you would want to import all of the data files, and then merge them into a big data file, containing all the participants (identified accordingly).\
+
 Here's a snippet of code that would allow you to do that.
 Beware though, any file that matches the criteria (in this case ".csv" files) will be gathered from the folder (your working directory).
 
@@ -96,6 +103,7 @@ cat('\nTotal number of files processed:', length(files))
 ```
 
 Now lets create a dataframe and join each file into it.
+
 ```{r}
 # Setting our working directory
 setwd('C:/Users/fabio/OneDrive/My Things/Stats/Teaching/R_Book/data')
@@ -110,10 +118,15 @@ for (i in files){
 
 # Preview
 head(d)
+
+
+kableExtra::kable(d, "html") %>%
+  kableExtra::kable_styling(font_size = 20)
 ```
 
 Alternatively, you might just want to read/import each file into R, without merging them.
 For that you can use this bit of code.
+
 ```{r}
 # Setting our working directory
 setwd('C:/Users/fabio/OneDrive/My Things/Stats/Teaching/R_Book/data')
@@ -126,7 +139,6 @@ for (i in files) {
 ```
 
 ## Merging
-
 You can join two data frames either by rows or by columns.
 Typically, you use rows when you try too join more data to your current data frame.
 To do so, you can use `rbind()`.
@@ -156,7 +168,7 @@ However, this above code only works correctly (as intended) if your data is perf
 For instance, `rbind()` will work if you have the same number of variables (columns), with the same names and in the same positions.
 So you need to be sure this is the case before you merge the data frames.
 
-As for `cbind()` on the other hand, it requires you to have the same number of entire (rows) and for these to be arranged in the same manner (otherwise your info would mismatch).
+As for `cbind()` on the other hand, it requires you to have the same number of entries (rows) and for these to be arranged in the same manner (otherwise your info would mismatch).
 You can try and order things correctly, but you can easily place some information incorrectly.
 To circumvent this, you can use `merge()`.
 In this command you only have to specify the IDs (e.g., "sample_ID" or "person_ID") that allow R to connect the information in the right place.
@@ -263,7 +275,7 @@ If you want more columns, you can use `[]`.
 By indicating `df[rows,columns]`.
 
 ```{r}
-df[, 'Sepal.Length']  # just the "Sepal.Length]"
+df[ , 'Sepal.Length']  # just the "Sepal.Length]"
 df[5, ]   # row 5 across all columns
 
 df[1, 'Sepal.Length']  # row 1 of the "Sepal.Length" column
@@ -295,13 +307,14 @@ We can also change the order of the columns.
 
 ```{r}
 df <- iris # Just restoring the dataframe to be less confusing
-df <- df[,c(5,1,2,3,4)]  # 5 column shows up first now, followed by the previous first column, etc...
+df <- df[ ,c(5,1,2,3,4)]  # 5 column shows up first now, followed by the previous first column, etc...
+
+head(df)
 ```
 
 We can sort by a specific (or multiple columns).
 
 ```{r}
-
 df <- df[order(df[, 2]), ]  # Orders by second column
 df <- df[order(-df[, 2]), ]  # Orders by second column descending
 
@@ -319,9 +332,10 @@ We can create new columns.
 ```{r}
 new_data <- rep('New info', nrow(df))  # Creating new irrelevant data
 
+df$NewColumn <- new_data
+
 df$NewColumn <- new_data  # Added this data (data must have same length as dataframe!)
 
-head(df)
 ```
 
 We can remove columns.
@@ -336,8 +350,6 @@ And we can create and transform the columns.
 
 ```{r}
 df <- iris
-
-
 
 df$Sepal_Area <- df$Sepal.Length * df$Sepal.Width  # Creating new variable with is the multiplication of the first 2.
 
@@ -355,9 +367,11 @@ Having said this, here's some relevant commands.
 Say you want to alter rows that meet a condition.
 
 ```{r}
-df$Sepal.Length[df$Sepal.Length <= 5] <- '<5'  # Any value in in the Sepal.Length column that is less or equal than five will turn to 0
+df$Sepal.Length[df$Sepal.Length <= 5] <- '<4'  # Any value in in the Sepal.Length column that is less or equal than five will turn to 0
 
 df$Sepal.Length[df$Sepal.Length == 7.9] <- 8  # Changing rows with 7.9 to 8. 
+
+head(df)
 ```
 
 Or want to create a new entry (i.e., row).
@@ -382,8 +396,6 @@ Just visit: <https://cran.r-project.org/web/packages/DataEditR/vignettes/DataEdi
 Although I would argue against it, since this doesn't make your R code easy to re-execute.
 
 ### Tidyverse & Pipes
-
-
 Before presenting the following commands below, we should talk quickly about tidyverse and pipes.
 Tidyverse, as the name implies "Tidy" + "[Uni]verse" is a big package that contains more packages.
 All of these packages are designed for data science.
@@ -525,7 +537,7 @@ Here are a bunch of examples:
 ```{r eval=FALSE}
 # Create a new column with just the string "word" on it.
 df <- df %>% 
-  mutate(WordColumn = 'word')
+  mutate(WordColumn = 'word') 
 
 # Create a combination of two columns
 df %>% 
@@ -627,6 +639,11 @@ df <- iris
 df %>% 
   group_by(Species) %>%  # Grouping by this variable
   summarise(Mean_By_Species = mean(Sepal.Length)) 
+
+# Mutate version
+df %>% 
+  group_by(Species) %>% 
+  mutate(Mean_By_Species = mean(Sepal.Length))
 ```
 
 You can group by more than one factor and ask for other summaries, such as median, sd, and other basic operations.
@@ -636,6 +653,14 @@ For instance:
 df %>% 
   group_by(Species) %>% 
   summarise(count = n())  # Gives you the number of entries in each group
+
+df %>% 
+  group_by(Species) %>% 
+  count() %>% 
+  mutate(Total = 150) %>% 
+  mutate(Percentage = (n/Total) * 100)
+
+
 ```
 
 You can then build operations on top of your summaries (like mutations or plots)
@@ -678,6 +703,11 @@ Since all of the participants rated every condition, each participant would have
 It should look something like this:
 
 ```{r include=FALSE}
+faces_df %>% 
+  pivot_longer(cols = , names_to = , values_to = )
+
+
+
 faces_df %>% 
   pivot_longer(cols = c('Ratings_Happy', 'Ratings_Angry','Ratings_Neutral'),
                names_to = 'Facial_Expression', 
@@ -737,6 +767,8 @@ colSums(is.na(df))  # tells you more specifically the number of NAs per column i
 which(colSums(is.na(df))>0)  # just tells you exactly the ones that have NAs (and how many)
 
 df[!complete.cases(df),]  # tells you the whole row that has an NA value in it.
+
+View(df)
 ```
 
 ```{r include=FALSE}
@@ -808,12 +840,11 @@ df %>%
   mutate(MeanPerSpecie = mean(Sepal.Width),  # creates mean by species
          CenteredWidth = Sepal.Width - mean(Sepal.Width)) %>%   # subtracts the mean (of the corresponding specie).
   select(Species, Sepal.Width, MeanPerSpecie, CenteredWidth) %>% 
-  ungroup()  # remove grouping in case i want to do more mutates, but now NOT considering the groups of species.
+  ungroup() # remove grouping in case i want to do more mutates, but now NOT considering the groups of species.
 
 ```
 
 ### Strings/Characters
-
 Sometimes we want to work on strings/characters.
 We may want to replace strings, alter them in some way, split them into different columns, etc.
 So here I will introduce a few examples of what we can do to strings in R.
@@ -836,7 +867,6 @@ sum(grepl('set', df$Species))
 
 # We can substitute a pattern directly in the dataframe
 sub('set', 'Set', df$Species)
-
 ```
 
 There are additional commands within this family of functions that will allow you to extract, find or substitute exactly what you want and obeying each condition you might want.
@@ -865,7 +895,7 @@ For instance, lets split the dataframe by species.
 
 ```{r}
 df %>% 
-  group_split(Species)
+  group_split(Species) 
 ```
 
 ### Mapping
@@ -892,7 +922,10 @@ mtcars %>%
 ```
 
 ### Nesting
-Now nesting is another neat feature, albeit less used, that sometimes might come in handy if you want a more clean data frame. Nesting allows you to "nest" data frames within data frames. The best way to see how it works and its possible benefits is with an example. 
+
+Now nesting is another neat feature, albeit less used, that sometimes might come in handy if you want a more clean data frame.
+Nesting allows you to "nest" data frames within data frames.
+The best way to see how it works and its possible benefits is with an example.
 
 We have an example below (again, courtesy of chatGPT) about patient visits to a hospital.
 Lets first build this simulated data frame.
@@ -900,6 +933,7 @@ Lets first build this simulated data frame.
 ```{r}
 library(tidyverse)
 library(lubridate)  # used for ymd function
+
 # Simulate a dataset of patients with multiple visits
 set.seed(123)
 n_patients <- 50
@@ -910,10 +944,13 @@ patient_data <- tibble(
   symptom = sample(c("cough", "fever", "headache", "fatigue", "nausea"), size = n_patients * n_visits, replace = TRUE)
 )
 
-head(patient_data)
+# If you want to see a bigger (font-sized) data frame
+# kableExtra::kable(patient_data, "html") %>%
+#   kableExtra::kable_styling(font_size = 20)
 ```
 
 Now lets nest the data per ID.
+
 ```{r}
 # Nest the visits within each patient
 patient_data_nested <- patient_data %>% 
@@ -921,9 +958,12 @@ patient_data_nested <- patient_data %>%
   nest()
 
 head(patient_data_nested)
+
+View(patient_data_nested)
 ```
 
 Now lets run some statistics on each patient.
+
 ```{r}
 # Calculate the proportion of visits where each symptom was reported
 patient_data_nested_summary <- patient_data_nested %>% 
@@ -933,6 +973,7 @@ patient_data_nested_summary <- patient_data_nested %>%
       summarize(prop_reports = n()/nrow(.))
     )
   )
+
 
 # Unnesting and view results
 patient_data_nested_summary %>% 

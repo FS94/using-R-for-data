@@ -489,7 +489,6 @@ summary(m)
 
 ## Drift difussion modelling
 
-
 ## Survival analysis
 
 ## End

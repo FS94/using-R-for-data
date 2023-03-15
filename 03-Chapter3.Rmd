@@ -13,13 +13,13 @@ What matters in the end is that this part of your data analysis gives you a good
 And of course, this will be a good time to put your plotting skills to test, and with R, you can do pretty much anything... and, again, I truly mean anything.
 
 What is the data we will be working with?
-The data exemplified here comes from Dr. Kristen Gorman and the Palmer Station, Antarctica LTER, a member of the Long Term Ecological Research Network.
+The data exemplified here comes from Dr. Kristen Gorman in Palmer Station, Antarctica LTER, a member of the Long Term Ecological Research Network.
 It contains information about 344 penguins, across 3 different species of penguins, collected from 3 islands in the Palmer Archipelago, Antarctica.
 
 *Horst AM, Hill AP, Gorman KB (2020). palmerpenguins: Palmer Archipelago (Antarctica) penguin data. R package version 0.1.0. <https://allisonhorst.github.io/palmerpenguins/>*
 
-Now lets look at the data We can either show the first rows (or last rows) to get a general view on what the columns are and what the values associated with each columns are, or we can View the entire dataframe.
-Additionally we can also use several commands to provide us some more general info about the dataframe itself.
+Now lets look at the data We can either show the first rows (or last rows) to get a general view on what the columns are and what the values associated with each columns are, or we can View the entire data frame.
+Additionally we can also use several commands to provide us some more general info about the data frame itself.
 
 ## Loading data
 
@@ -47,12 +47,11 @@ The `summary` command gives us a summary of each column, with, in case of numeri
 summary(penguins_raw)
 ```
 
-At this phase you should start assessing your data and will probably need to modify the dataframe a bit.
+At this phase you should start assessing your data and will probably need to modify the data frame a bit.
 Most of the tools you need were already introduced in Chapter 2, but you will learn some new ones here along the way.
 First though, lets get familiarized with the data by reading its description.
 
 So a brief intro to this data.
-This data measures structural size of adult male and female Adélie penguins (Pygoscelis adeliae) nesting along the Palmer Archipelago near Palmer Station.
 It has 17 columns, namely:
 
 **studyName**: Sampling expedition from which data were collected, generated, etc.
@@ -132,7 +131,6 @@ penguins %>%
 ```
 
 ### Date
-
 One interesting and somewhat difficult (sometimes) parameter to adjust is turning a column that is often a character to a `date` format.
 In this case is simple, but I give you some examples below for you to work your way through other types of transformations.
 
@@ -156,7 +154,6 @@ Check also these link for better examples.
 <https://www.r-bloggers.com/2013/08/date-formats-in-r/>
 
 ### Cleaning some columns
-
 In particular, I want to remove the species latin name from the "species" column as well as the parenthesis.
 Now this may seem simple, but messing with characters is one of those things that having an internet connection is key, since base commands, in my opinion, are not at all clear or simple.
 The command below simple means replace the `species` column with a new one (with the same name), but in this one replace all the text that is between the parenthesis (including the parenthesis themselves) `" *\\(.*?\\) *"` and replace by nothing `""`.
@@ -219,7 +216,7 @@ We can do so by several ways, but below you have two examples on how to eliminat
 ```{r}
 # Example 1
 penguins <- penguins %>% 
-  filter(!is.na(culmen_length_mm),  # show only rows that are not NA in the culmen_length_mm column
+  filter(!is.na(culmen_length_mm),  # show only rows that are not NA in the culmen_length_mm
          !is.na(sex)) # show only rows that are not NA in the sex column
 
 # Example 2
@@ -255,6 +252,7 @@ penguins <- penguins_raw %>%
   filter(!is.na(culmen_length_mm), !is.na(sex)) %>%   # removes NA rows from these 2 columns
   mutate(body_mass = body_mass_g/1000) %>%   # transforms body_mass_g column to kilograms
   mutate(body_mass_g = NULL)
+
 ```
 
 ## Summarising
@@ -318,7 +316,7 @@ penguins %>%
 ```
 
 Anyway, back to exploring the data...
-Now lets ask the mean for each specie `across` all columns in the dataframe, `where` the values are numeric.
+Now lets ask the mean for each specie `across` all columns in the data frame, `where` the values are numeric.
 We can do this, by simply grouping the data by species, that using the command below.
 
 ```{r}
@@ -329,7 +327,6 @@ penguins %>%
 ```
 
 ## Plots
-
 ### Formula
 
 <https://r-graph-gallery.com/> R has a natural plot language, but its quite "primitive" and complicated.
@@ -608,7 +605,13 @@ Rmisc::multiplot(d15_plot, d13_plot)
 # or
 Rmisc::multiplot(d15_plot, d13_plot, cols = 2)  # the cols parameter establishes the number of columns in the plot matrix
 
+# or
+library(patchwork)
+
+d15_plot + d13_plot
+
 ```
+
 
 ### Date
 
