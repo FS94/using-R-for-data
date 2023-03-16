@@ -119,9 +119,6 @@ for (i in files){
 # Preview
 head(d)
 
-
-kableExtra::kable(d, "html") %>%
-  kableExtra::kable_styling(font_size = 20)
 ```
 
 Alternatively, you might just want to read/import each file into R, without merging them.
@@ -704,11 +701,6 @@ It should look something like this:
 
 ```{r include=FALSE}
 faces_df %>% 
-  pivot_longer(cols = , names_to = , values_to = )
-
-
-
-faces_df %>% 
   pivot_longer(cols = c('Ratings_Happy', 'Ratings_Angry','Ratings_Neutral'),
                names_to = 'Facial_Expression', 
                values_to = 'Ratings') %>% 
@@ -768,7 +760,7 @@ which(colSums(is.na(df))>0)  # just tells you exactly the ones that have NAs (an
 
 df[!complete.cases(df),]  # tells you the whole row that has an NA value in it.
 
-View(df)
+#View(df)
 ```
 
 ```{r include=FALSE}
@@ -959,7 +951,7 @@ patient_data_nested <- patient_data %>%
 
 head(patient_data_nested)
 
-View(patient_data_nested)
+#View(patient_data_nested)
 ```
 
 Now lets run some statistics on each patient.

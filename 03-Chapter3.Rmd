@@ -1,3 +1,9 @@
+---
+editor_options: 
+  markdown: 
+    wrap: sentence
+---
+
 # Exploratory Data Analysis (EDA)
 
 ```{r, include = FALSE}
@@ -26,7 +32,8 @@ Additionally we can also use several commands to provide us some more general in
 ```{r}
 penguins_raw <- palmerpenguins::penguins_raw
 head(penguins_raw)
-# Use tails() if you want to see the last rows
+
+# Use tail() if you want to see the last rows
 ```
 
 The `str()` command gives us some detail into the class of each column of the data frame, its length, its values, among others.
@@ -99,10 +106,16 @@ head(penguins_raw)
 
 ### Cleaning col. names
 
+```{r}
+names(penguins_raw)
+```
+
 So first off, we might want to clean the data.
 One thing we often do is rename variables (in this case columns).
 We can do so simply with the use of the `rename()` function from `dplyr`.\
+
 `rename()`: changes the names of individual variables using new_name = old_name syntax.\
+
 `rename_with()`: renames columns using a function.
 
 ```{r}
@@ -131,6 +144,7 @@ penguins %>%
 ```
 
 ### Date
+
 One interesting and somewhat difficult (sometimes) parameter to adjust is turning a column that is often a character to a `date` format.
 In this case is simple, but I give you some examples below for you to work your way through other types of transformations.
 
@@ -154,6 +168,7 @@ Check also these link for better examples.
 <https://www.r-bloggers.com/2013/08/date-formats-in-r/>
 
 ### Cleaning some columns
+
 In particular, I want to remove the species latin name from the "species" column as well as the parenthesis.
 Now this may seem simple, but messing with characters is one of those things that having an internet connection is key, since base commands, in my opinion, are not at all clear or simple.
 The command below simple means replace the `species` column with a new one (with the same name), but in this one replace all the text that is between the parenthesis (including the parenthesis themselves) `" *\\(.*?\\) *"` and replace by nothing `""`.
@@ -205,6 +220,9 @@ penguins %>%
 # Alternative n2
 library(visdat)
 vis_miss(penguins)
+
+visdat::vis_dat(penguins)
+
 ```
 
 Now, we need to decide what to do with these NA values.
@@ -268,6 +286,8 @@ So, how many observations per specie are there in the data?
 ```{r}
 penguins %>% 
   count(species)
+
+table(penguins$species)
 ```
 
 Alternatively, we can use the functions `tabyl()` and `adorn_totals()` from the janitor package and create a more elaborate summary with percentages and totals.
@@ -287,6 +307,7 @@ penguins %>%
 ```
 
 What seem to be the main problems presented in the observation column?
+
 ```{r}
 penguins %>%
   filter(!is.na(comments)) %>% 
@@ -294,7 +315,8 @@ penguins %>%
 ```
 
 Since we spotted that some comments only appear very often we could quickly do some data cleaning again.
-Namely we might wanna combine certain levels of a factor or characters that are less represented (compared to other levels) together, instead of representing each. In this case we would combine less represented types of comments into a single label (e.g., "OtherProblems").
+Namely we might wanna combine certain levels of a factor or characters that are less represented (compared to other levels) together, instead of representing each.
+In this case we would combine less represented types of comments into a single label (e.g., "OtherProblems").
 For that we could use `fct_lump()`.
 This function "lumps" (joins) together factors or characters with little representation.
 We just need to say which column we want to use this on, and we can define other parameters of interest.
@@ -315,8 +337,7 @@ penguins %>%
   head()
 ```
 
-Anyway, back to exploring the data...
-Now lets ask the mean for each specie `across` all columns in the data frame, `where` the values are numeric.
+Anyway, back to exploring the data... Now lets ask the mean for each specie `across` all columns in the data frame, `where` the values are numeric.
 We can do this, by simply grouping the data by species, that using the command below.
 
 ```{r}
@@ -329,7 +350,8 @@ penguins %>%
 ## Plots
 ### Formula
 
-<https://r-graph-gallery.com/> R has a natural plot language, but its quite "primitive" and complicated.
+<https://r-graph-gallery.com/> 
+R has a natural plot language, but its quite "primitive" and complicated.
 It is adequate if you want really quick plots with minimal customization.
 Otherwise I would recommend using `ggplot2`.
 
@@ -337,7 +359,7 @@ Otherwise I would recommend using `ggplot2`.
 It may seem complicated at first, but its actually quite simple.
 So every plot must start with a simple command:
 
-`ggplot("dataframe", aes("data"))`
+`ggplot(dataframe, aes("data"))`
 
 In the first parameter you just tell the command which dataframe to use.
 Assuming your dataframe is labeled as "df" you can just the following:
@@ -431,6 +453,10 @@ penguins %>%
   count(species)
 
 # Geom bar (count as a plot)
+
+ggplot(penguins, aes(species)) +
+  geom_bar() 
+
 penguins %>% 
   ggplot(aes(species)) +
   geom_bar(fill = 'darkgreen', color = 'black', size = 2, width = .5) +
@@ -453,7 +479,7 @@ penguins %>%
   summarise(body_mass = mean(body_mass)) %>% 
   ggplot(aes(species, body_mass, fill = sex)) +
   geom_col(position = position_dodge(.9), color = 'black') +
-  coord_cartesian(ylim = c(0, 6)) + 
+  coord_cartesian(ylim = c(2, 5)) + 
   theme_minimal() + 
   labs(title = 'Plot with Means: Method 1')
 
@@ -478,9 +504,11 @@ penguins %>%
   filter(!is.na(delta_15_n_ooo)) %>%  # remove NAs in the column to prevent warnings
   ggplot(aes(x = species, y = delta_15_n_ooo, fill = species)) + 
   geom_boxplot() +
-  geom_jitter(width = .1) +
-  geom_violin(alpha = .25, size = 1) +  # the alpha parameter models transparency (ranges from 0 to 1)
-  theme_minimal()
+  geom_jitter(width = .2, alpha = 0.3, aes(shape = island, color = sex), size = 3) +
+  geom_violin(alpha = .1, size = 1) +  # the alpha parameter models transparency (ranges from 0 to 1)
+  theme_light()
+
+
 ```
 
 ### Density
@@ -491,12 +519,12 @@ You just need to point out the variable name, in this case we will look at "body
 ```{r}
 penguins %>% 
   ggplot(aes(x = body_mass, fill = species)) + 
-  geom_density(alpha = .5) +
+  geom_density(alpha = 0.5) +
   theme_minimal() +
   labs(x = 'Body mass (kg)', y = 'Density',
        fill = 'Species', 
        title = 'Body mass distributions across Species') +
-  scale_color_brewer(palette = "Dark2")
+  scale_fill_brewer(palette = "Dark2")
 ```
 
 ### Facets
@@ -507,7 +535,7 @@ You just need to specify the variable, which in this case in done so with `~name
 Importantly, if you want the scales (y-limits and x-limits) to be adjusted for each variable's info, you need to specify this using `scales = 'free'` if every scale (x and y) can vary between facets, or `scales = 'free_x'` and `scales = 'free_y'`, if you just want the x or y scales to vary freely, respetively.
 In this case since we want to compare them directly, I think its best if they are fixed (the default behavior of the function), so you get a better picture as to how different they really are.
 
-```{r}
+```{r, fig.width=10}
 penguins %>% 
   ggplot(aes(x = body_mass, fill = species)) + 
   geom_density(alpha = .5) +
@@ -572,6 +600,8 @@ plot_fixe <- penguins %>%
        title = 'Correlation between Flipper Length and Bill Length') +
   scale_color_brewer(palette = "Dark2")
 
+plot_fixe
+
 ```
 
 ### Multiplots
@@ -611,7 +641,6 @@ library(patchwork)
 d15_plot + d13_plot
 
 ```
-
 
 ### Date
 
@@ -670,6 +699,5 @@ penguins %>%
   coord_cartesian(ylim = c(5, 10))
 
 ```
-
 
 ## End

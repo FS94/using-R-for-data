@@ -195,7 +195,7 @@ my_matrix <- matrix(1:9, nrow = 3, dimnames = list(c("X","Y","Z"), c("A","B","C"
 
 ```{r}
 d <- iris
-View(iris)
+# View(iris)
 ```
 
 -   *factor*: more of a type of class than anything. This object is a factor with levels.
@@ -371,14 +371,12 @@ Ok, so lets work on a very basic example.
 Let say you have a number "n" and you want to add every number from 1 to 10 to this n.
 Lets say our initial n is 0 and we want a loop to help us do this without having to do it "manually".
 
-
 ```{r}
 for (i in c(1,2,3,4,5,6,7,8,9,10)){
   novo_element <- i + 10
   print(novo_element)
 }
 ```
-
 
 ```{r}
 n <- 0
@@ -479,13 +477,12 @@ Most packages come from CRAN (Comprehensive R Archive Network, which is basicall
 However, if some packages come from github for instance you need to install the packages "devtools" (`install.packages('devtools')`) then load it (`library(devtools)`) and finally use `install_github("profile_name/repository")` to install the package.
 Usually if you google these packages they will have instructions on how to install them.
 
-```{r}
+```{r, eval = FALSE}
 install.packages("ggplot2")
 
 library(ggplot2)
 
 ```
-
 
 You can also load and detach (remove package from your toolset for the time being) packages that you have already installed by going to the packages panel (bottom right) and searching and then selecting the package you want to load.
 
@@ -493,25 +490,30 @@ In specific situations, particularly if you just want to use one function of a p
 R will just use that function from that package for that line in specific, but not load the package.
 
 ### Conflicts
-Sometimes you will notice that certain packages have the same function names, each with its specific purpose.  There are no conflict on packages loaded by default in R. These conflicts emerge **only** when you load new packages (e.g. `library("package_name")`).
-When this happens, R, unless specified, will use the function from the most recently loaded package. 
-So for instance, in the chapters ahead you will use (and load) a package called "tidyverse". When you do call this package (`library(tidyverse)`) you will already be prompted with a message warning you of possible conflict (although most packages don't even prompt you with this message). You can always check what conflicts are currently present by calling the function `conflict_scout()` from the package ("conflicts") which is pre-loaded in R.
+
+Sometimes you will notice that certain packages have the same function names, each with its specific purpose.
+There are no conflict on packages loaded by default in R.
+These conflicts emerge **only** when you load new packages (e.g. `library("package_name")`).
+When this happens, R, unless specified, will use the function from the most recently loaded package.
+So for instance, in the chapters ahead you will use (and load) a package called "tidyverse".
+When you do call this package (`library(tidyverse)`) you will already be prompted with a message warning you of possible conflict (although most packages don't even prompt you with this message).
+You can always check what conflicts are currently present by calling the function `conflict_scout()` from the package ("conflicts") which is pre-loaded in R.
 If you do this further ahead you will be prompted with a similar message:
 
-""" OUTPUT
-2 conflicts
-• `filter()`: dplyr and stats
-• `lag()`: dplyr and stats
+""" OUTPUT 
+2 conflicts - `filter()`: dplyr and stats - `lag()`: dplyr and stats
 """
 
-Now at least you know that the `filter()` and `lag()` functions are shared by two packages. But remember, each function (depending on the package) has a different... well function. This might cause you problems when re-running your scripts. So if you are loading unfamiliar packages or simply have several packages in an R session - *a loaded package works for all scripts in a R session, you do not need to load a package for each script!* - be wary that conflict might emerge.
+Now at least you know that the `filter()` and `lag()` functions are shared by two packages.
+But remember, each function (depending on the package) has a different... well function.
+This might cause you problems when re-running your scripts.
+So if you are loading unfamiliar packages or simply have several packages in an R session - *a loaded package works for all scripts in a R session, you do not need to load a package for each script!* - be wary that conflict might emerge.
 
 Now to resolve this conflict you have three alternatives, which I will present in order of efficiency:
 
-1. Use `conflict_prefer("function", "package_prefered")` from the "conflicted" package to specify in the R session, which package you always want in regards to that function. So for instance, if I say `conflicted::conflict_prefer("filter", "dplyr")`, R will now use `filter` from "dplyr" in every occasion and the `filter` function from the package stats will be neglected.
-2. Use `package_name::` before each conflicted function to specify which package you want in regards to that function.
-3. Detach (un-load) the package you don't won't.
-
+1.  Use `conflict_prefer("function", "package_prefered")` from the "conflicted" package to specify in the R session, which package you always want in regards to that function. So for instance, if I say `conflicted::conflict_prefer("filter", "dplyr")`, R will now use `filter` from "dplyr" in every occasion and the `filter` function from the package stats will be neglected.
+2.  Use `package_name::` before each conflicted function to specify which package you want in regards to that function.
+3.  Detach (un-load) the package you don't won't.
 
 ## Shortcuts
 

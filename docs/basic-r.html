@@ -8,7 +8,7 @@
   <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
 set in the _output.yml file.
 The HTML output format for this example is bookdown::gitbook,</p>" />
-  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 2 Basic R | Usefulness of R for managing data" />
   <meta property="og:type" content="book" />
@@ -29,7 +29,7 @@ The HTML output format for this example is bookdown::gitbook,</p>" />
 <meta name="author" content="Fábio A. Silva" />
 
 
-<meta name="date" content="2023-02-28" />
+<meta name="date" content="2023-03-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -161,7 +161,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.14" data-path="basic-r.html"><a href="basic-r.html#ifs-and-elses"><i class="fa fa-check"></i><b>2.14</b> Ifs and elses</a></li>
 <li class="chapter" data-level="2.15" data-path="basic-r.html"><a href="basic-r.html#loops"><i class="fa fa-check"></i><b>2.15</b> Loops</a></li>
 <li class="chapter" data-level="2.16" data-path="basic-r.html"><a href="basic-r.html#functions"><i class="fa fa-check"></i><b>2.16</b> Functions</a></li>
-<li class="chapter" data-level="2.17" data-path="basic-r.html"><a href="basic-r.html#packages"><i class="fa fa-check"></i><b>2.17</b> Packages</a></li>
+<li class="chapter" data-level="2.17" data-path="basic-r.html"><a href="basic-r.html#packages"><i class="fa fa-check"></i><b>2.17</b> Packages</a>
+<ul>
+<li class="chapter" data-level="2.17.1" data-path="basic-r.html"><a href="basic-r.html#conflicts"><i class="fa fa-check"></i><b>2.17.1</b> Conflicts</a></li>
+</ul></li>
 <li class="chapter" data-level="2.18" data-path="basic-r.html"><a href="basic-r.html#shortcuts"><i class="fa fa-check"></i><b>2.18</b> Shortcuts</a></li>
 <li class="chapter" data-level="2.19" data-path="basic-r.html"><a href="basic-r.html#chunk-settings"><i class="fa fa-check"></i><b>2.19</b> Chunk settings</a></li>
 <li class="chapter" data-level="2.20" data-path="basic-r.html"><a href="basic-r.html#code-completion"><i class="fa fa-check"></i><b>2.20</b> Code completion</a></li>
@@ -344,7 +347,10 @@ These types of special scripts are built with a markdown language, such that the
 Importantly, and perhaps one of the best features, is that the output of each chunk is, by default, shown just below that code chunk.
 This makes these scripts extremely useful when doing data analysis of any kind, given that, provided that they are not too messy, they have the potential to make great reports of your data analysis (showing results and graphs along the way).
 So if you are new o this, I would recommend using <strong>R Notebook</strong> otherwise just default to <strong>R Markdown</strong>.</p>
-<p>Lastly, when starting project you can instead opt to first create a Project in RStudio. This will create a <em>.Rproj</em> file in the folder you created your project in. This will help you resume faster your project by simply opening this <em>.RProj</em> and every script associated with the project, as well as the defined working directories will be opened and ready. It has more advantages, such as better integration in version control system such as git, better for collaboration, reproducibility and efficiency.</p>
+<p>Lastly, when starting project you can instead opt to first create a Project in RStudio.
+This will create a <em>.Rproj</em> file in the folder you created your project in.
+This will help you resume faster your project by simply opening this <em>.RProj</em> and every script associated with the project, as well as the defined working directories will be opened and ready.
+It has more advantages, such as better integration in version control system such as git, better for collaboration, reproducibility and efficiency.</p>
 </div>
 <div id="working-directories" class="section level2 hasAnchor" number="2.7">
 <h2><span class="header-section-number">2.7</span> Working directories<a href="basic-r.html#working-directories" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -402,24 +408,37 @@ A vector could be a character or an numeric object, for instance.</p></li>
 Can be created by using <code>list()</code>.
 You can retrieve the value by using <code>[[]]</code>.</p></li>
 </ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="basic-r.html#cb1-1" aria-hidden="true" tabindex="-1"></a>my_list <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">&#39;Potatoes&#39;</span>, <span class="cn">TRUE</span>, <span class="dv">15</span>, <span class="fu">c</span>(<span class="st">&#39;Strawberry&#39;</span>, <span class="dv">1000</span>))</span>
-<span id="cb1-2"><a href="basic-r.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># or</span></span>
-<span id="cb1-3"><a href="basic-r.html#cb1-3" aria-hidden="true" tabindex="-1"></a>my_list <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">ingredients =</span> <span class="fu">c</span>(<span class="st">&#39;Strawberry&#39;</span>, <span class="st">&#39;Milk&#39;</span>, <span class="st">&#39;Coffee&#39;</span>), <span class="at">type =</span> <span class="st">&#39;Milkshake&#39;</span>, <span class="at">rating =</span> <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="basic-r.html#cb1-1" aria-hidden="true" tabindex="-1"></a>l <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">&#39;Potatoes&#39;</span>, <span class="dv">4</span>)</span>
+<span id="cb1-2"><a href="basic-r.html#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="basic-r.html#cb1-3" aria-hidden="true" tabindex="-1"></a>l</span></code></pre></div>
+<pre><code>## [[1]]
+## [1] &quot;Potatoes&quot;
+## 
+## [[2]]
+## [1] 4</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="basic-r.html#cb3-1" aria-hidden="true" tabindex="-1"></a>my_list <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">&#39;Potatoes&#39;</span>, <span class="cn">TRUE</span>, <span class="dv">15</span>, <span class="fu">c</span>(<span class="st">&#39;Strawberry&#39;</span>, <span class="dv">1000</span>))</span>
+<span id="cb3-2"><a href="basic-r.html#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="basic-r.html#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># or</span></span>
+<span id="cb3-4"><a href="basic-r.html#cb3-4" aria-hidden="true" tabindex="-1"></a>my_list <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">ingredients =</span> <span class="fu">c</span>(<span class="st">&#39;Strawberry&#39;</span>, <span class="st">&#39;Milk&#39;</span>, <span class="st">&#39;Coffee&#39;</span>), <span class="at">type =</span> <span class="st">&#39;Milkshake&#39;</span>, <span class="at">rating =</span> <span class="dv">10</span>)</span></code></pre></div>
 <ul>
 <li><em>matrix</em>: are like tables.</li>
 </ul>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="basic-r.html#cb2-1" aria-hidden="true" tabindex="-1"></a>my_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
-<span id="cb2-2"><a href="basic-r.html#cb2-2" aria-hidden="true" tabindex="-1"></a>my_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">&quot;X&quot;</span>,<span class="st">&quot;Y&quot;</span>,<span class="st">&quot;Z&quot;</span>), <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="basic-r.html#cb4-1" aria-hidden="true" tabindex="-1"></a>my_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb4-2"><a href="basic-r.html#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="basic-r.html#cb4-3" aria-hidden="true" tabindex="-1"></a>carro <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">data =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>,<span class="at">nrow =</span> <span class="dv">3</span>,<span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb4-4"><a href="basic-r.html#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="basic-r.html#cb4-5" aria-hidden="true" tabindex="-1"></a>my_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">&quot;X&quot;</span>,<span class="st">&quot;Y&quot;</span>,<span class="st">&quot;Z&quot;</span>), <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>)))</span></code></pre></div>
 <ul>
 <li><em>data frame</em>: fancy matrices (more common)</li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="basic-r.html#cb3-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> iris</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="basic-r.html#cb5-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> iris</span>
+<span id="cb5-2"><a href="basic-r.html#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># View(iris)</span></span></code></pre></div>
 <ul>
 <li><em>factor</em>: more of a type of class than anything. This object is a factor with levels.</li>
 </ul>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="basic-r.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(d<span class="sc">$</span>Species)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="basic-r.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(d<span class="sc">$</span>Species)</span></code></pre></div>
 <pre><code>## [1] &quot;factor&quot;</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="basic-r.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(d<span class="sc">$</span>Species)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="basic-r.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(d<span class="sc">$</span>Species)</span></code></pre></div>
 <pre><code>## [1] &quot;setosa&quot;     &quot;versicolor&quot; &quot;virginica&quot;</code></pre>
 <ul>
 <li><em>tibble</em>: a special data frame from tidyverse</li>
@@ -432,21 +451,21 @@ You can retrieve the value by using <code>[[]]</code>.</p></li>
 You can comment anything, but perhaps its most practical use is to leave instructions as to what the code, or section of code, is doing.</p>
 <p>Commenting is also great for when you don’t want a certain part of your code to run.</p>
 <p>Below you see a function, kinda of a confusing one, where comments in each line help me (and other readers) understand what the function is doing.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="basic-r.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># My list</span></span>
-<span id="cb8-2"><a href="basic-r.html#cb8-2" aria-hidden="true" tabindex="-1"></a>my_list <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;Water0&#39;</span>,<span class="st">&#39;Fire10&#39;</span>,<span class="st">&#39;Ear899th&#39;</span>, <span class="st">&#39;1Wind0&#39;</span>)</span>
-<span id="cb8-3"><a href="basic-r.html#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="basic-r.html#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a function to remove numbers from my characters</span></span>
-<span id="cb8-5"><a href="basic-r.html#cb8-5" aria-hidden="true" tabindex="-1"></a>rem_num <span class="ot">&lt;-</span> <span class="cf">function</span>(list_of_words){</span>
-<span id="cb8-6"><a href="basic-r.html#cb8-6" aria-hidden="true" tabindex="-1"></a>  final_word_list <span class="ot">&lt;-</span> <span class="fu">c</span>()  <span class="co"># creates empty list</span></span>
-<span id="cb8-7"><a href="basic-r.html#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (word <span class="cf">in</span> list_of_words){  <span class="co"># creating loop</span></span>
-<span id="cb8-8"><a href="basic-r.html#cb8-8" aria-hidden="true" tabindex="-1"></a>    numberless <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&#39;[[:digit:]]+&#39;</span>, <span class="st">&#39;&#39;</span>, word)  <span class="co"># removing numbers</span></span>
-<span id="cb8-9"><a href="basic-r.html#cb8-9" aria-hidden="true" tabindex="-1"></a>    final_word_list <span class="ot">&lt;-</span> <span class="fu">c</span>(final_word_list, numberless)  <span class="co"># adding to a final list</span></span>
-<span id="cb8-10"><a href="basic-r.html#cb8-10" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb8-11"><a href="basic-r.html#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(final_word_list) <span class="co"># show list at the end</span></span>
-<span id="cb8-12"><a href="basic-r.html#cb8-12" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb8-13"><a href="basic-r.html#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-14"><a href="basic-r.html#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Executing function</span></span>
-<span id="cb8-15"><a href="basic-r.html#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="fu">rem_num</span>(<span class="at">list_of_words =</span> my_list)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="basic-r.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># My list</span></span>
+<span id="cb10-2"><a href="basic-r.html#cb10-2" aria-hidden="true" tabindex="-1"></a>my_list <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;Water0&#39;</span>,<span class="st">&#39;Fire10&#39;</span>,<span class="st">&#39;Ear899th&#39;</span>, <span class="st">&#39;1Wind0&#39;</span>)</span>
+<span id="cb10-3"><a href="basic-r.html#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="basic-r.html#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a function to remove numbers from my characters</span></span>
+<span id="cb10-5"><a href="basic-r.html#cb10-5" aria-hidden="true" tabindex="-1"></a>rem_num <span class="ot">&lt;-</span> <span class="cf">function</span>(list_of_words){</span>
+<span id="cb10-6"><a href="basic-r.html#cb10-6" aria-hidden="true" tabindex="-1"></a>  final_word_list <span class="ot">&lt;-</span> <span class="fu">c</span>()  <span class="co"># creates empty list</span></span>
+<span id="cb10-7"><a href="basic-r.html#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (word <span class="cf">in</span> list_of_words){  <span class="co"># creating loop</span></span>
+<span id="cb10-8"><a href="basic-r.html#cb10-8" aria-hidden="true" tabindex="-1"></a>    numberless <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&#39;[[:digit:]]+&#39;</span>, <span class="st">&#39;&#39;</span>, word)  <span class="co"># removing numbers</span></span>
+<span id="cb10-9"><a href="basic-r.html#cb10-9" aria-hidden="true" tabindex="-1"></a>    final_word_list <span class="ot">&lt;-</span> <span class="fu">c</span>(final_word_list, numberless)  <span class="co"># adding to a final list</span></span>
+<span id="cb10-10"><a href="basic-r.html#cb10-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-11"><a href="basic-r.html#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(final_word_list) <span class="co"># show list at the end</span></span>
+<span id="cb10-12"><a href="basic-r.html#cb10-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-13"><a href="basic-r.html#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="basic-r.html#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Executing function</span></span>
+<span id="cb10-15"><a href="basic-r.html#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="fu">rem_num</span>(<span class="at">list_of_words =</span> my_list)</span></code></pre></div>
 <pre><code>## [1] &quot;Water&quot; &quot;Fire&quot;  &quot;Earth&quot; &quot;Wind&quot;</code></pre>
 </div>
 <div id="objects" class="section level2 hasAnchor" number="2.11">
@@ -459,32 +478,36 @@ Objects, when created, appear in your Environment panel (top right).
 To create an object you must give it a name and then you use <code>&lt;-</code> followed by whatever you want to make an object.<br />
 </p>
 <p>For instance:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="basic-r.html#cb10-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb10-2"><a href="basic-r.html#cb10-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="st">&#39;Hi&#39;</span></span>
-<span id="cb10-3"><a href="basic-r.html#cb10-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="st">&#39;Hi&#39;</span>, <span class="fl">3.5</span>)</span>
-<span id="cb10-4"><a href="basic-r.html#cb10-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">6</span>)</span>
-<span id="cb10-5"><a href="basic-r.html#cb10-5" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="st">&#39;Name&#39;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&#39;Ana&#39;</span>,<span class="st">&#39;João&#39;</span>,<span class="st">&#39;Pedro&#39;</span>), <span class="st">&#39;Age&#39;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">40</span>, <span class="dv">19</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="basic-r.html#cb12-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb12-2"><a href="basic-r.html#cb12-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="st">&#39;Hi&#39;</span></span>
+<span id="cb12-3"><a href="basic-r.html#cb12-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="st">&#39;Hi&#39;</span>, <span class="fl">3.5</span>)</span>
+<span id="cb12-4"><a href="basic-r.html#cb12-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">6</span>)</span>
+<span id="cb12-5"><a href="basic-r.html#cb12-5" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="st">&#39;Name&#39;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&#39;Ana&#39;</span>,<span class="st">&#39;João&#39;</span>,<span class="st">&#39;Pedro&#39;</span>), <span class="st">&#39;Age&#39;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">40</span>, <span class="dv">19</span>))</span></code></pre></div>
 </div>
 <div id="combinations" class="section level2 hasAnchor" number="2.12">
 <h2><span class="header-section-number">2.12</span> Combinations<a href="basic-r.html#combinations" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In R, as you’ve seen above, you can use combinations (concatenations) and attribute these combinations to a variable.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="basic-r.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a combination with multiple items.</span></span>
-<span id="cb11-2"><a href="basic-r.html#cb11-2" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="st">&#39;Hi&#39;</span>, <span class="fl">3.5</span>)</span>
-<span id="cb11-3"><a href="basic-r.html#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="basic-r.html#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Asking the mean of that set of items.</span></span>
-<span id="cb11-5"><a href="basic-r.html#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="basic-r.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a combination with multiple items.</span></span>
+<span id="cb13-2"><a href="basic-r.html#cb13-2" aria-hidden="true" tabindex="-1"></a>ctl <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="st">&#39;Hi&#39;</span>, <span class="fl">3.5</span>)</span>
+<span id="cb13-3"><a href="basic-r.html#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="basic-r.html#cb13-4" aria-hidden="true" tabindex="-1"></a>teste <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">9</span>, <span class="dv">71</span>)</span>
+<span id="cb13-5"><a href="basic-r.html#cb13-5" aria-hidden="true" tabindex="-1"></a>teste <span class="ot">&lt;-</span> teste <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb13-6"><a href="basic-r.html#cb13-6" aria-hidden="true" tabindex="-1"></a>teste</span></code></pre></div>
+<pre><code>## [1]  5 10 72</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="basic-r.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Asking the mean of that set of items.</span></span>
+<span id="cb15-2"><a href="basic-r.html#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>))</span></code></pre></div>
 <pre><code>## [1] 3.5</code></pre>
 </div>
 <div id="subsetting" class="section level2 hasAnchor" number="2.13">
 <h2><span class="header-section-number">2.13</span> Subsetting<a href="basic-r.html#subsetting" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>When you have complex objects (not just a single entry object) you can use subset to select only a specific part of said object.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="basic-r.html#cb13-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;apples&#39;</span>,<span class="st">&#39;bananas&#39;</span>,<span class="st">&#39;carrots&#39;</span>,<span class="st">&#39;oranges&#39;</span>,<span class="st">&#39;strawberry&#39;</span>)</span>
-<span id="cb13-2"><a href="basic-r.html#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="basic-r.html#cb13-3" aria-hidden="true" tabindex="-1"></a>a[<span class="dv">1</span>]   <span class="co"># selects first entry</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="basic-r.html#cb17-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;apples&#39;</span>,<span class="st">&#39;bananas&#39;</span>,<span class="st">&#39;carrots&#39;</span>,<span class="st">&#39;oranges&#39;</span>,<span class="st">&#39;strawberry&#39;</span>)</span>
+<span id="cb17-2"><a href="basic-r.html#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="basic-r.html#cb17-3" aria-hidden="true" tabindex="-1"></a>a[<span class="dv">1</span>]   <span class="co"># selects first entry</span></span></code></pre></div>
 <pre><code>## [1] &quot;apples&quot;</code></pre>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="basic-r.html#cb15-1" aria-hidden="true" tabindex="-1"></a>a[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)]  <span class="co"># selects entries 2 and 3</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="basic-r.html#cb19-1" aria-hidden="true" tabindex="-1"></a>a[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)]  <span class="co"># selects entries 2 and 3</span></span></code></pre></div>
 <pre><code>## [1] &quot;bananas&quot; &quot;carrots&quot;</code></pre>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="basic-r.html#cb17-1" aria-hidden="true" tabindex="-1"></a>a[<span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>]  <span class="co"># selects entry 3 to entry 5</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="basic-r.html#cb21-1" aria-hidden="true" tabindex="-1"></a>a[<span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>]  <span class="co"># selects entry 3 to entry 5</span></span></code></pre></div>
 <pre><code>## [1] &quot;carrots&quot;    &quot;oranges&quot;    &quot;strawberry&quot;</code></pre>
 </div>
 <div id="ifs-and-elses" class="section level2 hasAnchor" number="2.14">
@@ -498,42 +521,51 @@ The <code>if()</code> function is written, and means, the following:</p>
 <p>perform_that # if false</p>
 <p>}</p>
 <p>Here are just a few basic examples for you to get an idea.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="basic-r.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First example</span></span>
-<span id="cb19-2"><a href="basic-r.html#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="dv">3</span> <span class="sc">&gt;</span> <span class="dv">2</span>){</span>
-<span id="cb19-3"><a href="basic-r.html#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&#39;True&#39;</span>)</span>
-<span id="cb19-4"><a href="basic-r.html#cb19-4" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb19-5"><a href="basic-r.html#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&#39;False&#39;</span>)</span>
-<span id="cb19-6"><a href="basic-r.html#cb19-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="basic-r.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First example</span></span>
+<span id="cb23-2"><a href="basic-r.html#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="dv">3</span> <span class="sc">&gt;</span> <span class="dv">2</span>){</span>
+<span id="cb23-3"><a href="basic-r.html#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&#39;True&#39;</span>)</span>
+<span id="cb23-4"><a href="basic-r.html#cb23-4" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb23-5"><a href="basic-r.html#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&#39;False&#39;</span>)</span>
+<span id="cb23-6"><a href="basic-r.html#cb23-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## [1] &quot;True&quot;</code></pre>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="basic-r.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Second example</span></span>
-<span id="cb21-2"><a href="basic-r.html#cb21-2" aria-hidden="true" tabindex="-1"></a>my_list <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&#39;orange&#39;</span>, <span class="st">&#39;banana&#39;</span>, <span class="st">&#39;apple&#39;</span>)</span>
-<span id="cb21-3"><a href="basic-r.html#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="basic-r.html#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (my_list[<span class="dv">2</span>] <span class="sc">==</span> <span class="st">&#39;apple&#39;</span>){</span>
-<span id="cb21-5"><a href="basic-r.html#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&#39;The second item in the list is apple!&#39;</span>)</span>
-<span id="cb21-6"><a href="basic-r.html#cb21-6" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span> (my_list[<span class="dv">2</span>] <span class="sc">==</span> <span class="st">&#39;orange&#39;</span>){</span>
-<span id="cb21-7"><a href="basic-r.html#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&#39;The second item in the list is orange!&#39;</span>)</span>
-<span id="cb21-8"><a href="basic-r.html#cb21-8" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb21-9"><a href="basic-r.html#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&#39;The second item in the list must be banana!&#39;</span>)</span>
-<span id="cb21-10"><a href="basic-r.html#cb21-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="basic-r.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Second example</span></span>
+<span id="cb25-2"><a href="basic-r.html#cb25-2" aria-hidden="true" tabindex="-1"></a>my_list <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&#39;orange&#39;</span>, <span class="st">&#39;banana&#39;</span>, <span class="st">&#39;apple&#39;</span>)</span>
+<span id="cb25-3"><a href="basic-r.html#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="basic-r.html#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (my_list[<span class="dv">2</span>] <span class="sc">==</span> <span class="st">&#39;apple&#39;</span>){</span>
+<span id="cb25-5"><a href="basic-r.html#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&#39;The second item in the list is apple!&#39;</span>)</span>
+<span id="cb25-6"><a href="basic-r.html#cb25-6" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span> (my_list[<span class="dv">2</span>] <span class="sc">==</span> <span class="st">&#39;orange&#39;</span>){</span>
+<span id="cb25-7"><a href="basic-r.html#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&#39;The second item in the list is orange!&#39;</span>)</span>
+<span id="cb25-8"><a href="basic-r.html#cb25-8" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb25-9"><a href="basic-r.html#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&#39;The second item in the list must be banana!&#39;</span>)</span>
+<span id="cb25-10"><a href="basic-r.html#cb25-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## [1] &quot;The second item in the list must be banana!&quot;</code></pre>
 </div>
 <div id="loops" class="section level2 hasAnchor" number="2.15">
 <h2><span class="header-section-number">2.15</span> Loops<a href="basic-r.html#loops" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Loops are also a great tool. These functions automatically run a block of run repeatedly until a
-end condition is met.
-You have two types of loops. We will call them the “for” and “while” loops. The latter runs a function, until a “stop” condition is met. I would say while loops are less common, but can be quite useful. However, be warned that they can easily get “stuck”, i.e., you specify a condition that is never met and the loop runs infinitely, forcing you to stop r from running. It follows the following structure.</p>
+<p>Loops are also a great tool.
+These functions automatically run a block of run repeatedly until a end condition is met.
+You have two types of loops.
+We will call them the “for” and “while” loops.
+The latter runs a function, until a “stop” condition is met.
+I would say while loops are less common, but can be quite useful.
+However, be warned that they can easily get “stuck”, i.e., you specify a condition that is never met and the loop runs infinitely, forcing you to stop r from running.
+It follows the following structure.</p>
 <p><strong>While loop</strong></p>
 <p>while (condition){</p>
 <p>perform_this</p>
 <p>}</p>
-<p>Lets see a basic example of this loop. In this case we have a “my number” object which starts as 0. Then we will have a function that will run until this number is no longer inferior to five. Per each iteration/loop of this function we will add 1 to this number. Let’s see the example below.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="basic-r.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Third example</span></span>
-<span id="cb23-2"><a href="basic-r.html#cb23-2" aria-hidden="true" tabindex="-1"></a>my_number <span class="ot">=</span> <span class="dv">0</span></span>
-<span id="cb23-3"><a href="basic-r.html#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-4"><a href="basic-r.html#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span>(my_number <span class="sc">&lt;</span> <span class="dv">5</span>){</span>
-<span id="cb23-5"><a href="basic-r.html#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&#39;My current number is lower than 5&#39;</span>)</span>
-<span id="cb23-6"><a href="basic-r.html#cb23-6" aria-hidden="true" tabindex="-1"></a>  my_number <span class="ot">&lt;-</span> my_number <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb23-7"><a href="basic-r.html#cb23-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Lets see a basic example of this loop.
+In this case we have a “my number” object which starts as 0.
+Then we will have a function that will run until this number is no longer inferior to five.
+Per each iteration/loop of this function we will add 1 to this number.
+Let’s see the example below.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="basic-r.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Third example</span></span>
+<span id="cb27-2"><a href="basic-r.html#cb27-2" aria-hidden="true" tabindex="-1"></a>my_number <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb27-3"><a href="basic-r.html#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="basic-r.html#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span>(my_number <span class="sc">&lt;</span> <span class="dv">5</span>){</span>
+<span id="cb27-5"><a href="basic-r.html#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&#39;My current number is lower than 5&#39;</span>)</span>
+<span id="cb27-6"><a href="basic-r.html#cb27-6" aria-hidden="true" tabindex="-1"></a>  my_number <span class="ot">&lt;-</span> my_number <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb27-7"><a href="basic-r.html#cb27-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## [1] &quot;My current number is lower than 5&quot;
 ## [1] &quot;My current number is lower than 5&quot;
 ## [1] &quot;My current number is lower than 5&quot;
@@ -542,18 +574,33 @@ You have two types of loops. We will call them the “for” and “while” loo
 <p>A perhaps more common loop is the “for” type of loop.
 This type of loop follows this basic structure:</p>
 <p><strong>For loop</strong></p>
-<p>for (element in set_of_elements){
-do_something
-}</p>
-<p>The element can be anything, either a single letter (commonly i, x or z) or a short word. It does not need to have meaning - even though “element” is not known to R, in the context of that loop above it will signify every object in “set_of_elements”.</p>
-<p>Ok, so lets work on a very basic example. Let say you have a number “n” and you want to add every number from 1 to 10 to this n. Lets say our initial n is 0 and we want a loop to help us do this without having to do it “manually”.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="basic-r.html#cb25-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb25-2"><a href="basic-r.html#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-3"><a href="basic-r.html#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>){</span>
-<span id="cb25-4"><a href="basic-r.html#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&#39;</span><span class="sc">\n</span><span class="st">Adding&#39;</span>, i ,<span class="st">&#39;to&#39;</span>, n)</span>
-<span id="cb25-5"><a href="basic-r.html#cb25-5" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">=</span> n <span class="sc">+</span> i</span>
-<span id="cb25-6"><a href="basic-r.html#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&#39;</span><span class="sc">\n</span><span class="st">Result:&#39;</span>, n)</span>
-<span id="cb25-7"><a href="basic-r.html#cb25-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>for (element in set_of_elements){ do_something }</p>
+<p>The element can be anything, either a single letter (commonly i, x or z) or a short word.
+It does not need to have meaning - even though “element” is not known to R, in the context of that loop above it will signify every object in “set_of_elements”.</p>
+<p>Ok, so lets work on a very basic example.
+Let say you have a number “n” and you want to add every number from 1 to 10 to this n.
+Lets say our initial n is 0 and we want a loop to help us do this without having to do it “manually”.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="basic-r.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">10</span>)){</span>
+<span id="cb29-2"><a href="basic-r.html#cb29-2" aria-hidden="true" tabindex="-1"></a>  novo_element <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">10</span></span>
+<span id="cb29-3"><a href="basic-r.html#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(novo_element)</span>
+<span id="cb29-4"><a href="basic-r.html#cb29-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## [1] 11
+## [1] 12
+## [1] 13
+## [1] 14
+## [1] 15
+## [1] 16
+## [1] 17
+## [1] 18
+## [1] 19
+## [1] 20</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="basic-r.html#cb31-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb31-2"><a href="basic-r.html#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="basic-r.html#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>){</span>
+<span id="cb31-4"><a href="basic-r.html#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&#39;</span><span class="sc">\n</span><span class="st">Adding&#39;</span>, i ,<span class="st">&#39;to&#39;</span>, n)</span>
+<span id="cb31-5"><a href="basic-r.html#cb31-5" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">=</span> n <span class="sc">+</span> i</span>
+<span id="cb31-6"><a href="basic-r.html#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&#39;</span><span class="sc">\n</span><span class="st">Result:&#39;</span>, n)</span>
+<span id="cb31-7"><a href="basic-r.html#cb31-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## 
 ## Adding 1 to 0
 ## Result: 1
@@ -575,23 +622,24 @@ do_something
 ## Result: 45
 ## Adding 10 to 45
 ## Result: 55</code></pre>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="basic-r.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&#39;</span><span class="sc">\n</span><span class="st">Final n&#39;</span>, n)</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="basic-r.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&#39;</span><span class="sc">\n</span><span class="st">Final n&#39;</span>, n)</span></code></pre></div>
 <pre><code>## 
 ## Final n 55</code></pre>
-<p>Now onto a more practical one. Lets say you have a list of numbers and you only
-want to add those that are above 10 to a new list. You could look over every one of them and add it manually, or you could just build the loop below.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="basic-r.html#cb29-1" aria-hidden="true" tabindex="-1"></a>my_number_list <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">20</span>, <span class="dv">21</span>, <span class="dv">5</span>, <span class="dv">61</span>, <span class="dv">2</span>, <span class="dv">29</span>, <span class="dv">02</span>, <span class="dv">19</span>, <span class="dv">44</span>,</span>
-<span id="cb29-2"><a href="basic-r.html#cb29-2" aria-hidden="true" tabindex="-1"></a>                    <span class="dv">03</span>, <span class="dv">4</span>, <span class="fl">5.5</span>, <span class="dv">10</span>, <span class="dv">71</span>, <span class="fl">10.5</span>, <span class="dv">4</span>, <span class="dv">65</span>, <span class="fl">4.5</span>)</span>
-<span id="cb29-3"><a href="basic-r.html#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-4"><a href="basic-r.html#cb29-4" aria-hidden="true" tabindex="-1"></a>list_bigger_10 <span class="ot">&lt;-</span> <span class="fu">c</span>() <span class="co"># empty object </span></span>
-<span id="cb29-5"><a href="basic-r.html#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-6"><a href="basic-r.html#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> my_number_list){</span>
-<span id="cb29-7"><a href="basic-r.html#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (n <span class="sc">&gt;</span> <span class="dv">10</span>){</span>
-<span id="cb29-8"><a href="basic-r.html#cb29-8" aria-hidden="true" tabindex="-1"></a>    list_bigger_10 <span class="ot">&lt;-</span> <span class="fu">c</span>(list_bigger_10, n)</span>
-<span id="cb29-9"><a href="basic-r.html#cb29-9" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
-<span id="cb29-10"><a href="basic-r.html#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">&#39;</span><span class="sc">\n</span><span class="st">&#39;</span>, n, <span class="st">&#39;not bigger than 10&#39;</span>)</span>
-<span id="cb29-11"><a href="basic-r.html#cb29-11" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb29-12"><a href="basic-r.html#cb29-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Now onto a more practical one.
+Lets say you have a list of numbers and you only want to add those that are above 10 to a new list.
+You could look over every one of them and add it manually, or you could just build the loop below.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="basic-r.html#cb35-1" aria-hidden="true" tabindex="-1"></a>my_number_list <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">20</span>, <span class="dv">21</span>, <span class="dv">5</span>, <span class="dv">61</span>, <span class="dv">2</span>, <span class="dv">29</span>, <span class="dv">02</span>, <span class="dv">19</span>, <span class="dv">44</span>,</span>
+<span id="cb35-2"><a href="basic-r.html#cb35-2" aria-hidden="true" tabindex="-1"></a>                    <span class="dv">03</span>, <span class="dv">4</span>, <span class="fl">5.5</span>, <span class="dv">10</span>, <span class="dv">71</span>, <span class="fl">10.5</span>, <span class="dv">4</span>, <span class="dv">65</span>, <span class="fl">4.5</span>)</span>
+<span id="cb35-3"><a href="basic-r.html#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="basic-r.html#cb35-4" aria-hidden="true" tabindex="-1"></a>list_bigger_10 <span class="ot">&lt;-</span> <span class="fu">c</span>() <span class="co"># empty object </span></span>
+<span id="cb35-5"><a href="basic-r.html#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="basic-r.html#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> my_number_list){</span>
+<span id="cb35-7"><a href="basic-r.html#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (n <span class="sc">&gt;</span> <span class="dv">10</span>){</span>
+<span id="cb35-8"><a href="basic-r.html#cb35-8" aria-hidden="true" tabindex="-1"></a>    list_bigger_10 <span class="ot">&lt;-</span> <span class="fu">c</span>(list_bigger_10, n)</span>
+<span id="cb35-9"><a href="basic-r.html#cb35-9" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb35-10"><a href="basic-r.html#cb35-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">&#39;</span><span class="sc">\n</span><span class="st">&#39;</span>, n, <span class="st">&#39;not bigger than 10&#39;</span>)</span>
+<span id="cb35-11"><a href="basic-r.html#cb35-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb35-12"><a href="basic-r.html#cb35-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## 
 ##  7 not bigger than 10
 ##  5 not bigger than 10
@@ -603,7 +651,7 @@ want to add those that are above 10 to a new list. You could look over every one
 ##  10 not bigger than 10
 ##  4 not bigger than 10
 ##  4.5 not bigger than 10</code></pre>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="basic-r.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(list_bigger_10)</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="basic-r.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(list_bigger_10)</span></code></pre></div>
 <pre><code>## [1] 20.0 21.0 61.0 29.0 19.0 44.0 71.0 10.5 65.0</code></pre>
 </div>
 <div id="functions" class="section level2 hasAnchor" number="2.16">
@@ -614,36 +662,36 @@ The cool thing, however, is that, as with other programming languages, we can bu
 The function takes a set of arguments and performs actions over that argument and output something (if we want).<br />
 </p>
 <p>Its general structure is as follows:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="basic-r.html#cb33-1" aria-hidden="true" tabindex="-1"></a>function_name <span class="ot">&lt;-</span> <span class="cf">function</span>(arg_1, arg_2, ...){</span>
-<span id="cb33-2"><a href="basic-r.html#cb33-2" aria-hidden="true" tabindex="-1"></a>   actions and commands</span>
-<span id="cb33-3"><a href="basic-r.html#cb33-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="basic-r.html#cb39-1" aria-hidden="true" tabindex="-1"></a>function_name <span class="ot">&lt;-</span> <span class="cf">function</span>(arg_1, arg_2, ...){</span>
+<span id="cb39-2"><a href="basic-r.html#cb39-2" aria-hidden="true" tabindex="-1"></a>   actions and commands</span>
+<span id="cb39-3"><a href="basic-r.html#cb39-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Here are a few examples.
 Lets say we want to create a function that tells us the square root of our input.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="basic-r.html#cb34-1" aria-hidden="true" tabindex="-1"></a>square_function <span class="ot">&lt;-</span> <span class="cf">function</span>(number_to_be_squared){</span>
-<span id="cb34-2"><a href="basic-r.html#cb34-2" aria-hidden="true" tabindex="-1"></a>  final_number <span class="ot">&lt;-</span> (number_to_be_squared)<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb34-3"><a href="basic-r.html#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(final_number)</span>
-<span id="cb34-4"><a href="basic-r.html#cb34-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb34-5"><a href="basic-r.html#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-6"><a href="basic-r.html#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Now lets call the function</span></span>
-<span id="cb34-7"><a href="basic-r.html#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="fu">square_function</span>(<span class="at">number_to_be_squared =</span> <span class="dv">9</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="basic-r.html#cb40-1" aria-hidden="true" tabindex="-1"></a>square_function <span class="ot">&lt;-</span> <span class="cf">function</span>(number_to_be_squared){</span>
+<span id="cb40-2"><a href="basic-r.html#cb40-2" aria-hidden="true" tabindex="-1"></a>  final_number <span class="ot">&lt;-</span> (number_to_be_squared)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb40-3"><a href="basic-r.html#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(final_number)</span>
+<span id="cb40-4"><a href="basic-r.html#cb40-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb40-5"><a href="basic-r.html#cb40-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-6"><a href="basic-r.html#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Now lets call the function</span></span>
+<span id="cb40-7"><a href="basic-r.html#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="fu">square_function</span>(<span class="at">number_to_be_squared =</span> <span class="dv">9</span>)</span></code></pre></div>
 <pre><code>## [1] 81</code></pre>
 <p>Functions can also be called without arguments.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="basic-r.html#cb36-1" aria-hidden="true" tabindex="-1"></a>arg_less <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
-<span id="cb36-2"><a href="basic-r.html#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&#39;Just print this&#39;</span>)</span>
-<span id="cb36-3"><a href="basic-r.html#cb36-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb36-4"><a href="basic-r.html#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-5"><a href="basic-r.html#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="fu">arg_less</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="basic-r.html#cb42-1" aria-hidden="true" tabindex="-1"></a>arg_less <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb42-2"><a href="basic-r.html#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&#39;Just print this&#39;</span>)</span>
+<span id="cb42-3"><a href="basic-r.html#cb42-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb42-4"><a href="basic-r.html#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="basic-r.html#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="fu">arg_less</span>()</span></code></pre></div>
 <pre><code>## [1] &quot;Just print this&quot;</code></pre>
 <p>They can also have multiple inputs</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="basic-r.html#cb38-1" aria-hidden="true" tabindex="-1"></a>mult_fun <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b, c){</span>
-<span id="cb38-2"><a href="basic-r.html#cb38-2" aria-hidden="true" tabindex="-1"></a>  output <span class="ot">&lt;-</span> a <span class="sc">+</span> b<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="fu">sqrt</span>(c)</span>
-<span id="cb38-3"><a href="basic-r.html#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(output)</span>
-<span id="cb38-4"><a href="basic-r.html#cb38-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb38-5"><a href="basic-r.html#cb38-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-6"><a href="basic-r.html#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mult_fun</span>(<span class="at">a =</span> <span class="dv">1</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">c =</span> <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="basic-r.html#cb44-1" aria-hidden="true" tabindex="-1"></a>mult_fun <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b, c){</span>
+<span id="cb44-2"><a href="basic-r.html#cb44-2" aria-hidden="true" tabindex="-1"></a>  output <span class="ot">&lt;-</span> a <span class="sc">+</span> b<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="fu">sqrt</span>(c)</span>
+<span id="cb44-3"><a href="basic-r.html#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(output)</span>
+<span id="cb44-4"><a href="basic-r.html#cb44-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb44-5"><a href="basic-r.html#cb44-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-6"><a href="basic-r.html#cb44-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mult_fun</span>(<span class="at">a =</span> <span class="dv">1</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">c =</span> <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>## [1] 7.236068</code></pre>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="basic-r.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Or simply</span></span>
-<span id="cb40-2"><a href="basic-r.html#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="co"># mult_fun(1, 2, 5)</span></span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="basic-r.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Or simply</span></span>
+<span id="cb46-2"><a href="basic-r.html#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="co"># mult_fun(1, 2, 5)</span></span></code></pre></div>
 </div>
 <div id="packages" class="section level2 hasAnchor" number="2.17">
 <h2><span class="header-section-number">2.17</span> Packages<a href="basic-r.html#packages" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -656,9 +704,36 @@ These packages add new functions to R.</p>
 <p>Most packages come from CRAN (Comprehensive R Archive Network, which is basically R’s house), thus all you need to write is that.</p>
 <p>However, if some packages come from github for instance you need to install the packages “devtools” (<code>install.packages('devtools')</code>) then load it (<code>library(devtools)</code>) and finally use <code>install_github("profile_name/repository")</code> to install the package.
 Usually if you google these packages they will have instructions on how to install them.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="basic-r.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;ggplot2&quot;</span>)</span>
+<span id="cb47-2"><a href="basic-r.html#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-3"><a href="basic-r.html#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
 <p>You can also load and detach (remove package from your toolset for the time being) packages that you have already installed by going to the packages panel (bottom right) and searching and then selecting the package you want to load.</p>
 <p>In specific situations, particularly if you just want to use one function of a package, instead of loading the package you can simply write <code>package_name::function_name()</code>.
 R will just use that function from that package for that line in specific, but not load the package.</p>
+<div id="conflicts" class="section level3 hasAnchor" number="2.17.1">
+<h3><span class="header-section-number">2.17.1</span> Conflicts<a href="basic-r.html#conflicts" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Sometimes you will notice that certain packages have the same function names, each with its specific purpose.
+There are no conflict on packages loaded by default in R.
+These conflicts emerge <strong>only</strong> when you load new packages (e.g. <code>library("package_name")</code>).
+When this happens, R, unless specified, will use the function from the most recently loaded package.
+So for instance, in the chapters ahead you will use (and load) a package called “tidyverse”.
+When you do call this package (<code>library(tidyverse)</code>) you will already be prompted with a message warning you of possible conflict (although most packages don’t even prompt you with this message).
+You can always check what conflicts are currently present by calling the function <code>conflict_scout()</code> from the package (“conflicts”) which is pre-loaded in R.
+If you do this further ahead you will be prompted with a similar message:</p>
+<p>““” OUTPUT
+2 conflicts - <code>filter()</code>: dplyr and stats - <code>lag()</code>: dplyr and stats
+““”</p>
+<p>Now at least you know that the <code>filter()</code> and <code>lag()</code> functions are shared by two packages.
+But remember, each function (depending on the package) has a different… well function.
+This might cause you problems when re-running your scripts.
+So if you are loading unfamiliar packages or simply have several packages in an R session - <em>a loaded package works for all scripts in a R session, you do not need to load a package for each script!</em> - be wary that conflict might emerge.</p>
+<p>Now to resolve this conflict you have three alternatives, which I will present in order of efficiency:</p>
+<ol style="list-style-type: decimal">
+<li>Use <code>conflict_prefer("function", "package_prefered")</code> from the “conflicted” package to specify in the R session, which package you always want in regards to that function. So for instance, if I say <code>conflicted::conflict_prefer("filter", "dplyr")</code>, R will now use <code>filter</code> from “dplyr” in every occasion and the <code>filter</code> function from the package stats will be neglected.</li>
+<li>Use <code>package_name::</code> before each conflicted function to specify which package you want in regards to that function.</li>
+<li>Detach (un-load) the package you don’t won’t.</li>
+</ol>
+</div>
 </div>
 <div id="shortcuts" class="section level2 hasAnchor" number="2.18">
 <h2><span class="header-section-number">2.18</span> Shortcuts<a href="basic-r.html#shortcuts" class="anchor-section" aria-label="Anchor link to header"></a></h2>

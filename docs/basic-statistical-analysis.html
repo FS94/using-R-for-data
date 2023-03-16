@@ -8,7 +8,7 @@
   <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
 set in the _output.yml file.
 The HTML output format for this example is bookdown::gitbook,</p>" />
-  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 5 Basic Statistical Analysis | Usefulness of R for managing data" />
   <meta property="og:type" content="book" />
@@ -29,7 +29,7 @@ The HTML output format for this example is bookdown::gitbook,</p>" />
 <meta name="author" content="Fábio A. Silva" />
 
 
-<meta name="date" content="2023-02-28" />
+<meta name="date" content="2023-03-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -161,7 +161,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.14" data-path="basic-r.html"><a href="basic-r.html#ifs-and-elses"><i class="fa fa-check"></i><b>2.14</b> Ifs and elses</a></li>
 <li class="chapter" data-level="2.15" data-path="basic-r.html"><a href="basic-r.html#loops"><i class="fa fa-check"></i><b>2.15</b> Loops</a></li>
 <li class="chapter" data-level="2.16" data-path="basic-r.html"><a href="basic-r.html#functions"><i class="fa fa-check"></i><b>2.16</b> Functions</a></li>
-<li class="chapter" data-level="2.17" data-path="basic-r.html"><a href="basic-r.html#packages"><i class="fa fa-check"></i><b>2.17</b> Packages</a></li>
+<li class="chapter" data-level="2.17" data-path="basic-r.html"><a href="basic-r.html#packages"><i class="fa fa-check"></i><b>2.17</b> Packages</a>
+<ul>
+<li class="chapter" data-level="2.17.1" data-path="basic-r.html"><a href="basic-r.html#conflicts"><i class="fa fa-check"></i><b>2.17.1</b> Conflicts</a></li>
+</ul></li>
 <li class="chapter" data-level="2.18" data-path="basic-r.html"><a href="basic-r.html#shortcuts"><i class="fa fa-check"></i><b>2.18</b> Shortcuts</a></li>
 <li class="chapter" data-level="2.19" data-path="basic-r.html"><a href="basic-r.html#chunk-settings"><i class="fa fa-check"></i><b>2.19</b> Chunk settings</a></li>
 <li class="chapter" data-level="2.20" data-path="basic-r.html"><a href="basic-r.html#code-completion"><i class="fa fa-check"></i><b>2.20</b> Code completion</a></li>
@@ -295,9 +298,9 @@ Thus, this is by no means a detailed guide on how to analyse data. That would re
 </ul>
 <p>There are several built-in commands/functions to perform correlations in R. These are <code>cor()</code>, <code>cor.test()</code>. There are slight differences between them, since <code>cor()</code> does not provide any p-values, but works for multiple comparisons, and <code>cor.test()</code> provides p-values, but does not work for multiple comparisons. There are definitely more functions to calculate different correlation indexes and with more features, but these are the simpler ones and do not require you to install any package to perform them.</p>
 <p>To show off some examples of correlation, we will use a data set “Ginzberg” from the <code>carData</code> package, which containing data about psychiatric patients hospitalized with depression.</p>
-<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="basic-statistical-analysis.html#cb227-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(carData<span class="sc">::</span>Ginzberg)</span>
-<span id="cb227-2"><a href="basic-statistical-analysis.html#cb227-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb227-3"><a href="basic-statistical-analysis.html#cb227-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d)</span></code></pre></div>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="basic-statistical-analysis.html#cb256-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(carData<span class="sc">::</span>Ginzberg)</span>
+<span id="cb256-2"><a href="basic-statistical-analysis.html#cb256-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb256-3"><a href="basic-statistical-analysis.html#cb256-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 6
 ##   simplicity fatalism depression adjsimp adjfatal adjdep
 ##        &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;
@@ -308,14 +311,14 @@ Thus, this is by no means a detailed guide on how to analyse data. That would re
 ## 5      0.534   0.770       0.502   0.477   0.814   0.535
 ## 6      0.628   1.39        0.566   0.407   1.23    0.340</code></pre>
 <p>We can choose to selectively correlate two variables, like for instance fatalism with depression</p>
-<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="basic-statistical-analysis.html#cb229-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
-<span id="cb229-2"><a href="basic-statistical-analysis.html#cb229-2" aria-hidden="true" tabindex="-1"></a>d <span class="sc">%&gt;%</span> </span>
-<span id="cb229-3"><a href="basic-statistical-analysis.html#cb229-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(fatalism, depression)) <span class="sc">+</span> </span>
-<span id="cb229-4"><a href="basic-statistical-analysis.html#cb229-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb229-5"><a href="basic-statistical-analysis.html#cb229-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&#39;lm&#39;</span>, <span class="at">formula =</span> <span class="st">&#39;y ~ x&#39;</span>)</span></code></pre></div>
-<p><img src="using_r_data_files/figure-html/unnamed-chunk-112-1.png" width="672" /></p>
-<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="basic-statistical-analysis.html#cb230-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlation test</span></span>
-<span id="cb230-2"><a href="basic-statistical-analysis.html#cb230-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(d<span class="sc">$</span>fatalism, d<span class="sc">$</span>depression)</span></code></pre></div>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="basic-statistical-analysis.html#cb258-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb258-2"><a href="basic-statistical-analysis.html#cb258-2" aria-hidden="true" tabindex="-1"></a>d <span class="sc">%&gt;%</span> </span>
+<span id="cb258-3"><a href="basic-statistical-analysis.html#cb258-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(fatalism, depression)) <span class="sc">+</span> </span>
+<span id="cb258-4"><a href="basic-statistical-analysis.html#cb258-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb258-5"><a href="basic-statistical-analysis.html#cb258-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&#39;lm&#39;</span>, <span class="at">formula =</span> <span class="st">&#39;y ~ x&#39;</span>)</span></code></pre></div>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-116-1.png" width="672" /></p>
+<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="basic-statistical-analysis.html#cb259-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlation test</span></span>
+<span id="cb259-2"><a href="basic-statistical-analysis.html#cb259-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(d<span class="sc">$</span>fatalism, d<span class="sc">$</span>depression)</span></code></pre></div>
 <pre><code>## 
 ##  Pearson&#39;s product-moment correlation
 ## 
@@ -328,8 +331,8 @@ Thus, this is by no means a detailed guide on how to analyse data. That would re
 ##       cor 
 ## 0.6573674</code></pre>
 <p>Alternatively we can quickly explor all correlations within a data set</p>
-<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="basic-statistical-analysis.html#cb232-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simple descripite measure</span></span>
-<span id="cb232-2"><a href="basic-statistical-analysis.html#cb232-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(d[,<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="basic-statistical-analysis.html#cb261-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simple descripite measure</span></span>
+<span id="cb261-2"><a href="basic-statistical-analysis.html#cb261-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(d[,<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>])</span></code></pre></div>
 <pre><code>##            simplicity  fatalism depression   adjsimp  adjfatal    adjdep
 ## simplicity  1.0000000 0.6312820  0.6432668 0.8828320 0.4739231 0.5055916
 ## fatalism    0.6312820 1.0000000  0.6573674 0.4762675 0.8871990 0.5155501
@@ -337,45 +340,45 @@ Thus, this is by no means a detailed guide on how to analyse data. That would re
 ## adjsimp     0.8828320 0.4762675  0.5240324 1.0000000 0.5368211 0.5726930
 ## adjfatal    0.4739231 0.8871990  0.5317250 0.5368211 1.0000000 0.5810994
 ## adjdep      0.5055916 0.5155501  0.9150317 0.5726930 0.5810994 1.0000000</code></pre>
-<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="basic-statistical-analysis.html#cb234-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simple graphic version</span></span>
-<span id="cb234-2"><a href="basic-statistical-analysis.html#cb234-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(d)</span></code></pre></div>
-<p><img src="using_r_data_files/figure-html/unnamed-chunk-113-1.png" width="672" /></p>
-<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="basic-statistical-analysis.html#cb235-1" aria-hidden="true" tabindex="-1"></a><span class="co"># More elaborate version</span></span>
-<span id="cb235-2"><a href="basic-statistical-analysis.html#cb235-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
-<span id="cb235-3"><a href="basic-statistical-analysis.html#cb235-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(d)</span></code></pre></div>
-<p><img src="using_r_data_files/figure-html/unnamed-chunk-113-2.png" width="672" /></p>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="basic-statistical-analysis.html#cb263-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simple graphic version</span></span>
+<span id="cb263-2"><a href="basic-statistical-analysis.html#cb263-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(d)</span></code></pre></div>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-117-1.png" width="672" /></p>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="basic-statistical-analysis.html#cb264-1" aria-hidden="true" tabindex="-1"></a><span class="co"># More elaborate version</span></span>
+<span id="cb264-2"><a href="basic-statistical-analysis.html#cb264-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
+<span id="cb264-3"><a href="basic-statistical-analysis.html#cb264-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(d)</span></code></pre></div>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-117-2.png" width="672" /></p>
 <p>You can also split the correlation by groups. Here’s how.</p>
-<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="basic-statistical-analysis.html#cb236-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adding a generic group variable</span></span>
-<span id="cb236-2"><a href="basic-statistical-analysis.html#cb236-2" aria-hidden="true" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">&#39;A&#39;</span>, <span class="st">&#39;B&#39;</span>), <span class="fu">nrow</span>(d), <span class="at">replace=</span><span class="cn">TRUE</span>)</span>
-<span id="cb236-3"><a href="basic-statistical-analysis.html#cb236-3" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>group <span class="ot">&lt;-</span> group</span>
-<span id="cb236-4"><a href="basic-statistical-analysis.html#cb236-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb236-5"><a href="basic-statistical-analysis.html#cb236-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb236-6"><a href="basic-statistical-analysis.html#cb236-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlation plots</span></span>
-<span id="cb236-7"><a href="basic-statistical-analysis.html#cb236-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(d[, <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">7</span>)], </span>
-<span id="cb236-8"><a href="basic-statistical-analysis.html#cb236-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">color =</span> group))</span></code></pre></div>
+<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="basic-statistical-analysis.html#cb265-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adding a generic group variable</span></span>
+<span id="cb265-2"><a href="basic-statistical-analysis.html#cb265-2" aria-hidden="true" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">&#39;A&#39;</span>, <span class="st">&#39;B&#39;</span>), <span class="fu">nrow</span>(d), <span class="at">replace=</span><span class="cn">TRUE</span>)</span>
+<span id="cb265-3"><a href="basic-statistical-analysis.html#cb265-3" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>group <span class="ot">&lt;-</span> group</span>
+<span id="cb265-4"><a href="basic-statistical-analysis.html#cb265-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb265-5"><a href="basic-statistical-analysis.html#cb265-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb265-6"><a href="basic-statistical-analysis.html#cb265-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlation plots</span></span>
+<span id="cb265-7"><a href="basic-statistical-analysis.html#cb265-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(d[, <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">7</span>)], </span>
+<span id="cb265-8"><a href="basic-statistical-analysis.html#cb265-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">color =</span> group))</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="using_r_data_files/figure-html/unnamed-chunk-114-1.png" width="672" /></p>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-118-1.png" width="672" /></p>
 <p>Lastly, we can correlate all other variables with one of our choosing.</p>
-<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="basic-statistical-analysis.html#cb238-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Naming cols</span></span>
-<span id="cb238-2"><a href="basic-statistical-analysis.html#cb238-2" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">colnames</span>(d)[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>)]</span>
-<span id="cb238-3"><a href="basic-statistical-analysis.html#cb238-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb238-4"><a href="basic-statistical-analysis.html#cb238-4" aria-hidden="true" tabindex="-1"></a><span class="co"># d to dataframe (cor.test is picky)</span></span>
-<span id="cb238-5"><a href="basic-statistical-analysis.html#cb238-5" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(d)</span>
-<span id="cb238-6"><a href="basic-statistical-analysis.html#cb238-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb238-7"><a href="basic-statistical-analysis.html#cb238-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate over all combinations</span></span>
-<span id="cb238-8"><a href="basic-statistical-analysis.html#cb238-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (col <span class="cf">in</span> cols){</span>
-<span id="cb238-9"><a href="basic-statistical-analysis.html#cb238-9" aria-hidden="true" tabindex="-1"></a>  cor <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">cor.test</span>(d<span class="sc">$</span>depression, d[, col]))</span>
-<span id="cb238-10"><a href="basic-statistical-analysis.html#cb238-10" aria-hidden="true" tabindex="-1"></a>  cor_value <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(cor[<span class="dv">4</span>]), <span class="dv">3</span>)</span>
-<span id="cb238-11"><a href="basic-statistical-analysis.html#cb238-11" aria-hidden="true" tabindex="-1"></a>  cor_pvalue <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(cor[<span class="dv">3</span>]), <span class="dv">3</span>)</span>
-<span id="cb238-12"><a href="basic-statistical-analysis.html#cb238-12" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb238-13"><a href="basic-statistical-analysis.html#cb238-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (cor_pvalue <span class="sc">==</span> <span class="dv">0</span>){</span>
-<span id="cb238-14"><a href="basic-statistical-analysis.html#cb238-14" aria-hidden="true" tabindex="-1"></a>    cor_pvalue <span class="ot">=</span> <span class="st">&#39;&lt;0.001&#39;</span></span>
-<span id="cb238-15"><a href="basic-statistical-analysis.html#cb238-15" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb238-16"><a href="basic-statistical-analysis.html#cb238-16" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb238-17"><a href="basic-statistical-analysis.html#cb238-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&#39;</span><span class="sc">\n</span><span class="st">Correlation between Depression and&#39;</span>, col, <span class="st">&#39;: &#39;</span>, cor_value, <span class="st">&#39;, with p-value:&#39;</span>, cor_pvalue)</span>
-<span id="cb238-18"><a href="basic-statistical-analysis.html#cb238-18" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="basic-statistical-analysis.html#cb267-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Naming cols</span></span>
+<span id="cb267-2"><a href="basic-statistical-analysis.html#cb267-2" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">colnames</span>(d)[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>)]</span>
+<span id="cb267-3"><a href="basic-statistical-analysis.html#cb267-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb267-4"><a href="basic-statistical-analysis.html#cb267-4" aria-hidden="true" tabindex="-1"></a><span class="co"># d to dataframe (cor.test is picky)</span></span>
+<span id="cb267-5"><a href="basic-statistical-analysis.html#cb267-5" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(d)</span>
+<span id="cb267-6"><a href="basic-statistical-analysis.html#cb267-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb267-7"><a href="basic-statistical-analysis.html#cb267-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate over all combinations</span></span>
+<span id="cb267-8"><a href="basic-statistical-analysis.html#cb267-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (col <span class="cf">in</span> cols){</span>
+<span id="cb267-9"><a href="basic-statistical-analysis.html#cb267-9" aria-hidden="true" tabindex="-1"></a>  cor <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">cor.test</span>(d<span class="sc">$</span>depression, d[, col]))</span>
+<span id="cb267-10"><a href="basic-statistical-analysis.html#cb267-10" aria-hidden="true" tabindex="-1"></a>  cor_value <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(cor[<span class="dv">4</span>]), <span class="dv">3</span>)</span>
+<span id="cb267-11"><a href="basic-statistical-analysis.html#cb267-11" aria-hidden="true" tabindex="-1"></a>  cor_pvalue <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(cor[<span class="dv">3</span>]), <span class="dv">3</span>)</span>
+<span id="cb267-12"><a href="basic-statistical-analysis.html#cb267-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb267-13"><a href="basic-statistical-analysis.html#cb267-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (cor_pvalue <span class="sc">==</span> <span class="dv">0</span>){</span>
+<span id="cb267-14"><a href="basic-statistical-analysis.html#cb267-14" aria-hidden="true" tabindex="-1"></a>    cor_pvalue <span class="ot">=</span> <span class="st">&#39;&lt;0.001&#39;</span></span>
+<span id="cb267-15"><a href="basic-statistical-analysis.html#cb267-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb267-16"><a href="basic-statistical-analysis.html#cb267-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb267-17"><a href="basic-statistical-analysis.html#cb267-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&#39;</span><span class="sc">\n</span><span class="st">Correlation between Depression and&#39;</span>, col, <span class="st">&#39;: &#39;</span>, cor_value, <span class="st">&#39;, with p-value:&#39;</span>, cor_pvalue)</span>
+<span id="cb267-18"><a href="basic-statistical-analysis.html#cb267-18" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## 
 ## Correlation between Depression and simplicity :  0.643 , with p-value: &lt;0.001
 ## Correlation between Depression and fatalism :  0.657 , with p-value: &lt;0.001
@@ -393,10 +396,10 @@ Thus, this is by no means a detailed guide on how to analyse data. That would re
 <p>So linear regression (LR) are a statistical method used to model a relationship between a <strong>dependent (outcome) variable</strong> and <strong>independent (predictors) variables</strong> by fitting a linear equation to the observed data. We can use it to study understand the relationship between these variables or predict future (yet unobserved) values.<br />
 The basic syntax for LR in R is as follows: <code>lm(y ~ x, data = d)</code>. <code>lm</code> stands for linear model. <code>y</code> will be our outcome variable and <code>x</code> our predictor. You can interpret <code>~</code> here and in the following analysis as “predicted by”.</p>
 <p>Lets look at a couple of examples. To do this we are going to load the data “Soils” from the <code>carData</code> package. This data concerns soil characteristics measured on samples. We will assume “pH” is our outcome/dependent variable.</p>
-<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="basic-statistical-analysis.html#cb240-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> carData<span class="sc">::</span>Soils</span>
-<span id="cb240-2"><a href="basic-statistical-analysis.html#cb240-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb240-3"><a href="basic-statistical-analysis.html#cb240-3" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lm</span>(pH <span class="sc">~</span> Depth, <span class="at">data =</span> d)</span>
-<span id="cb240-4"><a href="basic-statistical-analysis.html#cb240-4" aria-hidden="true" tabindex="-1"></a>m</span></code></pre></div>
+<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="basic-statistical-analysis.html#cb269-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> carData<span class="sc">::</span>Soils</span>
+<span id="cb269-2"><a href="basic-statistical-analysis.html#cb269-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb269-3"><a href="basic-statistical-analysis.html#cb269-3" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lm</span>(pH <span class="sc">~</span> Depth, <span class="at">data =</span> d)</span>
+<span id="cb269-4"><a href="basic-statistical-analysis.html#cb269-4" aria-hidden="true" tabindex="-1"></a>m</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = pH ~ Depth, data = d)
@@ -405,7 +408,7 @@ The basic syntax for LR in R is as follows: <code>lm(y ~ x, data = d)</code>. <c
 ## (Intercept)   Depth10-30   Depth30-60   Depth60-90  
 ##      5.3975      -0.3933      -1.1192      -1.4000</code></pre>
 <p>Now if you call the model you created (here labeled as “m”) it prints only a very small output with the coefficients of the equation only. You can get a more detailed view of everything using the command <code>summary()</code> or something more concise with <code>anova()</code> or <code>car::Anova()</code>.</p>
-<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="basic-statistical-analysis.html#cb242-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m)</span></code></pre></div>
+<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="basic-statistical-analysis.html#cb271-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = pH ~ Depth, data = d)
@@ -426,7 +429,7 @@ The basic syntax for LR in R is as follows: <code>lm(y ~ x, data = d)</code>. <c
 ## Residual standard error: 0.3771 on 44 degrees of freedom
 ## Multiple R-squared:  0.7051, Adjusted R-squared:  0.685 
 ## F-statistic: 35.07 on 3 and 44 DF,  p-value: 9.811e-12</code></pre>
-<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="basic-statistical-analysis.html#cb244-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m)</span></code></pre></div>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="basic-statistical-analysis.html#cb273-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m)</span></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: pH
@@ -435,7 +438,7 @@ The basic syntax for LR in R is as follows: <code>lm(y ~ x, data = d)</code>. <c
 ## Residuals 44  6.2563  0.1422                      
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="basic-statistical-analysis.html#cb246-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(m)</span></code></pre></div>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="basic-statistical-analysis.html#cb275-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(m)</span></code></pre></div>
 <pre><code>## Anova Table (Type II tests)
 ## 
 ## Response: pH
@@ -452,52 +455,52 @@ The basic syntax for LR in R is as follows: <code>lm(y ~ x, data = d)</code>. <c
 4 - <em>Normality</em>: The errors are normally distributed.
 5 - <em>Independence of errors</em>: The errors are independent of the independent variable(s)</p>
 <p>Again, these are beside the point of the guide, but if you want to check them, here is a quick way around a few of the most pertinent points.</p>
-<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="basic-statistical-analysis.html#cb248-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Homoscedasticity </span></span>
-<span id="cb248-2"><a href="basic-statistical-analysis.html#cb248-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(m<span class="sc">$</span>residuals <span class="sc">~</span> m<span class="sc">$</span>fitted.values)</span></code></pre></div>
-<p><img src="using_r_data_files/figure-html/unnamed-chunk-118-1.png" width="672" /></p>
-<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="basic-statistical-analysis.html#cb249-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Or with ggplot</span></span>
-<span id="cb249-2"><a href="basic-statistical-analysis.html#cb249-2" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(m<span class="sc">$</span>residuals, m<span class="sc">$</span>fitted.values)</span>
-<span id="cb249-3"><a href="basic-statistical-analysis.html#cb249-3" aria-hidden="true" tabindex="-1"></a>t <span class="sc">%&gt;%</span> </span>
-<span id="cb249-4"><a href="basic-statistical-analysis.html#cb249-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(m.fitted.values, m.residuals)) <span class="sc">+</span></span>
-<span id="cb249-5"><a href="basic-statistical-analysis.html#cb249-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
-<p><img src="using_r_data_files/figure-html/unnamed-chunk-118-2.png" width="672" /></p>
-<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="basic-statistical-analysis.html#cb250-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Normality</span></span>
-<span id="cb250-2"><a href="basic-statistical-analysis.html#cb250-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(m<span class="sc">$</span>residuals))</span></code></pre></div>
-<p><img src="using_r_data_files/figure-html/unnamed-chunk-118-3.png" width="672" /></p>
-<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="basic-statistical-analysis.html#cb251-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Or with ggplot</span></span>
-<span id="cb251-2"><a href="basic-statistical-analysis.html#cb251-2" aria-hidden="true" tabindex="-1"></a>t <span class="sc">%&gt;%</span> </span>
-<span id="cb251-3"><a href="basic-statistical-analysis.html#cb251-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(m.residuals)) <span class="sc">+</span></span>
-<span id="cb251-4"><a href="basic-statistical-analysis.html#cb251-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>()</span></code></pre></div>
-<p><img src="using_r_data_files/figure-html/unnamed-chunk-118-4.png" width="672" /></p>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="basic-statistical-analysis.html#cb277-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Homoscedasticity </span></span>
+<span id="cb277-2"><a href="basic-statistical-analysis.html#cb277-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(m<span class="sc">$</span>residuals <span class="sc">~</span> m<span class="sc">$</span>fitted.values)</span></code></pre></div>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-122-1.png" width="672" /></p>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="basic-statistical-analysis.html#cb278-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Or with ggplot</span></span>
+<span id="cb278-2"><a href="basic-statistical-analysis.html#cb278-2" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(m<span class="sc">$</span>residuals, m<span class="sc">$</span>fitted.values)</span>
+<span id="cb278-3"><a href="basic-statistical-analysis.html#cb278-3" aria-hidden="true" tabindex="-1"></a>t <span class="sc">%&gt;%</span> </span>
+<span id="cb278-4"><a href="basic-statistical-analysis.html#cb278-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(m.fitted.values, m.residuals)) <span class="sc">+</span></span>
+<span id="cb278-5"><a href="basic-statistical-analysis.html#cb278-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-122-2.png" width="672" /></p>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="basic-statistical-analysis.html#cb279-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Normality</span></span>
+<span id="cb279-2"><a href="basic-statistical-analysis.html#cb279-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(m<span class="sc">$</span>residuals))</span></code></pre></div>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-122-3.png" width="672" /></p>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="basic-statistical-analysis.html#cb280-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Or with ggplot</span></span>
+<span id="cb280-2"><a href="basic-statistical-analysis.html#cb280-2" aria-hidden="true" tabindex="-1"></a>t <span class="sc">%&gt;%</span> </span>
+<span id="cb280-3"><a href="basic-statistical-analysis.html#cb280-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(m.residuals)) <span class="sc">+</span></span>
+<span id="cb280-4"><a href="basic-statistical-analysis.html#cb280-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>()</span></code></pre></div>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-122-4.png" width="672" /></p>
 <p>With your model you can then make predictions, of course. To do this you use the command <code>predict</code>. Lets create a different model first with a continuous predictor</p>
-<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="basic-statistical-analysis.html#cb252-1" aria-hidden="true" tabindex="-1"></a><span class="co"># New model</span></span>
-<span id="cb252-2"><a href="basic-statistical-analysis.html#cb252-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lm</span>(pH <span class="sc">~</span> Na, <span class="at">data =</span> d)</span>
-<span id="cb252-3"><a href="basic-statistical-analysis.html#cb252-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb252-4"><a href="basic-statistical-analysis.html#cb252-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a data frame with several predictor variables we wish to now the predictions too.</span></span>
-<span id="cb252-5"><a href="basic-statistical-analysis.html#cb252-5" aria-hidden="true" tabindex="-1"></a>pd <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Na =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">3.5</span>, <span class="dv">7</span>, <span class="fl">8.2</span>, <span class="dv">10</span>))</span>
-<span id="cb252-6"><a href="basic-statistical-analysis.html#cb252-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb252-7"><a href="basic-statistical-analysis.html#cb252-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicting</span></span>
-<span id="cb252-8"><a href="basic-statistical-analysis.html#cb252-8" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(m, pd)</span></code></pre></div>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="basic-statistical-analysis.html#cb281-1" aria-hidden="true" tabindex="-1"></a><span class="co"># New model</span></span>
+<span id="cb281-2"><a href="basic-statistical-analysis.html#cb281-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lm</span>(pH <span class="sc">~</span> Na, <span class="at">data =</span> d)</span>
+<span id="cb281-3"><a href="basic-statistical-analysis.html#cb281-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb281-4"><a href="basic-statistical-analysis.html#cb281-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a data frame with several predictor variables we wish to now the predictions too.</span></span>
+<span id="cb281-5"><a href="basic-statistical-analysis.html#cb281-5" aria-hidden="true" tabindex="-1"></a>pd <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Na =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">3.5</span>, <span class="dv">7</span>, <span class="fl">8.2</span>, <span class="dv">10</span>))</span>
+<span id="cb281-6"><a href="basic-statistical-analysis.html#cb281-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb281-7"><a href="basic-statistical-analysis.html#cb281-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicting</span></span>
+<span id="cb281-8"><a href="basic-statistical-analysis.html#cb281-8" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(m, pd)</span></code></pre></div>
 <pre><code>##        1        2        3        4        5 
 ## 5.320747 4.966709 4.471054 4.301116 4.046208</code></pre>
 <p>Lastly, lets plot our model.</p>
-<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="basic-statistical-analysis.html#cb254-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a dummy range of Na values.</span></span>
-<span id="cb254-2"><a href="basic-statistical-analysis.html#cb254-2" aria-hidden="true" tabindex="-1"></a>na_values <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">range</span>(d<span class="sc">$</span>Na)[<span class="dv">1</span>], <span class="fu">range</span>(d<span class="sc">$</span>Na)[<span class="dv">2</span>], <span class="fl">0.5</span>)</span>
-<span id="cb254-3"><a href="basic-statistical-analysis.html#cb254-3" aria-hidden="true" tabindex="-1"></a>plt_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Na =</span> na_values)</span>
-<span id="cb254-4"><a href="basic-statistical-analysis.html#cb254-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb254-5"><a href="basic-statistical-analysis.html#cb254-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Generating predictions with prediction confidence intervals</span></span>
-<span id="cb254-6"><a href="basic-statistical-analysis.html#cb254-6" aria-hidden="true" tabindex="-1"></a>plt_data<span class="sc">$</span>predictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(m, plt_data, <span class="at">se.fit =</span> <span class="cn">TRUE</span>, <span class="at">interval =</span> <span class="st">&#39;prediction&#39;</span>, <span class="at">level =</span> .<span class="dv">95</span>)<span class="sc">$</span>fit[, <span class="dv">1</span>]</span>
-<span id="cb254-7"><a href="basic-statistical-analysis.html#cb254-7" aria-hidden="true" tabindex="-1"></a>plt_data<span class="sc">$</span>lwr <span class="ot">&lt;-</span> <span class="fu">predict</span>(m, plt_data, <span class="at">se.fit =</span> <span class="cn">TRUE</span>, <span class="at">interval =</span> <span class="st">&#39;prediction&#39;</span>, <span class="at">level =</span> .<span class="dv">95</span>)<span class="sc">$</span>fit[, <span class="dv">2</span>]</span>
-<span id="cb254-8"><a href="basic-statistical-analysis.html#cb254-8" aria-hidden="true" tabindex="-1"></a>plt_data<span class="sc">$</span>upr <span class="ot">&lt;-</span> <span class="fu">predict</span>(m, plt_data, <span class="at">se.fit =</span> <span class="cn">TRUE</span>, <span class="at">interval =</span> <span class="st">&#39;prediction&#39;</span>, <span class="at">level =</span> .<span class="dv">95</span>)<span class="sc">$</span>fit[, <span class="dv">3</span>]</span>
-<span id="cb254-9"><a href="basic-statistical-analysis.html#cb254-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb254-10"><a href="basic-statistical-analysis.html#cb254-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting</span></span>
-<span id="cb254-11"><a href="basic-statistical-analysis.html#cb254-11" aria-hidden="true" tabindex="-1"></a>plt_data <span class="sc">%&gt;%</span> </span>
-<span id="cb254-12"><a href="basic-statistical-analysis.html#cb254-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(Na, predictions)) <span class="sc">+</span></span>
-<span id="cb254-13"><a href="basic-statistical-analysis.html#cb254-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb254-14"><a href="basic-statistical-analysis.html#cb254-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb254-15"><a href="basic-statistical-analysis.html#cb254-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> lwr, <span class="at">ymax =</span> upr), <span class="at">alpha =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
-<span id="cb254-16"><a href="basic-statistical-analysis.html#cb254-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">8</span>))</span></code></pre></div>
-<p><img src="using_r_data_files/figure-html/unnamed-chunk-120-1.png" width="672" /></p>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="basic-statistical-analysis.html#cb283-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a dummy range of Na values.</span></span>
+<span id="cb283-2"><a href="basic-statistical-analysis.html#cb283-2" aria-hidden="true" tabindex="-1"></a>na_values <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">range</span>(d<span class="sc">$</span>Na)[<span class="dv">1</span>], <span class="fu">range</span>(d<span class="sc">$</span>Na)[<span class="dv">2</span>], <span class="fl">0.5</span>)</span>
+<span id="cb283-3"><a href="basic-statistical-analysis.html#cb283-3" aria-hidden="true" tabindex="-1"></a>plt_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Na =</span> na_values)</span>
+<span id="cb283-4"><a href="basic-statistical-analysis.html#cb283-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb283-5"><a href="basic-statistical-analysis.html#cb283-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Generating predictions with prediction confidence intervals</span></span>
+<span id="cb283-6"><a href="basic-statistical-analysis.html#cb283-6" aria-hidden="true" tabindex="-1"></a>plt_data<span class="sc">$</span>predictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(m, plt_data, <span class="at">se.fit =</span> <span class="cn">TRUE</span>, <span class="at">interval =</span> <span class="st">&#39;prediction&#39;</span>, <span class="at">level =</span> .<span class="dv">95</span>)<span class="sc">$</span>fit[, <span class="dv">1</span>]</span>
+<span id="cb283-7"><a href="basic-statistical-analysis.html#cb283-7" aria-hidden="true" tabindex="-1"></a>plt_data<span class="sc">$</span>lwr <span class="ot">&lt;-</span> <span class="fu">predict</span>(m, plt_data, <span class="at">se.fit =</span> <span class="cn">TRUE</span>, <span class="at">interval =</span> <span class="st">&#39;prediction&#39;</span>, <span class="at">level =</span> .<span class="dv">95</span>)<span class="sc">$</span>fit[, <span class="dv">2</span>]</span>
+<span id="cb283-8"><a href="basic-statistical-analysis.html#cb283-8" aria-hidden="true" tabindex="-1"></a>plt_data<span class="sc">$</span>upr <span class="ot">&lt;-</span> <span class="fu">predict</span>(m, plt_data, <span class="at">se.fit =</span> <span class="cn">TRUE</span>, <span class="at">interval =</span> <span class="st">&#39;prediction&#39;</span>, <span class="at">level =</span> .<span class="dv">95</span>)<span class="sc">$</span>fit[, <span class="dv">3</span>]</span>
+<span id="cb283-9"><a href="basic-statistical-analysis.html#cb283-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb283-10"><a href="basic-statistical-analysis.html#cb283-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting</span></span>
+<span id="cb283-11"><a href="basic-statistical-analysis.html#cb283-11" aria-hidden="true" tabindex="-1"></a>plt_data <span class="sc">%&gt;%</span> </span>
+<span id="cb283-12"><a href="basic-statistical-analysis.html#cb283-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(Na, predictions)) <span class="sc">+</span></span>
+<span id="cb283-13"><a href="basic-statistical-analysis.html#cb283-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb283-14"><a href="basic-statistical-analysis.html#cb283-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb283-15"><a href="basic-statistical-analysis.html#cb283-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> lwr, <span class="at">ymax =</span> upr), <span class="at">alpha =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb283-16"><a href="basic-statistical-analysis.html#cb283-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">8</span>))</span></code></pre></div>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-124-1.png" width="672" /></p>
 <p>Linear regressions are one of the fundamental pillars of statistics. Nearly all statistical analyses are variations of linear regressions. I encourage you to truly understand them as it will give you more confidence when trying to perform any of the analyses shown below. Here are a few resources:<br />
 </p>
 <ul>
@@ -524,9 +527,9 @@ You have the following options:</p>
 <p>Needless to say the assumptions of the linear regression also hold for the t-tests and ANOVAs, so you should check them out first. But, for the purpose of demonstration, lets skip this and get to the point.</p>
 <p>So one question, even if it doesn’t entirely makes sense (or at all), is if Density of the samples
 is different from 1.</p>
-<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="basic-statistical-analysis.html#cb255-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> carData<span class="sc">::</span>Soils</span>
-<span id="cb255-2"><a href="basic-statistical-analysis.html#cb255-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb255-3"><a href="basic-statistical-analysis.html#cb255-3" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(d<span class="sc">$</span>Dens, <span class="at">mu =</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="basic-statistical-analysis.html#cb284-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> carData<span class="sc">::</span>Soils</span>
+<span id="cb284-2"><a href="basic-statistical-analysis.html#cb284-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb284-3"><a href="basic-statistical-analysis.html#cb284-3" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(d<span class="sc">$</span>Dens, <span class="at">mu =</span> <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## 
 ##  One Sample t-test
 ## 
@@ -540,8 +543,8 @@ is different from 1.</p>
 ##  1.315833</code></pre>
 <p>Now, we may want to know if a Top contour is different from a Slope contour in terms of pH values.
 For that we can use a independent-sample t-test. As I showed above, you can use two different syntaxes, with the result, of course, being exactly the same. The choice of syntax usually depends on how your data is structured. If in a long format (such as in this data set) we usually just use the second type of syntax (<code>t.test(y1, y2)</code>). If in a wide format we typically use the first syntax (<code>y ~ x</code>). Still, as long as you prepare your data, you can use whatever format you want.</p>
-<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="basic-statistical-analysis.html#cb257-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Syntax wide</span></span>
-<span id="cb257-2"><a href="basic-statistical-analysis.html#cb257-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(d[d<span class="sc">$</span>Contour <span class="sc">==</span> <span class="st">&#39;Top&#39;</span>, <span class="st">&#39;pH&#39;</span>], d[d<span class="sc">$</span>Contour <span class="sc">==</span> <span class="st">&#39;Slope&#39;</span>, <span class="st">&#39;pH&#39;</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="basic-statistical-analysis.html#cb286-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Syntax wide</span></span>
+<span id="cb286-2"><a href="basic-statistical-analysis.html#cb286-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(d[d<span class="sc">$</span>Contour <span class="sc">==</span> <span class="st">&#39;Top&#39;</span>, <span class="st">&#39;pH&#39;</span>], d[d<span class="sc">$</span>Contour <span class="sc">==</span> <span class="st">&#39;Slope&#39;</span>, <span class="st">&#39;pH&#39;</span>])</span></code></pre></div>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
@@ -553,9 +556,9 @@ For that we can use a independent-sample t-test. As I showed above, you can use 
 ## sample estimates:
 ## mean of x mean of y 
 ##   4.57000   4.74625</code></pre>
-<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="basic-statistical-analysis.html#cb259-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Syntax long</span></span>
-<span id="cb259-2"><a href="basic-statistical-analysis.html#cb259-2" aria-hidden="true" tabindex="-1"></a>d_test <span class="ot">&lt;-</span> d[d<span class="sc">$</span>Contour <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&#39;Top&#39;</span>, <span class="st">&#39;Slope&#39;</span>),]  <span class="co"># subsetting the data with these two types of contour</span></span>
-<span id="cb259-3"><a href="basic-statistical-analysis.html#cb259-3" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(pH <span class="sc">~</span> Contour, <span class="at">data =</span> d_test)</span></code></pre></div>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="basic-statistical-analysis.html#cb288-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Syntax long</span></span>
+<span id="cb288-2"><a href="basic-statistical-analysis.html#cb288-2" aria-hidden="true" tabindex="-1"></a>d_test <span class="ot">&lt;-</span> d[d<span class="sc">$</span>Contour <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&#39;Top&#39;</span>, <span class="st">&#39;Slope&#39;</span>),]  <span class="co"># subsetting the data with these two types of contour</span></span>
+<span id="cb288-3"><a href="basic-statistical-analysis.html#cb288-3" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(pH <span class="sc">~</span> Contour, <span class="at">data =</span> d_test)</span></code></pre></div>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
@@ -569,15 +572,15 @@ For that we can use a independent-sample t-test. As I showed above, you can use 
 ##             4.74625             4.57000</code></pre>
 <p>Now all of these were examples of <strong>independent</strong> t-tests. To do a <strong>paired-samples (dependent)</strong> t-test you just have to use <code>paired = TRUE</code> within the function.
 Now the data we used is not dependent/related in any manner. As such, lets use a different data set that features dependent/paired data. For this we will use the data set “ChickWeight” that is pre-installed in R. This data describes how time impact the weight gain by chickens considering different diets. Although the type of diet is not paired (only one diet is explored per chicken) the time intervals are measured per chick (each chicken is measured across several time intervals). We are going to work only with the first and second time measurements.</p>
-<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="basic-statistical-analysis.html#cb261-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading our data frame</span></span>
-<span id="cb261-2"><a href="basic-statistical-analysis.html#cb261-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> ChickWeight</span>
-<span id="cb261-3"><a href="basic-statistical-analysis.html#cb261-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb261-4"><a href="basic-statistical-analysis.html#cb261-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Messing up with the data so that we can work on a simple example</span></span>
-<span id="cb261-5"><a href="basic-statistical-analysis.html#cb261-5" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> </span>
-<span id="cb261-6"><a href="basic-statistical-analysis.html#cb261-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Time <span class="sc">==</span> <span class="dv">0</span> <span class="sc">|</span> Time <span class="sc">==</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb261-7"><a href="basic-statistical-analysis.html#cb261-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Time =</span> <span class="fu">ifelse</span>(Time <span class="sc">==</span> <span class="dv">0</span>, <span class="st">&#39;InitialEvaluation&#39;</span>, <span class="st">&#39;FinalEvaluation&#39;</span>)) </span>
-<span id="cb261-8"><a href="basic-statistical-analysis.html#cb261-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb261-9"><a href="basic-statistical-analysis.html#cb261-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d)</span></code></pre></div>
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="basic-statistical-analysis.html#cb290-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading our data frame</span></span>
+<span id="cb290-2"><a href="basic-statistical-analysis.html#cb290-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> ChickWeight</span>
+<span id="cb290-3"><a href="basic-statistical-analysis.html#cb290-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb290-4"><a href="basic-statistical-analysis.html#cb290-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Messing up with the data so that we can work on a simple example</span></span>
+<span id="cb290-5"><a href="basic-statistical-analysis.html#cb290-5" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> </span>
+<span id="cb290-6"><a href="basic-statistical-analysis.html#cb290-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Time <span class="sc">==</span> <span class="dv">0</span> <span class="sc">|</span> Time <span class="sc">==</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb290-7"><a href="basic-statistical-analysis.html#cb290-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Time =</span> <span class="fu">ifelse</span>(Time <span class="sc">==</span> <span class="dv">0</span>, <span class="st">&#39;InitialEvaluation&#39;</span>, <span class="st">&#39;FinalEvaluation&#39;</span>)) </span>
+<span id="cb290-8"><a href="basic-statistical-analysis.html#cb290-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb290-9"><a href="basic-statistical-analysis.html#cb290-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d)</span></code></pre></div>
 <pre><code>## Grouped Data: weight ~ Time | Chick
 ##   weight              Time Chick Diet
 ## 1     42 InitialEvaluation     1    1
@@ -586,7 +589,7 @@ Now the data we used is not dependent/related in any manner. As such, lets use a
 ## 4     49   FinalEvaluation     2    1
 ## 5     43 InitialEvaluation     3    1
 ## 6     39   FinalEvaluation     3    1</code></pre>
-<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="basic-statistical-analysis.html#cb263-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(weight <span class="sc">~</span> Time, <span class="at">data =</span> d, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="basic-statistical-analysis.html#cb292-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(weight <span class="sc">~</span> Time, <span class="at">data =</span> d, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## 
 ##  Paired t-test
 ## 
@@ -603,18 +606,18 @@ Now the data we used is not dependent/related in any manner. As such, lets use a
 <h3><span class="header-section-number">5.2.2</span> Anovas<a href="basic-statistical-analysis.html#anovas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>(Very) Simply put, ANOVAs are used to compare groups with more than two-levels. So previously in the t-test examples we only compared two-groups. Either 1 level against a mean value, or two levels between themselves.
 Now, if we want to assess if the type of contour differs in their pH level we can simply perform an anova. There are definitely more ways to perform ANOVAs, but for sake of brevity, I’ll just leave with the <code>aov()</code> way.</p>
-<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="basic-statistical-analysis.html#cb265-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading our data frame</span></span>
-<span id="cb265-2"><a href="basic-statistical-analysis.html#cb265-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> carData<span class="sc">::</span>Soils</span>
-<span id="cb265-3"><a href="basic-statistical-analysis.html#cb265-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb265-4"><a href="basic-statistical-analysis.html#cb265-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Analysis</span></span>
-<span id="cb265-5"><a href="basic-statistical-analysis.html#cb265-5" aria-hidden="true" tabindex="-1"></a>oneway_anova <span class="ot">&lt;-</span> <span class="fu">aov</span>(pH <span class="sc">~</span> Contour, <span class="at">data =</span> d)</span>
-<span id="cb265-6"><a href="basic-statistical-analysis.html#cb265-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(oneway_anova)  <span class="co"># asks for the summary</span></span></code></pre></div>
+<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="basic-statistical-analysis.html#cb294-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading our data frame</span></span>
+<span id="cb294-2"><a href="basic-statistical-analysis.html#cb294-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> carData<span class="sc">::</span>Soils</span>
+<span id="cb294-3"><a href="basic-statistical-analysis.html#cb294-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb294-4"><a href="basic-statistical-analysis.html#cb294-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Analysis</span></span>
+<span id="cb294-5"><a href="basic-statistical-analysis.html#cb294-5" aria-hidden="true" tabindex="-1"></a>oneway_anova <span class="ot">&lt;-</span> <span class="fu">aov</span>(pH <span class="sc">~</span> Contour, <span class="at">data =</span> d)</span>
+<span id="cb294-6"><a href="basic-statistical-analysis.html#cb294-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(oneway_anova)  <span class="co"># asks for the summary</span></span></code></pre></div>
 <pre><code>##             Df Sum Sq Mean Sq F value Pr(&gt;F)
 ## Contour      2  0.261  0.1303    0.28  0.757
 ## Residuals   45 20.955  0.4657</code></pre>
 <p>Once more, we performed a one-way (Just 1 factor, which in this case is Contour) independent sample anova. To perform two-way or even more, we could just add more factors such as <code>aov(y ~ factor1 + factor2, data = d)</code>. Let me exemplify below so I can also you show how you test for interaction between factors in a two-way ANOVA.</p>
-<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="basic-statistical-analysis.html#cb267-1" aria-hidden="true" tabindex="-1"></a>twoway_anova <span class="ot">&lt;-</span> <span class="fu">aov</span>(pH <span class="sc">~</span> Contour<span class="sc">*</span>Block, <span class="at">data =</span> d)</span>
-<span id="cb267-2"><a href="basic-statistical-analysis.html#cb267-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(twoway_anova)</span></code></pre></div>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="basic-statistical-analysis.html#cb296-1" aria-hidden="true" tabindex="-1"></a>twoway_anova <span class="ot">&lt;-</span> <span class="fu">aov</span>(pH <span class="sc">~</span> Contour<span class="sc">*</span>Block, <span class="at">data =</span> d)</span>
+<span id="cb296-2"><a href="basic-statistical-analysis.html#cb296-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(twoway_anova)</span></code></pre></div>
 <pre><code>##               Df Sum Sq Mean Sq F value Pr(&gt;F)
 ## Contour        2  0.261  0.1303   0.274  0.762
 ## Block          3  1.232  0.4108   0.862  0.470
@@ -622,16 +625,17 @@ Now, if we want to assess if the type of contour differs in their pH level we ca
 ## Residuals     36 17.154  0.4765</code></pre>
 <p>The <code>*</code> between the two factors, signifies “interaction”.</p>
 <p>Lastly, you may want to perform a paired samples ANOVA. In this case you can’t simply say <code>paired = TRUE</code>. Here you need a different function. I’m going to introduce you two new ways to perform a repeated-measures (or independent) ANOVA.</p>
-<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="basic-statistical-analysis.html#cb269-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstatix)  <span class="co"># for anova_test()</span></span></code></pre></div>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="basic-statistical-analysis.html#cb298-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstatix)  <span class="co"># for anova_test()</span></span></code></pre></div>
+<pre><code>## Warning: package &#39;rstatix&#39; was built under R version 4.2.2</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;rstatix&#39;</code></pre>
 <pre><code>## The following object is masked from &#39;package:stats&#39;:
 ## 
 ##     filter</code></pre>
-<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="basic-statistical-analysis.html#cb272-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ez)  <span class="co"># for the ezANOVA()</span></span>
-<span id="cb272-2"><a href="basic-statistical-analysis.html#cb272-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb272-3"><a href="basic-statistical-analysis.html#cb272-3" aria-hidden="true" tabindex="-1"></a>rep.anova1 <span class="ot">&lt;-</span> <span class="fu">anova_test</span>(<span class="at">data =</span> d, <span class="at">dv =</span> pH, <span class="at">wid =</span> Group, <span class="at">within =</span> Block)</span>
-<span id="cb272-4"><a href="basic-statistical-analysis.html#cb272-4" aria-hidden="true" tabindex="-1"></a>rep.anova1</span></code></pre></div>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="basic-statistical-analysis.html#cb302-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ez)  <span class="co"># for the ezANOVA()</span></span>
+<span id="cb302-2"><a href="basic-statistical-analysis.html#cb302-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb302-3"><a href="basic-statistical-analysis.html#cb302-3" aria-hidden="true" tabindex="-1"></a>rep.anova1 <span class="ot">&lt;-</span> <span class="fu">anova_test</span>(<span class="at">data =</span> d, <span class="at">dv =</span> pH, <span class="at">wid =</span> Group, <span class="at">within =</span> Block)</span>
+<span id="cb302-4"><a href="basic-statistical-analysis.html#cb302-4" aria-hidden="true" tabindex="-1"></a>rep.anova1</span></code></pre></div>
 <pre><code>## ANOVA Table (type III tests)
 ## 
 ## $ANOVA
@@ -645,10 +649,10 @@ Now, if we want to assess if the type of contour differs in their pH level we ca
 ## $`Sphericity Corrections`
 ##   Effect   GGe      DF[GG] p[GG] p[GG]&lt;.05   HFe     DF[HF] p[HF] p[HF]&lt;.05
 ## 1  Block 0.417 1.25, 13.78 0.089           0.446 1.34, 14.7 0.086</code></pre>
-<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="basic-statistical-analysis.html#cb274-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Or</span></span>
-<span id="cb274-2"><a href="basic-statistical-analysis.html#cb274-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb274-3"><a href="basic-statistical-analysis.html#cb274-3" aria-hidden="true" tabindex="-1"></a>rep.anova2 <span class="ot">&lt;-</span> <span class="fu">ezANOVA</span>(<span class="at">data =</span> d, <span class="at">dv =</span> pH, <span class="at">wid =</span> Group, <span class="at">within =</span> Block)</span>
-<span id="cb274-4"><a href="basic-statistical-analysis.html#cb274-4" aria-hidden="true" tabindex="-1"></a>rep.anova2</span></code></pre></div>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="basic-statistical-analysis.html#cb304-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Or</span></span>
+<span id="cb304-2"><a href="basic-statistical-analysis.html#cb304-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb304-3"><a href="basic-statistical-analysis.html#cb304-3" aria-hidden="true" tabindex="-1"></a>rep.anova2 <span class="ot">&lt;-</span> <span class="fu">ezANOVA</span>(<span class="at">data =</span> d, <span class="at">dv =</span> pH, <span class="at">wid =</span> Group, <span class="at">within =</span> Block)</span>
+<span id="cb304-4"><a href="basic-statistical-analysis.html#cb304-4" aria-hidden="true" tabindex="-1"></a>rep.anova2</span></code></pre></div>
 <pre><code>## $ANOVA
 ##   Effect DFn DFd        F         p p&lt;.05        ges
 ## 2  Block   3  33 3.191956 0.0362248     * 0.05809364
@@ -666,26 +670,27 @@ Now, if we want to assess if the type of contour differs in their pH level we ca
 <p>For that we will use the <code>emmeans</code> package and base functions such as <code>pairs()</code>and <code>contrast()</code>. There are many other ways to obtain post-hocs, some may be simpler but more specific, but, as an example, I’ll demonstrate one of the most versatile (i.e., <code>emmeans</code>). This allows you to do post-hoc test for many types of linear, generalized linear models and mixed models. Given its vast applicability, it sometimes may be a bit confusing in how to extract the post-hoc tests for your model the way you want. For that you can consult its help vignette here:</p>
 <p><a href="https://cran.r-project.org/web/packages/emmeans/vignettes/basics.html#contents" class="uri">https://cran.r-project.org/web/packages/emmeans/vignettes/basics.html#contents</a></p>
 <p>This function</p>
-<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="basic-statistical-analysis.html#cb276-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)  <span class="co"># stands for estimated marginal means</span></span></code></pre></div>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="basic-statistical-analysis.html#cb306-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)  <span class="co"># stands for estimated marginal means</span></span></code></pre></div>
+<pre><code>## Warning: package &#39;emmeans&#39; was built under R version 4.2.2</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;emmeans&#39;</code></pre>
 <pre><code>## The following object is masked from &#39;package:GGally&#39;:
 ## 
 ##     pigs</code></pre>
-<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="basic-statistical-analysis.html#cb279-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(twoway_anova)</span></code></pre></div>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="basic-statistical-analysis.html#cb310-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(twoway_anova)</span></code></pre></div>
 <pre><code>##               Df Sum Sq Mean Sq F value Pr(&gt;F)
 ## Contour        2  0.261  0.1303   0.274  0.762
 ## Block          3  1.232  0.4108   0.862  0.470
 ## Contour:Block  6  2.568  0.4280   0.898  0.507
 ## Residuals     36 17.154  0.4765</code></pre>
-<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="basic-statistical-analysis.html#cb281-1" aria-hidden="true" tabindex="-1"></a>emm <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(<span class="at">object =</span> twoway_anova,</span>
-<span id="cb281-2"><a href="basic-statistical-analysis.html#cb281-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">specs =</span> <span class="sc">~</span> Contour<span class="sc">*</span>Block,</span>
-<span id="cb281-3"><a href="basic-statistical-analysis.html#cb281-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">by =</span> <span class="st">&#39;Contour&#39;</span>, </span>
-<span id="cb281-4"><a href="basic-statistical-analysis.html#cb281-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">type =</span> <span class="st">&#39;response&#39;</span>,</span>
-<span id="cb281-5"><a href="basic-statistical-analysis.html#cb281-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">adjust =</span> <span class="st">&#39;bonferroni&#39;</span>)</span>
-<span id="cb281-6"><a href="basic-statistical-analysis.html#cb281-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb281-7"><a href="basic-statistical-analysis.html#cb281-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb281-8"><a href="basic-statistical-analysis.html#cb281-8" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(emm)</span></code></pre></div>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="basic-statistical-analysis.html#cb312-1" aria-hidden="true" tabindex="-1"></a>emm <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(<span class="at">object =</span> twoway_anova,</span>
+<span id="cb312-2"><a href="basic-statistical-analysis.html#cb312-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">specs =</span> <span class="sc">~</span> Contour<span class="sc">*</span>Block,</span>
+<span id="cb312-3"><a href="basic-statistical-analysis.html#cb312-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">by =</span> <span class="st">&#39;Contour&#39;</span>, </span>
+<span id="cb312-4"><a href="basic-statistical-analysis.html#cb312-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">type =</span> <span class="st">&#39;response&#39;</span>,</span>
+<span id="cb312-5"><a href="basic-statistical-analysis.html#cb312-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">adjust =</span> <span class="st">&#39;bonferroni&#39;</span>)</span>
+<span id="cb312-6"><a href="basic-statistical-analysis.html#cb312-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb312-7"><a href="basic-statistical-analysis.html#cb312-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb312-8"><a href="basic-statistical-analysis.html#cb312-8" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(emm)</span></code></pre></div>
 <pre><code>## Contour = Depression:
 ##  contrast        estimate    SE df t.ratio p.value
 ##  Block1 - Block2  -0.3525 0.488 36  -0.722  0.8876
@@ -714,7 +719,7 @@ Now, if we want to assess if the type of contour differs in their pH level we ca
 ##  Block3 - Block4   0.1650 0.488 36   0.338  0.9865
 ## 
 ## P value adjustment: tukey method for comparing a family of 4 estimates</code></pre>
-<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="basic-statistical-analysis.html#cb283-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrast</span>(emm)</span></code></pre></div>
+<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="basic-statistical-analysis.html#cb314-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrast</span>(emm)</span></code></pre></div>
 <pre><code>## Contour = Depression:
 ##  contrast      estimate    SE df t.ratio p.value
 ##  Block1 effect  -0.3269 0.299 36  -1.094  0.5628
@@ -751,17 +756,17 @@ Now, if we want to assess if the type of contour differs in their pH level we ca
 <p>Now, GLMs are aptly executed in R with the function <code>glm()</code></p>
 <p>We are going to take on an example from the CES11 database (carData package) which a 2011 Canadian poll on abortion. Here people could vote on weather abortion should be banned (‘Yes’) or not (‘No’).
 Before performing our GLM we need to first convert the YES/NO answers to 0 and 1 values. Which is which doesn’t really matter (only matter for the interpretation of the estimate). Since this is a A or B type of response, we will use the binomial family to model the data.</p>
-<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="basic-statistical-analysis.html#cb285-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> carData<span class="sc">::</span>CES11</span>
-<span id="cb285-2"><a href="basic-statistical-analysis.html#cb285-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb285-3"><a href="basic-statistical-analysis.html#cb285-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Recoding</span></span>
-<span id="cb285-4"><a href="basic-statistical-analysis.html#cb285-4" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> </span>
-<span id="cb285-5"><a href="basic-statistical-analysis.html#cb285-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">abortion01 =</span> <span class="fu">ifelse</span>(abortion <span class="sc">==</span> <span class="st">&#39;Yes&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
-<span id="cb285-6"><a href="basic-statistical-analysis.html#cb285-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb285-7"><a href="basic-statistical-analysis.html#cb285-7" aria-hidden="true" tabindex="-1"></a><span class="co"># GLM</span></span>
-<span id="cb285-8"><a href="basic-statistical-analysis.html#cb285-8" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">glm</span>(abortion01 <span class="sc">~</span> gender, <span class="at">family =</span> <span class="st">&#39;binomial&#39;</span>, <span class="at">data =</span> d)</span>
-<span id="cb285-9"><a href="basic-statistical-analysis.html#cb285-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb285-10"><a href="basic-statistical-analysis.html#cb285-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Interpretation/Summary</span></span>
-<span id="cb285-11"><a href="basic-statistical-analysis.html#cb285-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m)</span></code></pre></div>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="basic-statistical-analysis.html#cb316-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> carData<span class="sc">::</span>CES11</span>
+<span id="cb316-2"><a href="basic-statistical-analysis.html#cb316-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb316-3"><a href="basic-statistical-analysis.html#cb316-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Recoding</span></span>
+<span id="cb316-4"><a href="basic-statistical-analysis.html#cb316-4" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> </span>
+<span id="cb316-5"><a href="basic-statistical-analysis.html#cb316-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">abortion01 =</span> <span class="fu">ifelse</span>(abortion <span class="sc">==</span> <span class="st">&#39;Yes&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb316-6"><a href="basic-statistical-analysis.html#cb316-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb316-7"><a href="basic-statistical-analysis.html#cb316-7" aria-hidden="true" tabindex="-1"></a><span class="co"># GLM</span></span>
+<span id="cb316-8"><a href="basic-statistical-analysis.html#cb316-8" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">glm</span>(abortion01 <span class="sc">~</span> gender, <span class="at">family =</span> <span class="st">&#39;binomial&#39;</span>, <span class="at">data =</span> d)</span>
+<span id="cb316-9"><a href="basic-statistical-analysis.html#cb316-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb316-10"><a href="basic-statistical-analysis.html#cb316-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Interpretation/Summary</span></span>
+<span id="cb316-11"><a href="basic-statistical-analysis.html#cb316-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = abortion01 ~ gender, family = &quot;binomial&quot;, data = d)
@@ -790,23 +795,25 @@ Before performing our GLM we need to first convert the YES/NO answers to 0 and 1
 <h2><span class="header-section-number">5.4</span> Linear Mixed Models<a href="basic-statistical-analysis.html#linear-mixed-models" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Now, it is far beyond the scope of this brief book to explain to you what linear <strong>mixed models</strong> (LMMs) are. Firstly, they are known by many names (just see <a href="https://en.wikipedia.org/wiki/Multilevel_model" class="uri">https://en.wikipedia.org/wiki/Multilevel_model</a>). In linear mixed models you can specify both fixed and random effects. Fixed effects are your usual predictor variables that have systematic effects on your outcome (e.g., treatment manipulations). Random effects are those that have stochastic (random) effect on your outcome, since these are selected randomly. For instance, lets say you plan on exploring if aggressive words, compared to neutral words, cause people to have increased heart-rate. For this you would need to select a <strong>random sample</strong> of aggressive words and neutral words, since there is no way you could expose your participants to all aggressive or neutral words. These can thus be considered a <em>random variable</em>. Usually, IDs of the participants themselves are seen as random effects, since the participants introduce some random (unpredictable) variability (different sample of 1000 participant will lead to slightly different results). And by this I mean each word (the ID of each word), not the category of the word (the category is a fixed variable). You also can (need) to specify the structure of these random effects in a correct manner, namely which effects are nested or crossed and their respective structure. Now, I’m sorry if this doesn’t make any sense, but the purpose here is to introduce you to a brief example of LMMs in R and I must skip with a detailed explanation. If it makes you feel any better, the distinction between random and fixed effects is still debated even among top statisticians. There are many more topics to cover for you to understand properly a LMM (even I don’t think I understand all of them), but we’ll stop here.</p>
 <p>To perform LMMs I will use the <code>lmer()</code> function from the <code>lme4</code> package. We will use the sleepstudy data from <code>lme4</code> package. This data is from an experiment related to how sleep deprivation impairs reaction times. In this data participants were trained on the first two days (day 0 and 1) and began the experiment on day 2 (baseline).</p>
-<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="basic-statistical-analysis.html#cb287-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span></code></pre></div>
+<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="basic-statistical-analysis.html#cb318-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span></code></pre></div>
+<pre><code>## Warning: package &#39;lme4&#39; was built under R version 4.2.2</code></pre>
 <pre><code>## Loading required package: Matrix</code></pre>
+<pre><code>## Warning: package &#39;Matrix&#39; was built under R version 4.2.2</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;Matrix&#39;</code></pre>
 <pre><code>## The following objects are masked from &#39;package:tidyr&#39;:
 ## 
 ##     expand, pack, unpack</code></pre>
-<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="basic-statistical-analysis.html#cb291-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> lme4<span class="sc">::</span>sleepstudy</span>
-<span id="cb291-2"><a href="basic-statistical-analysis.html#cb291-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb291-3"><a href="basic-statistical-analysis.html#cb291-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Preparing the data adjusting for deprivation days</span></span>
-<span id="cb291-4"><a href="basic-statistical-analysis.html#cb291-4" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> </span>
-<span id="cb291-5"><a href="basic-statistical-analysis.html#cb291-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(Days <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))) <span class="sc">%&gt;%</span> </span>
-<span id="cb291-6"><a href="basic-statistical-analysis.html#cb291-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Days =</span> Days <span class="sc">-</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb291-7"><a href="basic-statistical-analysis.html#cb291-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Days =</span> <span class="fu">as.factor</span>(Days))</span>
-<span id="cb291-8"><a href="basic-statistical-analysis.html#cb291-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb291-9"><a href="basic-statistical-analysis.html#cb291-9" aria-hidden="true" tabindex="-1"></a>lmm <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Subject), <span class="at">data =</span> d)</span>
-<span id="cb291-10"><a href="basic-statistical-analysis.html#cb291-10" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(lmm)</span></code></pre></div>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="basic-statistical-analysis.html#cb324-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> lme4<span class="sc">::</span>sleepstudy</span>
+<span id="cb324-2"><a href="basic-statistical-analysis.html#cb324-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb324-3"><a href="basic-statistical-analysis.html#cb324-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Preparing the data adjusting for deprivation days</span></span>
+<span id="cb324-4"><a href="basic-statistical-analysis.html#cb324-4" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> </span>
+<span id="cb324-5"><a href="basic-statistical-analysis.html#cb324-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(Days <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb324-6"><a href="basic-statistical-analysis.html#cb324-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Days =</span> Days <span class="sc">-</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb324-7"><a href="basic-statistical-analysis.html#cb324-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Days =</span> <span class="fu">as.factor</span>(Days))</span>
+<span id="cb324-8"><a href="basic-statistical-analysis.html#cb324-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb324-9"><a href="basic-statistical-analysis.html#cb324-9" aria-hidden="true" tabindex="-1"></a>lmm <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Subject), <span class="at">data =</span> d)</span>
+<span id="cb324-10"><a href="basic-statistical-analysis.html#cb324-10" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(lmm)</span></code></pre></div>
 <pre><code>## Analysis of Deviance Table (Type II Wald chisquare tests)
 ## 
 ## Response: Reaction
@@ -814,18 +821,16 @@ Before performing our GLM we need to first convert the YES/NO answers to 0 and 1
 ## Days 107.17  7  &lt; 2.2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="basic-statistical-analysis.html#cb293-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Post-hocs</span></span>
-<span id="cb293-2"><a href="basic-statistical-analysis.html#cb293-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
-<span id="cb293-3"><a href="basic-statistical-analysis.html#cb293-3" aria-hidden="true" tabindex="-1"></a>emm <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(<span class="at">object =</span> lmm,</span>
-<span id="cb293-4"><a href="basic-statistical-analysis.html#cb293-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">specs =</span> pairwise <span class="sc">~</span> Days,</span>
-<span id="cb293-5"><a href="basic-statistical-analysis.html#cb293-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">type =</span> <span class="st">&#39;response&#39;</span>,</span>
-<span id="cb293-6"><a href="basic-statistical-analysis.html#cb293-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">adjust =</span> <span class="st">&#39;bonferroni&#39;</span>, </span>
-<span id="cb293-7"><a href="basic-statistical-analysis.html#cb293-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">contr =</span> <span class="fu">list</span>(<span class="at">Days =</span> <span class="st">&quot;dummy&quot;</span>))</span>
-<span id="cb293-8"><a href="basic-statistical-analysis.html#cb293-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb293-9"><a href="basic-statistical-analysis.html#cb293-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb293-10"><a href="basic-statistical-analysis.html#cb293-10" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(emm)[<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>]</span></code></pre></div>
-<pre><code>## I bet you wanted to call this with just object[[1]] - use &#39;[[]]&#39; or which&#39; if I&#39;m wrong.
-## See &#39;? emm_list&#39; for more information</code></pre>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="basic-statistical-analysis.html#cb326-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Post-hocs</span></span>
+<span id="cb326-2"><a href="basic-statistical-analysis.html#cb326-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
+<span id="cb326-3"><a href="basic-statistical-analysis.html#cb326-3" aria-hidden="true" tabindex="-1"></a>emm <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(<span class="at">object =</span> lmm,</span>
+<span id="cb326-4"><a href="basic-statistical-analysis.html#cb326-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">specs =</span> pairwise <span class="sc">~</span> Days,</span>
+<span id="cb326-5"><a href="basic-statistical-analysis.html#cb326-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">type =</span> <span class="st">&#39;response&#39;</span>,</span>
+<span id="cb326-6"><a href="basic-statistical-analysis.html#cb326-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">adjust =</span> <span class="st">&#39;bonferroni&#39;</span>, </span>
+<span id="cb326-7"><a href="basic-statistical-analysis.html#cb326-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">contr =</span> <span class="fu">list</span>(<span class="at">Days =</span> <span class="st">&quot;dummy&quot;</span>))</span>
+<span id="cb326-8"><a href="basic-statistical-analysis.html#cb326-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb326-9"><a href="basic-statistical-analysis.html#cb326-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb326-10"><a href="basic-statistical-analysis.html#cb326-10" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(emm)[<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>]</span></code></pre></div>
 <pre><code>## Note: adjust = &quot;tukey&quot; was changed to &quot;sidak&quot;
 ## because &quot;tukey&quot; is only appropriate for one set of pairwise comparisons</code></pre>
 <pre><code>##  contrast      estimate   SE  df t.ratio p.value
@@ -844,19 +849,19 @@ Before performing our GLM we need to first convert the YES/NO answers to 0 and 1
 <h2><span class="header-section-number">5.5</span> Generalized Linear Mixed Models<a href="basic-statistical-analysis.html#generalized-linear-mixed-models" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Much like generalized linear models, <strong>Generalized Linear Mixed Models (GLMMs)</strong> allow us to model data that doens’t follow a linear trend, like binary data or count data.
 To perform GLMMs I will use the <code>glmer()</code> function from the same <code>lme4</code> package. We will use the MplsStops data from <code>carData</code> package. This data set contains the results of nearly all stops made by the Minneapolis Police Department for the year 2017. I’m interested in exploring if more stops are made for Black compared with White people. Since these have been collected by different precincts and different neighborhoods, I can use them too to help explain variability in the data. Obviously this is just an example, since firstly, the data should be adjusted towards the number of White and Black people living in these areas, but it serves as a base example.</p>
-<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="basic-statistical-analysis.html#cb297-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> carData<span class="sc">::</span>MplsStops </span>
-<span id="cb297-2"><a href="basic-statistical-analysis.html#cb297-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb297-3"><a href="basic-statistical-analysis.html#cb297-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Isolating Black/White people and preparing data</span></span>
-<span id="cb297-4"><a href="basic-statistical-analysis.html#cb297-4" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> </span>
-<span id="cb297-5"><a href="basic-statistical-analysis.html#cb297-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">race =</span> <span class="fu">as.character</span>(race)) <span class="sc">%&gt;%</span> </span>
-<span id="cb297-6"><a href="basic-statistical-analysis.html#cb297-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(race <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&#39;Black&#39;</span>, <span class="st">&#39;White&#39;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb297-7"><a href="basic-statistical-analysis.html#cb297-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">race =</span> <span class="fu">as.factor</span>(race)) <span class="sc">%&gt;%</span> </span>
-<span id="cb297-8"><a href="basic-statistical-analysis.html#cb297-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(policePrecinct, neighborhood, race) <span class="sc">%&gt;%</span> </span>
-<span id="cb297-9"><a href="basic-statistical-analysis.html#cb297-9" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">Stops =</span> <span class="fu">n</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="basic-statistical-analysis.html#cb329-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> carData<span class="sc">::</span>MplsStops </span>
+<span id="cb329-2"><a href="basic-statistical-analysis.html#cb329-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb329-3"><a href="basic-statistical-analysis.html#cb329-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Isolating Black/White people and preparing data</span></span>
+<span id="cb329-4"><a href="basic-statistical-analysis.html#cb329-4" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> </span>
+<span id="cb329-5"><a href="basic-statistical-analysis.html#cb329-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">race =</span> <span class="fu">as.character</span>(race)) <span class="sc">%&gt;%</span> </span>
+<span id="cb329-6"><a href="basic-statistical-analysis.html#cb329-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(race <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&#39;Black&#39;</span>, <span class="st">&#39;White&#39;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb329-7"><a href="basic-statistical-analysis.html#cb329-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">race =</span> <span class="fu">as.factor</span>(race)) <span class="sc">%&gt;%</span> </span>
+<span id="cb329-8"><a href="basic-statistical-analysis.html#cb329-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(policePrecinct, neighborhood, race) <span class="sc">%&gt;%</span> </span>
+<span id="cb329-9"><a href="basic-statistical-analysis.html#cb329-9" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">Stops =</span> <span class="fu">n</span>())</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;policePrecinct&#39;, &#39;neighborhood&#39;. You can
 ## override using the `.groups` argument.</code></pre>
-<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="basic-statistical-analysis.html#cb299-1" aria-hidden="true" tabindex="-1"></a>d <span class="sc">%&gt;%</span> </span>
-<span id="cb299-2"><a href="basic-statistical-analysis.html#cb299-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="basic-statistical-analysis.html#cb331-1" aria-hidden="true" tabindex="-1"></a>d <span class="sc">%&gt;%</span> </span>
+<span id="cb331-2"><a href="basic-statistical-analysis.html#cb331-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 4
 ## # Groups:   policePrecinct, neighborhood [3]
 ##   policePrecinct neighborhood    race  Stops
@@ -867,10 +872,10 @@ To perform GLMMs I will use the <code>glmer()</code> function from the same <cod
 ## 4              1 Downtown East   White    81
 ## 5              1 Downtown West   Black  1367
 ## 6              1 Downtown West   White   780</code></pre>
-<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="basic-statistical-analysis.html#cb301-1" aria-hidden="true" tabindex="-1"></a>glmm <span class="ot">&lt;-</span> <span class="fu">glmer</span>(Stops <span class="sc">~</span> race <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>policePrecinct),</span>
-<span id="cb301-2"><a href="basic-statistical-analysis.html#cb301-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">family =</span> <span class="st">&#39;poisson&#39;</span>, <span class="at">data =</span> d)</span>
-<span id="cb301-3"><a href="basic-statistical-analysis.html#cb301-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb301-4"><a href="basic-statistical-analysis.html#cb301-4" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(glmm)</span></code></pre></div>
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="basic-statistical-analysis.html#cb333-1" aria-hidden="true" tabindex="-1"></a>glmm <span class="ot">&lt;-</span> <span class="fu">glmer</span>(Stops <span class="sc">~</span> race <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>policePrecinct),</span>
+<span id="cb333-2"><a href="basic-statistical-analysis.html#cb333-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">family =</span> <span class="st">&#39;poisson&#39;</span>, <span class="at">data =</span> d)</span>
+<span id="cb333-3"><a href="basic-statistical-analysis.html#cb333-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb333-4"><a href="basic-statistical-analysis.html#cb333-4" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(glmm)</span></code></pre></div>
 <pre><code>## Analysis of Deviance Table (Type II Wald chisquare tests)
 ## 
 ## Response: Stops
@@ -903,8 +908,9 @@ A bayesian model is not that different from the models we built above, we just n
 • <em>cores</em>: The number of CPU cores to use for parallel processing.
 • <em>seed</em>: The random seed used to initialize the MCMC algorithm.
 • <em>save_all_pars</em>: Whether to save all parameter values during the MCMC algorithm. If TRUE, all parameter values are saved, which can be useful for diagnostic purposes.</p>
-<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="basic-statistical-analysis.html#cb303-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brms)</span></code></pre></div>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="basic-statistical-analysis.html#cb335-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brms)</span></code></pre></div>
 <pre><code>## Loading required package: Rcpp</code></pre>
+<pre><code>## Warning: package &#39;Rcpp&#39; was built under R version 4.2.2</code></pre>
 <pre><code>## Loading &#39;brms&#39; package (version 2.18.0). Useful instructions
 ## can be found by typing help(&#39;brms&#39;). A more detailed introduction
 ## to the package is available through vignette(&#39;brms_overview&#39;).</code></pre>
@@ -916,21 +922,21 @@ A bayesian model is not that different from the models we built above, we just n
 <pre><code>## The following object is masked from &#39;package:stats&#39;:
 ## 
 ##     ar</code></pre>
-<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="basic-statistical-analysis.html#cb309-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> mtcars</span>
-<span id="cb309-2"><a href="basic-statistical-analysis.html#cb309-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb309-3"><a href="basic-statistical-analysis.html#cb309-3" aria-hidden="true" tabindex="-1"></a><span class="fu">brm</span>(<span class="at">formula =</span> <span class="fu">bf</span>(mpg <span class="sc">~</span> disp),</span>
-<span id="cb309-4"><a href="basic-statistical-analysis.html#cb309-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> d,</span>
-<span id="cb309-5"><a href="basic-statistical-analysis.html#cb309-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="fu">gaussian</span>(),</span>
-<span id="cb309-6"><a href="basic-statistical-analysis.html#cb309-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">prior =</span> <span class="fu">c</span>(<span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="at">class =</span> Intercept),</span>
-<span id="cb309-7"><a href="basic-statistical-analysis.html#cb309-7" aria-hidden="true" tabindex="-1"></a>              <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="at">class =</span> b)),</span>
-<span id="cb309-8"><a href="basic-statistical-analysis.html#cb309-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">iter =</span> <span class="dv">2000</span>, <span class="at">warmup =</span> <span class="dv">500</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="basic-statistical-analysis.html#cb342-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> mtcars</span>
+<span id="cb342-2"><a href="basic-statistical-analysis.html#cb342-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb342-3"><a href="basic-statistical-analysis.html#cb342-3" aria-hidden="true" tabindex="-1"></a><span class="fu">brm</span>(<span class="at">formula =</span> <span class="fu">bf</span>(mpg <span class="sc">~</span> disp),</span>
+<span id="cb342-4"><a href="basic-statistical-analysis.html#cb342-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> d,</span>
+<span id="cb342-5"><a href="basic-statistical-analysis.html#cb342-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="fu">gaussian</span>(),</span>
+<span id="cb342-6"><a href="basic-statistical-analysis.html#cb342-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">prior =</span> <span class="fu">c</span>(<span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="at">class =</span> Intercept),</span>
+<span id="cb342-7"><a href="basic-statistical-analysis.html#cb342-7" aria-hidden="true" tabindex="-1"></a>              <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="at">class =</span> b)),</span>
+<span id="cb342-8"><a href="basic-statistical-analysis.html#cb342-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">iter =</span> <span class="dv">2000</span>, <span class="at">warmup =</span> <span class="dv">500</span>)</span></code></pre></div>
 <pre><code>## Compiling Stan program...</code></pre>
 <pre><code>## Start sampling</code></pre>
 <pre><code>## 
 ## SAMPLING FOR MODEL &#39;anon_model&#39; NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 3.6e-05 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.36 seconds.
+## Chain 1: Gradient evaluation took 9.4e-05 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.94 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -947,9 +953,9 @@ A bayesian model is not that different from the models we built above, we just n
 ## Chain 1: Iteration: 1900 / 2000 [ 95%]  (Sampling)
 ## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.064 seconds (Warm-up)
-## Chain 1:                0.04 seconds (Sampling)
-## Chain 1:                0.104 seconds (Total)
+## Chain 1:  Elapsed Time: 0.068 seconds (Warm-up)
+## Chain 1:                0.05 seconds (Sampling)
+## Chain 1:                0.118 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &#39;anon_model&#39; NOW (CHAIN 2).
@@ -972,15 +978,15 @@ A bayesian model is not that different from the models we built above, we just n
 ## Chain 2: Iteration: 1900 / 2000 [ 95%]  (Sampling)
 ## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.054 seconds (Warm-up)
-## Chain 2:                0.043 seconds (Sampling)
-## Chain 2:                0.097 seconds (Total)
+## Chain 2:  Elapsed Time: 0.04 seconds (Warm-up)
+## Chain 2:                0.045 seconds (Sampling)
+## Chain 2:                0.085 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &#39;anon_model&#39; NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 7e-06 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.07 seconds.
+## Chain 3: Gradient evaluation took 8e-06 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.08 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -997,15 +1003,15 @@ A bayesian model is not that different from the models we built above, we just n
 ## Chain 3: Iteration: 1900 / 2000 [ 95%]  (Sampling)
 ## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.027 seconds (Warm-up)
-## Chain 3:                0.042 seconds (Sampling)
-## Chain 3:                0.069 seconds (Total)
+## Chain 3:  Elapsed Time: 0.025 seconds (Warm-up)
+## Chain 3:                0.04 seconds (Sampling)
+## Chain 3:                0.065 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL &#39;anon_model&#39; NOW (CHAIN 4).
 ## Chain 4: 
-## Chain 4: Gradient evaluation took 8e-06 seconds
-## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.08 seconds.
+## Chain 4: Gradient evaluation took 7e-06 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.07 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
@@ -1022,9 +1028,9 @@ A bayesian model is not that different from the models we built above, we just n
 ## Chain 4: Iteration: 1900 / 2000 [ 95%]  (Sampling)
 ## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.031 seconds (Warm-up)
-## Chain 4:                0.04 seconds (Sampling)
-## Chain 4:                0.071 seconds (Total)
+## Chain 4:  Elapsed Time: 0.026 seconds (Warm-up)
+## Chain 4:                0.056 seconds (Sampling)
+## Chain 4:                0.082 seconds (Total)
 ## Chain 4:</code></pre>
 <pre><code>##  Family: gaussian 
 ##   Links: mu = identity; sigma = identity 
@@ -1045,17 +1051,17 @@ A bayesian model is not that different from the models we built above, we just n
 ## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
 ## and Tail_ESS are effective sample size measures, and Rhat is the potential
 ## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
-<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="basic-statistical-analysis.html#cb314-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="at">data =</span> d, </span>
-<span id="cb314-2"><a href="basic-statistical-analysis.html#cb314-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> gaussian,</span>
-<span id="cb314-3"><a href="basic-statistical-analysis.html#cb314-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">formula =</span> mpg <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> disp, <span class="co"># or simply bf(mpg ~ disp)</span></span>
-<span id="cb314-4"><a href="basic-statistical-analysis.html#cb314-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">prior =</span> <span class="fu">c</span>(<span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="at">class =</span> Intercept),</span>
-<span id="cb314-5"><a href="basic-statistical-analysis.html#cb314-5" aria-hidden="true" tabindex="-1"></a>              <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="at">class =</span> b),</span>
-<span id="cb314-6"><a href="basic-statistical-analysis.html#cb314-6" aria-hidden="true" tabindex="-1"></a>              <span class="fu">prior</span>(<span class="fu">lognormal</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">class =</span> sigma)),</span>
-<span id="cb314-7"><a href="basic-statistical-analysis.html#cb314-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">iter =</span> <span class="dv">2000</span>, <span class="at">warmup =</span> <span class="dv">1000</span>, <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">cores =</span> <span class="dv">4</span>,</span>
-<span id="cb314-8"><a href="basic-statistical-analysis.html#cb314-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">seed =</span> <span class="dv">7</span>,</span>
-<span id="cb314-9"><a href="basic-statistical-analysis.html#cb314-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">file =</span> <span class="st">&#39;ex_fit&#39;</span>)</span>
-<span id="cb314-10"><a href="basic-statistical-analysis.html#cb314-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb314-11"><a href="basic-statistical-analysis.html#cb314-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(m1)</span></code></pre></div>
+<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="basic-statistical-analysis.html#cb347-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="at">data =</span> d, </span>
+<span id="cb347-2"><a href="basic-statistical-analysis.html#cb347-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> gaussian,</span>
+<span id="cb347-3"><a href="basic-statistical-analysis.html#cb347-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">formula =</span> mpg <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> disp, <span class="co"># or simply bf(mpg ~ disp)</span></span>
+<span id="cb347-4"><a href="basic-statistical-analysis.html#cb347-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">prior =</span> <span class="fu">c</span>(<span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="at">class =</span> Intercept),</span>
+<span id="cb347-5"><a href="basic-statistical-analysis.html#cb347-5" aria-hidden="true" tabindex="-1"></a>              <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="at">class =</span> b),</span>
+<span id="cb347-6"><a href="basic-statistical-analysis.html#cb347-6" aria-hidden="true" tabindex="-1"></a>              <span class="fu">prior</span>(<span class="fu">lognormal</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">class =</span> sigma)),</span>
+<span id="cb347-7"><a href="basic-statistical-analysis.html#cb347-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">iter =</span> <span class="dv">2000</span>, <span class="at">warmup =</span> <span class="dv">1000</span>, <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">cores =</span> <span class="dv">4</span>,</span>
+<span id="cb347-8"><a href="basic-statistical-analysis.html#cb347-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">seed =</span> <span class="dv">7</span>,</span>
+<span id="cb347-9"><a href="basic-statistical-analysis.html#cb347-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">file =</span> <span class="st">&#39;ex_fit&#39;</span>)</span>
+<span id="cb347-10"><a href="basic-statistical-analysis.html#cb347-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb347-11"><a href="basic-statistical-analysis.html#cb347-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(m1)</span></code></pre></div>
 <pre><code>##  Family: gaussian 
 ##   Links: mu = identity; sigma = identity 
 ## Formula: mpg ~ 1 + disp 
@@ -1085,31 +1091,32 @@ To perform a time series you need to make sure that your data is a <code>ts</cod
 <li><a href="https://a-little-book-of-r-for-time-series.readthedocs.io/en/latest/src/timeseries.html" class="uri">https://a-little-book-of-r-for-time-series.readthedocs.io/en/latest/src/timeseries.html</a></li>
 <li><a href="https://www.geeksforgeeks.org/time-series-analysis-in-r/" class="uri">https://www.geeksforgeeks.org/time-series-analysis-in-r/</a></li>
 </ul>
-<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="basic-statistical-analysis.html#cb316-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the AirPassengers dataset</span></span>
-<span id="cb316-2"><a href="basic-statistical-analysis.html#cb316-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(AirPassengers)</span>
-<span id="cb316-3"><a href="basic-statistical-analysis.html#cb316-3" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> AirPassengers</span>
-<span id="cb316-4"><a href="basic-statistical-analysis.html#cb316-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb316-5"><a href="basic-statistical-analysis.html#cb316-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Converting the data frame to a ts object.</span></span>
-<span id="cb316-6"><a href="basic-statistical-analysis.html#cb316-6" aria-hidden="true" tabindex="-1"></a>ts_data <span class="ot">&lt;-</span> <span class="fu">ts</span>(d, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">1949</span>, <span class="dv">1</span>), <span class="at">frequency =</span> <span class="dv">12</span>)</span>
-<span id="cb316-7"><a href="basic-statistical-analysis.html#cb316-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb316-8"><a href="basic-statistical-analysis.html#cb316-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting data frame</span></span>
-<span id="cb316-9"><a href="basic-statistical-analysis.html#cb316-9" aria-hidden="true" tabindex="-1"></a>d_plot <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">date =</span> <span class="fu">time</span>(ts_data), <span class="at">passengers =</span> <span class="fu">as.numeric</span>(ts_data))</span>
-<span id="cb316-10"><a href="basic-statistical-analysis.html#cb316-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb316-11"><a href="basic-statistical-analysis.html#cb316-11" aria-hidden="true" tabindex="-1"></a>d_plot <span class="sc">%&gt;%</span> </span>
-<span id="cb316-12"><a href="basic-statistical-analysis.html#cb316-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(date, passengers)) <span class="sc">+</span></span>
-<span id="cb316-13"><a href="basic-statistical-analysis.html#cb316-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code></pre></div>
-<pre><code>## Don&#39;t know how to automatically pick scale for object of type ts. Defaulting to continuous.</code></pre>
-<p><img src="using_r_data_files/figure-html/unnamed-chunk-132-1.png" width="672" /></p>
-<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="basic-statistical-analysis.html#cb318-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform a decomposition to separate the trend, seasonal, and random components</span></span>
-<span id="cb318-2"><a href="basic-statistical-analysis.html#cb318-2" aria-hidden="true" tabindex="-1"></a>decomp <span class="ot">&lt;-</span> <span class="fu">decompose</span>(ts_data)</span>
-<span id="cb318-3"><a href="basic-statistical-analysis.html#cb318-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb318-4"><a href="basic-statistical-analysis.html#cb318-4" aria-hidden="true" tabindex="-1"></a><span class="co"># See the results of the decomposition</span></span>
-<span id="cb318-5"><a href="basic-statistical-analysis.html#cb318-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(decomp)</span></code></pre></div>
-<p><img src="using_r_data_files/figure-html/unnamed-chunk-132-2.png" width="672" /></p>
-<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="basic-statistical-analysis.html#cb319-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit a simple linear regression model to the time series data</span></span>
-<span id="cb319-2"><a href="basic-statistical-analysis.html#cb319-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lm</span>(ts_data <span class="sc">~</span> <span class="fu">time</span>(ts_data))</span>
-<span id="cb319-3"><a href="basic-statistical-analysis.html#cb319-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb319-4"><a href="basic-statistical-analysis.html#cb319-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m)</span></code></pre></div>
+<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="basic-statistical-analysis.html#cb349-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the AirPassengers dataset</span></span>
+<span id="cb349-2"><a href="basic-statistical-analysis.html#cb349-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(AirPassengers)</span>
+<span id="cb349-3"><a href="basic-statistical-analysis.html#cb349-3" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> AirPassengers</span>
+<span id="cb349-4"><a href="basic-statistical-analysis.html#cb349-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb349-5"><a href="basic-statistical-analysis.html#cb349-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Converting the data frame to a ts object.</span></span>
+<span id="cb349-6"><a href="basic-statistical-analysis.html#cb349-6" aria-hidden="true" tabindex="-1"></a>ts_data <span class="ot">&lt;-</span> <span class="fu">ts</span>(d, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">1949</span>, <span class="dv">1</span>), <span class="at">frequency =</span> <span class="dv">12</span>)</span>
+<span id="cb349-7"><a href="basic-statistical-analysis.html#cb349-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb349-8"><a href="basic-statistical-analysis.html#cb349-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting data frame</span></span>
+<span id="cb349-9"><a href="basic-statistical-analysis.html#cb349-9" aria-hidden="true" tabindex="-1"></a>d_plot <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">date =</span> <span class="fu">time</span>(ts_data), <span class="at">passengers =</span> <span class="fu">as.numeric</span>(ts_data))</span>
+<span id="cb349-10"><a href="basic-statistical-analysis.html#cb349-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb349-11"><a href="basic-statistical-analysis.html#cb349-11" aria-hidden="true" tabindex="-1"></a>d_plot <span class="sc">%&gt;%</span> </span>
+<span id="cb349-12"><a href="basic-statistical-analysis.html#cb349-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(date, passengers)) <span class="sc">+</span></span>
+<span id="cb349-13"><a href="basic-statistical-analysis.html#cb349-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code></pre></div>
+<pre><code>## Don&#39;t know how to automatically pick scale for object of type &lt;ts&gt;. Defaulting
+## to continuous.</code></pre>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-136-1.png" width="672" /></p>
+<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="basic-statistical-analysis.html#cb351-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform a decomposition to separate the trend, seasonal, and random components</span></span>
+<span id="cb351-2"><a href="basic-statistical-analysis.html#cb351-2" aria-hidden="true" tabindex="-1"></a>decomp <span class="ot">&lt;-</span> <span class="fu">decompose</span>(ts_data)</span>
+<span id="cb351-3"><a href="basic-statistical-analysis.html#cb351-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb351-4"><a href="basic-statistical-analysis.html#cb351-4" aria-hidden="true" tabindex="-1"></a><span class="co"># See the results of the decomposition</span></span>
+<span id="cb351-5"><a href="basic-statistical-analysis.html#cb351-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(decomp)</span></code></pre></div>
+<p><img src="using_r_data_files/figure-html/unnamed-chunk-136-2.png" width="672" /></p>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="basic-statistical-analysis.html#cb352-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit a simple linear regression model to the time series data</span></span>
+<span id="cb352-2"><a href="basic-statistical-analysis.html#cb352-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lm</span>(ts_data <span class="sc">~</span> <span class="fu">time</span>(ts_data))</span>
+<span id="cb352-3"><a href="basic-statistical-analysis.html#cb352-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb352-4"><a href="basic-statistical-analysis.html#cb352-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = ts_data ~ time(ts_data))

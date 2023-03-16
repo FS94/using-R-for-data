@@ -17,6 +17,7 @@ ifs-and-elses
 loops
 functions
 packages
+conflicts
 shortcuts
 chunk-settings
 code-completion
